@@ -1,0 +1,7 @@
+<h1>Page#show</h1>
+
+<ul>
+<% @categories.each do |category| %>
+<li><%= "#{category.title}: #{category.expense_count}" %></li>
+<% end %>
+</ul>
