@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  time: 2011-12-02 15:35:25
+  transaction_batch_id: 1
+  expense_group_id: 1
+  amount: 9.99
+
+two:
+  time: 2011-12-02 15:35:25
+  transaction_batch_id: 1
+  expense_group_id: 1
+  amount: 9.99
