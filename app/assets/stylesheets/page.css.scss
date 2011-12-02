@@ -1,0 +1,12 @@
+// Place all the styles related to the page controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+$blue: #3bbfce;
+
+body {
+  width: 990px; 
+  padding: 5px;
+  margin: 0 auto;
+  border: 1px solid darken($blue, 9%);
+}
