@@ -1,9 +1,0 @@
-<h1>Filter#new</h1>
-<p>Find me in app/views/filter/new.html.erb</p>
-
-<%= form_for @filter do |f| %>
-  <%= f.text_field :content %>
-
-  <%= select_tag "filter[category_id]", options_from_collection_for_select(@categories, :id, :title, @filter.category_id) %>
-  <%= f.submit %>
-<% end %>
