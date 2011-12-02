@@ -10,12 +10,28 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111202142844) do
+ActiveRecord::Schema.define(:version => 20111202144559) do
+
+  create_table "expense_groups", :force => true do |t|
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "transaction_batches", :force => true do |t|
     t.string   "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "transactions", :force => true do |t|
+    t.datetime "time"
+    t.integer  "transaction_batch_id"
+    t.integer  "expense_group_id"
+    t.decimal  "amount",               :precision => 8, :scale => 2
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "description"
   end
 
 end
