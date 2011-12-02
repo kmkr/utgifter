@@ -16,10 +16,14 @@ class TransactionBatch < ActiveRecord::Base
   def create_transaction(batch_line)
     timestamp = find_timestamp(batch_line)
     description = find_description(batch_line)
+    expense_group_id = find_expense_group_id(batch_line)
+    amount = find_amount(batch_line)
 
     Transaction.new({
       :time => timestamp,
-      :description => description
+      :description => description,
+      :amount => amount,
+      :expense_group_id => expense_group_id
     })
   end
 
@@ -29,6 +33,14 @@ class TransactionBatch < ActiveRecord::Base
 
   def find_description(batch_line)
     "description"
+  end
+
+  def find_expense_group_id(batch_line)
+    1
+  end
+
+  def find_amount(batch_line)
+    "amount"
   end
 
 end

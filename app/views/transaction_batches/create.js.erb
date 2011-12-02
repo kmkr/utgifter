@@ -1,8 +1,0 @@
-<% content = '' %>
-<% @transactions.each do |transaction| %>
-  <% content += transaction.description %>
-<% end %>
-
-var content = '<%= content %>';
-
-$('#transactions').html(content);
