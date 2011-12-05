@@ -1,11 +1,12 @@
 $(->
-  $.get('/transactions', (transactionResponse) =>
-    categories = getCategories(transactionResponse)
-    $.get('/transaction_groups', (transactionGroupResponse) =>
-      series = getSeriesData(transactionResponse, transactionGroupResponse)
-      new utgifter.BarChart(categories, series)
+  updateChart = ->
+    $.get('/transactions', (transactionResponse) =>
+      categories = getCategories(transactionResponse)
+      $.get('/transaction_groups', (transactionGroupResponse) =>
+        series = getSeriesData(transactionResponse, transactionGroupResponse)
+        new utgifter.BarChart(categories, series)
+      )
     )
-  )
 
   getYearMonth = (time) ->
     date = new Date(time)
@@ -16,6 +17,7 @@ $(->
     categories = []
     categories.push getYearMonth(transaction.time) for transaction in transactions when getYearMonth(transaction.time) not in categories
     categories
+
 
   getTransactionSumForGroup = (transactionGroup, transactions) ->
     sum = 0
@@ -38,4 +40,6 @@ $(->
     )
 
     response
+
+  updateChart() unless $('#chartContainer').length == 0
 )
