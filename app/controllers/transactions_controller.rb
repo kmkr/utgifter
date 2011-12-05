@@ -3,7 +3,9 @@ class TransactionsController < ApplicationController
   respond_to :html, :only => [ :index ]
 
   def index
-    @transaction_groups = TransactionGroup.all(:include => :transactions)
+    @transactions = Transaction.all
+
+    respond_with @transactions
   end
 
   def create

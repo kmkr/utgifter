@@ -16,14 +16,12 @@ class TransactionBatch < ActiveRecord::Base
   def create_transaction(batch_line)
     timestamp = find_timestamp(batch_line)
     description = find_description(batch_line)
-    transaction_group_id = find_transaction_group_id(batch_line)
     amount = find_amount(batch_line)
 
     Transaction.new({
       :time => timestamp,
       :description => description,
-      :amount => amount,
-      :transaction_group_id => transaction_group_id
+      :amount => amount
     })
   end
 
@@ -37,14 +35,9 @@ class TransactionBatch < ActiveRecord::Base
     "description"
   end
 
-  def find_transaction_group_id(description)
-    # todo: bruk beskrivelse til å bestemme hvilken expense group. hjelpeklasse, regelmotor?
-    1
-  end
-
   def find_amount(batch_line)
     # todo: regexp out beløp
-    "amount"
+    10
   end
 
 end

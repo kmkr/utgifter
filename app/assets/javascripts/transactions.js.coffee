@@ -1,51 +1,42 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
-
 $(->
-  chartSettings =
-    chart:
-      renderTo: 'chartContainer'
-      defaultSeriesType: 'bar'
-    title:
-      text: 'Transaksjoner'
-    xAxis:
-      categories: ['Januar', 'Februar'] # her skal hver måned som det finnes transaksjonsdata for være
-      title:
-        text: null
-    yAxis:
-      min: 0
-      title:
-        text: 'Kroner'
-        align: 'high'
-    tooltip:
-      formatter: ->
-        this.series.name + ' ' + this.y + ' something'
-    plotOptions:
-      bar:
-        dataLabels:
-          enabled: true
-    legend:
-      layout: 'vertical'
-      align: 'right'
-      verticalAlign: 'top'
-      x: -100
-      y: 100
-      floating: true
-      borderWidth: 1
-      backgroundColor: '#FFFFFF'
-      shadow: true
-            
-    series: [ # for hver transaksjonsgruppe skal sum for hver måned listes opp
-      {
-        name: 'Mat'
-      data: [50, 60]
-      },
-        {
-          name: 'Fun'
-          data: [40, 90]
-        }
-    ]
+  $.get('/transactions', (transactionResponse) =>
+    categories = getCategories(transactionResponse)
+    $.get('/transaction_groups', (transactionGroupResponse) =>
+      series = getSeriesData(transactionResponse, transactionGroupResponse)
+      new utgifter.BarChart(categories, series)
+    )
+  )
 
-  chart = new Highcharts.Chart(chartSettings)
+  getYearMonth = (time) ->
+    date = new Date(time)
+    date.getFullYear() + "/" + date.getMonth()
+
+  getCategories = (transactions) ->
+    categories = []
+    categories.push getYearMonth(transaction.time) for transaction in transactions when getYearMonth(transaction.time) not in categories
+    categories
+
+  getTransactionSumForGroup = (transactionGroup, transactions) ->
+    sum = 0
+    console.log("sjekker %s", transactionGroup.title)
+    $.each(transactions, ->
+
+      sum += parseInt(this.amount, 10) if this.description.match(transactionGroup.regex)
+      if this.description.match(transactionGroup.regex)
+        console.log(this.description + " matches " + transactionGroup.regex + ". plusset på " + this.amount + " sum er nå " + sum)
+    )
+
+    sum
+
+  getSeriesData = (transactions, transactionGroups) ->
+    response = []
+    $.each(transactionGroups, ->
+      sum = getTransactionSumForGroup(this, transactions)
+      response.push({
+        name: this.title
+        data: [ sum ]
+      })
+    )
+
+    response
 )

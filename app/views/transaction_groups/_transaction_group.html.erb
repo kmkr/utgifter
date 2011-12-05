@@ -5,6 +5,8 @@
   <%= f.label :regex %>
   <%= f.text_field :regex %>
 
-  <%= link_to 'Slett', transaction_group_path(transaction_group), :method => :delete, :confirm => 'Sikker?' %>
+  <% if transaction_group.persisted? %>
+    <%= link_to('Slett', transaction_group_path(transaction_group), :method => :delete) %>
+  <% end %>
   <%= f.submit %>
 <% end %>

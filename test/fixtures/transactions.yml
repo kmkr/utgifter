@@ -2,12 +2,24 @@
 
 one:
   time: 2011-12-02 15:35:25
+  description: 'meny'
   transaction_batch_id: 1
-  expense_group_id: 1
   amount: 9.99
 
 two:
   time: 2011-12-02 15:35:25
+  description: 'villa'
   transaction_batch_id: 1
-  expense_group_id: 1
+  amount: 9.99
+
+three:
+  time: 2011-12-02 15:35:25
+  description: 'sandefjord MENy indre havn'
+  transaction_batch_id: 1
+  amount: 9.99
+
+four:
+  time: 2011-12-02 15:35:25
+  description: 'kiwi'
+  transaction_batch_id: 1
   amount: 9.99

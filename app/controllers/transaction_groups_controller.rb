@@ -1,7 +1,12 @@
 class TransactionGroupsController < ApplicationController
 
+  respond_to :json, :only => [ :index ]
+  respond_to :html
+
   def index
     @transaction_groups = TransactionGroup.all
+
+    respond_with @transaction_groups
   end
 
   def new

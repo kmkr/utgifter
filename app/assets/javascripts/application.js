@@ -6,4 +6,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require 'module_helper'
+//= require 'highcharts'
 //= require_tree .
+

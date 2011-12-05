@@ -1,11 +1,3 @@
 <h1>Transactions#index</h1>
 
-<% @transaction_groups.each do |transaction_group| %>
-  <h2><%= transaction_group.title %></h2>
-    <% transaction_group.transactions.each do |transaction| %>
-      <%= transaction.description %> <%= transaction.amount %>
-    <% end %>
-<% end %>
-
-
 <div id="chartContainer"></div>
