@@ -1,10 +1,12 @@
 $(->
+  class ChartData
+    constructor: (@categories, @dataseries) ->
+
   updateChart = ->
     $.get('/transactions', (transactionResponse) =>
-      categories = getCategories(transactionResponse)
       $.get('/transaction_groups', (transactionGroupResponse) =>
-        series = getSeriesData(transactionResponse, transactionGroupResponse)
-        new utgifter.BarChart(categories, series)
+        chartData = getChartData(transactionResponse, transactionGroupResponse)
+        new utgifter.BarChart(chartData.categories, chartData.dataseries)
       )
     )
 
@@ -31,18 +33,23 @@ $(->
     sumArray.push(value) for own key, value of sums
     sumArray
 
-
   getSeriesData = (transactions, transactionGroups) ->
-    response = []
+    seriesData = []
     $.each(transactionGroups, ->
       sumArray = getTransactionSumForGroup(this, transactions)
-      response.push({
+      seriesData.push({
         name: this.title
         data: sumArray
       })
     )
+    seriesData
 
-    response
+
+  getChartData = (transactions, transactionGroups) ->
+    categories = getCategories(transactions)
+    seriesData = getSeriesData(transactions, transactionGroups)
+
+    new ChartData(categories, seriesData)
 
   updateChart() unless $('#chartContainer').length == 0
 )
