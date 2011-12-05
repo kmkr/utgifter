@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111205102645) do
+ActiveRecord::Schema.define(:version => 20111205112406) do
 
   create_table "transaction_batches", :force => true do |t|
     t.string   "content"
@@ -28,8 +28,8 @@ ActiveRecord::Schema.define(:version => 20111205102645) do
   create_table "transactions", :force => true do |t|
     t.datetime "time"
     t.integer  "transaction_batch_id"
-    t.integer  "expense_group_id"
-    t.decimal  "amount",               :precision => 8, :scale => 2
+    t.integer  "transaction_group_id"
+    t.decimal  "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "description"

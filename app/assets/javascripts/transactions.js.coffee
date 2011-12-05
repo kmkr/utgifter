@@ -3,21 +3,49 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $(->
-  $('#transactions form input[type=submit]').live('click', (evt) ->
-    form = $(this).closest('form')
+  chartSettings =
+    chart:
+      renderTo: 'chartContainer'
+      defaultSeriesType: 'bar'
+    title:
+      text: 'Transaksjoner'
+    xAxis:
+      categories: ['Januar', 'Februar'] # her skal hver måned som det finnes transaksjonsdata for være
+      title:
+        text: null
+    yAxis:
+      min: 0
+      title:
+        text: 'Kroner'
+        align: 'high'
+    tooltip:
+      formatter: ->
+        this.series.name + ' ' + this.y + ' something'
+    plotOptions:
+      bar:
+        dataLabels:
+          enabled: true
+    legend:
+      layout: 'vertical'
+      align: 'right'
+      verticalAlign: 'top'
+      x: -100
+      y: 100
+      floating: true
+      borderWidth: 1
+      backgroundColor: '#FFFFFF'
+      shadow: true
+            
+    series: [ # for hver transaksjonsgruppe skal sum for hver måned listes opp
+      {
+        name: 'Mat'
+      data: [50, 60]
+      },
+        {
+          name: 'Fun'
+          data: [40, 90]
+        }
+    ]
 
-    data =
-      transaction:
-        time: form.find('.time').val()
-        amount: form.find('.amount').val()
-        description: form.find('.description').val()
-        expense_group_id: form.find('.expense_groups').find(':selected').val()
-
-    $.post('/transactions', data, =>
-      form.fadeTo('slow', '0.5')
-      $(this).attr('disabled', 'disabled')
-    )
-    
-    evt.preventDefault()
-  )
+  chart = new Highcharts.Chart(chartSettings)
 )

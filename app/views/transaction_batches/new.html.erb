@@ -4,7 +4,7 @@
   <input type="text" class="time" value="<!= time !>" />
   <input type="text" class="amount" value="<!= amount !>" />
   <input type="text" class="description" value="<!= description !>" />
-  <%= select_tag "expense_groups", options_from_collection_for_select(@expense_groups, "id", "title") %>
+  <%= select_tag "transaction_group", options_from_collection_for_select(@transaction_groups, "id", "title"), :class => 'transaction_groups' %>
   <input type="submit" />
 </form>
 </p>
