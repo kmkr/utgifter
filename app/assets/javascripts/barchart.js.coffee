@@ -18,7 +18,7 @@
             align: 'high'
         tooltip:
           formatter: ->
-            this.series.name + ' ' + this.y + ' something'
+            this.series.name + ' (' + this.y + ' kr)'
         plotOptions:
           bar:
             dataLabels:
