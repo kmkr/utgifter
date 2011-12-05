@@ -9,7 +9,8 @@ series = null
         series = getSeries(transactions, transactionGroups, keyfunction)
         new utgifter.charts.bar.BarChart(categories, series)
     @monthKeyfunction = (date) ->
-      date.getFullYear() + "/" + date.getMonth()
+      months = ["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Des"]
+      date.getFullYear() + "/" + months[date.getMonth()]
 
     @yearKeyfunction = (date) ->
       date.getFullYear()
