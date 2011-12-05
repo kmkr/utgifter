@@ -28,8 +28,9 @@ $(->
       yearMonth = getYearMonth(this.time)
       sums[yearMonth] = 0 unless sums[yearMonth]
 
-      if this.description.match(transactionGroup.regex)
+      if this.description.match(new RegExp(transactionGroup.regex, 'i'))
         sums[yearMonth] += Math.abs(parseInt(this.amount, 10))
+        console.log("%s hører til %s", this.description, transactionGroup.title)
     )
     sumArray = []
     sumArray.push(value) for own key, value of sums
