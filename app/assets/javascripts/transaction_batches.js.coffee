@@ -4,5 +4,7 @@ $(->
       transaction_html = tmpl('transaction', transaction)
       $('#transactions').append(transaction_html)
     )
+
+    $('#transactions input[type=submit]').show('slow')
   )
 )

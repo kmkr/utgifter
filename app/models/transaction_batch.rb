@@ -28,18 +28,22 @@ class TransactionBatch < ActiveRecord::Base
   end
 
   def find_timestamp(batch_line)
-     Date.new
+    # todo: regexp out tidspunkt
+     Time.new
   end
 
   def find_description(batch_line)
+    # todo: regexp out beskrivelse
     "description"
   end
 
-  def find_expense_group_id(batch_line)
+  def find_expense_group_id(description)
+    # todo: bruk beskrivelse til å bestemme hvilken expense group. hjelpeklasse, regelmotor?
     1
   end
 
   def find_amount(batch_line)
+    # todo: regexp out beløp
     "amount"
   end
 
