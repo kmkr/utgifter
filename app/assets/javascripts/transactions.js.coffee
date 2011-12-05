@@ -1,59 +1,66 @@
-class ChartData
-  constructor: (@categories, @dataseries) ->
+categories = null
+series = null
 
-updateChart = ->
-  $.get('/transactions', (transactionResponse) =>
-    $.get('/transaction_groups', (transactionGroupResponse) =>
-      chartData = getChartData(transactionResponse, transactionGroupResponse)
-      new utgifter.BarChart(chartData.categories, chartData.dataseries)
+@module "utgifter", ->
+  @module "charts", ->
+    @module "bar", ->
+      @update = (keyfunction) ->
+        categories = getCategories(transactions, keyfunction)
+        series = getSeries(transactions, transactionGroups, keyfunction)
+        new utgifter.charts.bar.BarChart(categories, series)
+    @monthKeyfunction = (date) ->
+      date.getFullYear() + "/" + date.getMonth()
+
+    @yearKeyfunction = (date) ->
+      date.getFullYear()
+
+
+initializeChart = (keyfunction) ->
+  $.get('/transactions', (transactions) =>
+    this.transactions = transactions
+    $.get('/transaction_groups', (transactionGroups) =>
+      this.transactionGroups = transactionGroups
+      utgifter.charts.bar.update(keyfunction)
     )
   )
 
-getYearMonth = (time) ->
-  date = new Date(time)
-  date.getFullYear() + "/" + date.getMonth()
 
-
-getCategories = (transactions) ->
+getCategories = (transactions, keyfunction) ->
   categories = []
-  categories.push getYearMonth(transaction.time) for transaction in transactions when getYearMonth(transaction.time) not in categories
+
+  for transaction in transactions
+    key = keyfunction(new Date(transaction.time))
+    categories.push key if key not in categories
+
   categories
 
 
-getTransactionSumForGroup = (transactionGroup, transactions) ->
+getTransactionSumForGroup = (transactionGroup, transactions, keyfunction) ->
   sums = { }
 
   $.each(transactions, ->
-    yearMonth = getYearMonth(this.time)
-    sums[yearMonth] = 0 unless sums[yearMonth]
+    key = keyfunction(new Date(this.time))
+    sums[key] = 0 unless sums[key]
 
     if this.description.match(new RegExp(transactionGroup.regex, 'i'))
-      sums[yearMonth] += Math.abs(parseInt(this.amount, 10))
+      sums[key] += Math.abs(parseInt(this.amount, 10))
       console.log("%s hører til %s", this.description, transactionGroup.title)
   )
   sumArray = []
   sumArray.push(value) for own key, value of sums
   sumArray
 
-getSeriesData = (transactions, transactionGroups) ->
-  seriesData = []
+getSeries = (transactions, transactionGroups, keyfunction) ->
+  series = []
   $.each(transactionGroups, ->
-    sumArray = getTransactionSumForGroup(this, transactions)
-    seriesData.push({
+    sumArray = getTransactionSumForGroup(this, transactions, keyfunction)
+    series.push({
       name: this.title
       data: sumArray
     })
   )
-  seriesData
-
-
-getChartData = (transactions, transactionGroups) ->
-  categories = getCategories(transactions)
-  seriesData = getSeriesData(transactions, transactionGroups)
-
-  new ChartData(categories, seriesData)
-
+  series
 
 $(->
-  updateChart() unless $('#chartContainer').length == 0
+  initializeChart(utgifter.charts.monthKeyfunction) unless $('#chartContainer').length == 0
 )
