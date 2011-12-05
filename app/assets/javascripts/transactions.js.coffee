@@ -20,20 +20,25 @@ $(->
 
 
   getTransactionSumForGroup = (transactionGroup, transactions) ->
-    sum = 0
-    $.each(transactions, ->
-      sum += Math.abs(parseInt(this.amount, 10)) if this.description.match(transactionGroup.regex)
-    )
+    sums = { }
 
-    sum
+    $.each(transactions, ->
+      sum = sums[getYearMonth(this.time)]
+      sums[getYearMonth(this.time)] = 0 unless sum
+      sums[getYearMonth(this.time)] += Math.abs(parseInt(this.amount, 10)) if this.description.match(transactionGroup.regex)
+    )
+    sumArray = []
+    sumArray.push(value) for own key, value of sums
+    sumArray
+
 
   getSeriesData = (transactions, transactionGroups) ->
     response = []
     $.each(transactionGroups, ->
-      sum = getTransactionSumForGroup(this, transactions)
+      sumArray = getTransactionSumForGroup(this, transactions)
       response.push({
         name: this.title
-        data: [ sum ]
+        data: sumArray
       })
     )
 
