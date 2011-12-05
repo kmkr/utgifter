@@ -1,4 +1,4 @@
-class ExpenseGroup < ActiveRecord::Base
+class TransactionGroup < ActiveRecord::Base
   has_many :transactions
 
   scope :by_description, lambda { |description|

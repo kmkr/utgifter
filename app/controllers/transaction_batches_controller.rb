@@ -2,7 +2,7 @@ class TransactionBatchesController < ApplicationController
 
   def new
     @transaction_batch = TransactionBatch.new
-    @expense_groups = ExpenseGroup.all
+    @expense_groups = TransactionGroup.all
   end
 
   def create
