@@ -25,9 +25,11 @@ $(->
     sums = { }
 
     $.each(transactions, ->
-      sum = sums[getYearMonth(this.time)]
-      sums[getYearMonth(this.time)] = 0 unless sum
-      sums[getYearMonth(this.time)] += Math.abs(parseInt(this.amount, 10)) if this.description.match(transactionGroup.regex)
+      yearMonth = getYearMonth(this.time)
+      sums[yearMonth] = 0 unless sums[yearMonth]
+
+      if this.description.match(transactionGroup.regex)
+        sums[yearMonth] += Math.abs(parseInt(this.amount, 10))
     )
     sumArray = []
     sumArray.push(value) for own key, value of sums
