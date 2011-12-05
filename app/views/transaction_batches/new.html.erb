@@ -1,9 +1,13 @@
 <script type="text/html" id="transaction">
-<div>
-  <p>
-<!= description !> <!= amount !>
+<p>
+<form>
+  <input type="text" class="time" value="<!= time !>" />
+  <input type="text" class="amount" value="<!= amount !>" />
+  <input type="text" class="description" value="<!= description !>" />
+  <%= select_tag "expense_groups", options_from_collection_for_select(@expense_groups, "id", "title") %>
+  <input type="submit" />
+</form>
 </p>
-</div>
 </script>
 
 <h1>TransactionBatches#new</h1>
