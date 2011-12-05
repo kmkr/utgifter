@@ -7,4 +7,10 @@ $(->
 
     $('#transactions input[type=submit]').show('slow')
   )
+
+  $('#submit-all').click((evt) ->
+    $('form.transaction input.submit-transaction').click()
+    evt.preventDefault()
+  )
+
 )

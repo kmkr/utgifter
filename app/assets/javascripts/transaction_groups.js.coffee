@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $(->
-  $('#transactions form input[type=submit]').live('click', (evt) ->
+  $('#transactions input.submit-transaction').live('click', (evt) ->
     form = $(this).closest('form')
 
     data =
