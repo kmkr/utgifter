@@ -2,7 +2,7 @@ Utgifter::Application.routes.draw do
 
   get "page/index"
 
-  resources :transaction_batches, :transactions
+  resources :transaction_batches, :transactions, :expense_groups
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

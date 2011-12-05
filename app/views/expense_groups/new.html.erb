@@ -1,0 +1,10 @@
+<h1>ExpenseGroups#new</h1>
+<%= form_for @expense_group do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+
+  <%= f.label :regex %>
+  <%= f.text_field :regex %>
+
+  <%= f.submit %>
+<% end %>

@@ -10,12 +10,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111202144559) do
+ActiveRecord::Schema.define(:version => 20111205091923) do
 
   create_table "expense_groups", :force => true do |t|
     t.string   "title"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "regex"
   end
 
   create_table "transaction_batches", :force => true do |t|

@@ -1,7 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  title: MyString
+mat:
+  title: Mat
+  regex: kiwi|meny|rimi
 
-two:
-  title: MyString
+fun:
+  title: Fun
+  regex: villa
