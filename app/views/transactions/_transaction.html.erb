@@ -1,0 +1,14 @@
+<%= form_for transaction do |f| %>
+  <%= f.label :time %>
+  <%= f.text_field :time %>
+
+  <%= f.label :amount %>
+  <%= f.text_field :amount %>
+
+  <%= f.label :description %>
+  <%= f.text_field :description %>
+
+  <%= link_to('Slett', transaction_path(transaction), :method => :delete) %>
+
+  <%= f.submit %>
+<% end %>

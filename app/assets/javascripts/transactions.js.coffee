@@ -11,6 +11,7 @@ $(->
     date = new Date(time)
     date.getFullYear() + "/" + date.getMonth()
 
+
   getCategories = (transactions) ->
     categories = []
     categories.push getYearMonth(transaction.time) for transaction in transactions when getYearMonth(transaction.time) not in categories
@@ -18,10 +19,8 @@ $(->
 
   getTransactionSumForGroup = (transactionGroup, transactions) ->
     sum = 0
-    console.log("sjekker %s", transactionGroup.title)
     $.each(transactions, ->
-
-      sum += parseInt(this.amount, 10) if this.description.match(transactionGroup.regex)
+      sum += Math.abs(parseInt(this.amount, 10)) if this.description.match(transactionGroup.regex)
       if this.description.match(transactionGroup.regex)
         console.log(this.description + " matches " + transactionGroup.regex + ". plusset på " + this.amount + " sum er nå " + sum)
     )
