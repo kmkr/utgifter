@@ -24,7 +24,6 @@ $(->
     $.each(transactions, ->
       sum += Math.abs(parseInt(this.amount, 10)) if this.description.match(transactionGroup.regex)
       if this.description.match(transactionGroup.regex)
-        console.log(this.description + " matches " + transactionGroup.regex + ". plusset på " + this.amount + " sum er nå " + sum)
     )
 
     sum
