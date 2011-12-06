@@ -72,14 +72,14 @@ getCategories = (transactions, keyfunction) ->
 getTransactionSumForGroup = (transactionGroup, transactions, keyfunction, matchfunction) ->
   sums = { }
 
-  $.each(transactions, ->
-    key = keyfunction(new Date(@time))
+  for transaction in transactions
+    key = keyfunction(new Date(transaction.time))
     sums[key] = 0 unless sums[key]
 
-    if matchfunction(@, transactionGroup)
-      sums[key] += parseInt(@amount, 10)
-      @transactionGroups.push(transactionGroup)
-  )
+    if matchfunction(transaction, transactionGroup)
+      sums[key] += parseInt(transaction.amount, 10)
+      transaction.transactionGroups.push(transactionGroup)
+
   sumArray = []
   sumArray.push(value) for own key, value of sums
   sumArray
