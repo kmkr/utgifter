@@ -87,13 +87,13 @@ getTransactionSumForGroup = (transactionGroup, transactions, keyfunction, matchf
 
 getSeries = (transactions, transactionGroups, keyfunction, matchfunction) ->
   mySeries = []
-  $.each(transactionGroups, ->
-    sumArray = getTransactionSumForGroup(@, transactions, keyfunction, matchfunction)
+  for transactionGroup in transactionGroups
+    sumArray = getTransactionSumForGroup(transactionGroup, transactions, keyfunction, matchfunction)
     mySeries.push({
-      name: @title
+      name: transactionGroup.title
       data: sumArray
     })
-  )
+
   mySeries
 
 
