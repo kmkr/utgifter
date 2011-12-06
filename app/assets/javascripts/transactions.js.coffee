@@ -69,29 +69,37 @@ getCategories = (transactions, keyfunction) ->
   myCategories
 
 
-getTransactionSumForGroup = (transactionGroup, transactions, keyfunction, matchfunction) ->
+getTransactionSum = (transactions, keyfunction) ->
   sums = { }
 
   for transaction in transactions
     key = keyfunction(new Date(transaction.time))
     sums[key] = 0 unless sums[key]
-
-    if matchfunction(transaction, transactionGroup)
-      sums[key] += parseInt(transaction.amount, 10)
-      transaction.transactionGroups.push(transactionGroup)
+    sums[key] += parseInt(transaction.amount, 10)
 
   sumArray = []
   sumArray.push(value) for own key, value of sums
   sumArray
 
+getTransactionsForGroup = (transactionGroup, transactions, matchfunction) ->
+  transactionsForGroup = []
+  for transaction in transactions
+    if matchfunction(transaction, transactionGroup)
+      transaction.transactionGroups.push(transactionGroup)
+      transactionsForGroup.push(transaction)
+
+  transactionsForGroup
+
 
 getSeries = (transactions, transactionGroups, keyfunction, matchfunction) ->
   mySeries = []
   for transactionGroup in transactionGroups
-    sumArray = getTransactionSumForGroup(transactionGroup, transactions, keyfunction, matchfunction)
+    transactionsForGroup = getTransactionsForGroup(transactionGroup, transactions, matchfunction)
+    sumArray = getTransactionSum(transactionsForGroup, keyfunction)
     mySeries.push({
       name: transactionGroup.title
       data: sumArray
+      transactionsForGroup: transactionsForGroup
     })
 
   mySeries
