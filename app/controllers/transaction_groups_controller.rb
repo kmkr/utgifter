@@ -16,21 +16,21 @@ class TransactionGroupsController < ApplicationController
   def create
     @transaction_group = TransactionGroup.create(params[:transaction_group])
 
-    redirect_to transaction_groups_path
+    head :ok
   end
 
   def update
     transaction_group = TransactionGroup.find(params[:id])
     transaction_group.update_attributes(params[:transaction_group])
-
-    redirect_to transaction_groups_path
+    
+    head :ok
   end
 
   def destroy
     transaction_group = TransactionGroup.find(params[:id])
     transaction_group.destroy
     
-    redirect_to transaction_groups_path
+    head :ok
   end
 
 end

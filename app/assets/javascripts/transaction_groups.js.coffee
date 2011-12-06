@@ -15,4 +15,13 @@ $(->
     
     evt.preventDefault()
   )
+
+  $('#new_transaction_group').bind('ajax:success', ->
+    $(@)[0].reset()
+    $(@).after('Lagt til')
+  )
+  $('form.edit_transaction_group').bind('ajax:success', -> $(@).effect('highlight'))
+  $('a.delete-transaction-group').bind('ajax:success', ->
+    $(@).closest('form').hide('slow', -> $(@).remove())
+  )
 )

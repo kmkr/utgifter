@@ -1,4 +1,4 @@
-<%= form_for transaction_group do |f| %>
+<%= form_for transaction_group, :remote => true do |f| %>
   <%= f.label :title %>
   <%= f.text_field :title %>
 
@@ -6,7 +6,7 @@
   <%= f.text_field :regex %>
 
   <% if transaction_group.persisted? %>
-    <%= link_to('Slett', transaction_group_path(transaction_group), :method => :delete) %>
+    <%= link_to('Slett', transaction_group_path(transaction_group), :method => :delete, :remote => true, :class => 'delete-transaction-group') %>
   <% end %>
   <%= f.submit %>
 <% end %>
