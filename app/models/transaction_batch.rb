@@ -27,18 +27,41 @@ class TransactionBatch < ActiveRecord::Base
 
   def find_timestamp(batch_line)
     # todo: kast exception dersom tidspunkt ikke finnes
-    batch_line.match(/\d{2}\.\d{2}\.\d{4}/).to_s.strip
+
+    if parser == "dnb"
+      dateTokens = batch_line.split(";").first.split(".")
+      day = dateTokens.first
+      month = dateTokens.second
+      p dateTokens.inspect
+      year = "20" + dateTokens.third
+      return "#{day}.#{month}.#{year}"
+    else
+      batch_line.match(/\d{2}\.\d{2}\.\d{4}/).to_s.strip
+    end
   end
 
   def find_description(batch_line)
     # todo: regexp out beskrivelse
-    batch_line
+    if parser == "dnb"
+      batch_line.split(";").second.gsub(/\"/, "")
+    else
+      batch_line
+    end
   end
 
   def find_amount(batch_line)
-    line = batch_line.gsub(/\t/, "    ").rstrip
-    match = line.match(/-?\d(\s?\d)*,\d{1,2}$/).to_s
-    match.sub(/,/, ".").gsub(/\s/, "").strip
+    if parser == "dnb"
+      fields = batch_line.split(";")
+      out = fields[3].sub(/,/, ".").to_f * -1
+      income = fields[4].sub(/,/, ".").to_f
+
+      return income unless income == 0
+      return out
+    else
+      line = batch_line.gsub(/\t/, "    ").rstrip
+      match = line.match(/-?\d(\s?\d)*,\d{1,2}$/).to_s
+      match.sub(/,/, ".").gsub(/\s/, "").strip
+    end
   end
 
 end

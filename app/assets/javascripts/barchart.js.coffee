@@ -9,7 +9,10 @@
 
           desc = ''
           for transaction in transactions
+            date = new Date(transaction.time)
+            desc += "<b>(#{date.getFullYear()}-#{date.getMonth()}-#{date.getDate()})</b>"
             desc += transaction.description
+            desc += "<b>(#{transaction.amount})</b>"
             desc += "<br />"
 
           $('#transaction-overview').html(desc)
@@ -17,6 +20,7 @@
         constructor: (categories, series) ->
           @chart = new Highcharts.Chart(
             chart:
+              height: 800
               renderTo: 'chartContainer'
               defaultSeriesType: 'bar'
             credits:
@@ -44,8 +48,8 @@
               layout: 'vertical'
               align: 'right'
               verticalAlign: 'top'
-              x: -100
-              y: 100
+              x: 0
+              y: 0
               floating: true
               borderWidth: 1
               backgroundColor: '#FFFFFF'

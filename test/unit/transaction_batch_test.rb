@@ -68,4 +68,19 @@ class TransactionBatchTest < ActiveSupport::TestCase
     assert_equal(-100, transaction.amount)
   end
 
+  test "dnb parser" do
+    tb = TransactionBatch.new(:parser => 'dnb')
+    tb.content = '27.09.11;"Giro Hafslund";27.09.11;281,18;0,00'
+
+    transactions = tb.convert_to_transactions
+
+    transaction = transactions.first
+    assert_equal(-281.18, transaction.amount)
+    assert_equal(2011, transaction.time.year)
+    assert_equal(9, transaction.time.month)
+    assert_equal(27, transaction.time.day)
+    assert_equal("Giro Hafslund", transaction.description)
+
+  end
+
 end

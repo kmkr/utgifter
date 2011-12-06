@@ -13,6 +13,8 @@
 
 <%= form_for @transaction_batch, :remote => true do |f| %>
   <%= f.text_area :content %>
+  <%= f.label :parser %>
+  <%= f.text_field :parser %>
   <%= f.submit %>
 <% end %>
 
