@@ -36,7 +36,7 @@ class TransactionBatch < ActiveRecord::Base
   end
 
   def find_amount(batch_line)
-    line = batch_line.gsub(/\t/, "    ").chomp
+    line = batch_line.gsub(/\t/, "    ").rstrip
     match = line.match(/-?\d(\s?\d)*,\d{1,2}$/).to_s
     match.sub(/,/, ".").gsub(/\s/, "").strip
   end

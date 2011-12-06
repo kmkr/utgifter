@@ -58,4 +58,14 @@ class TransactionBatchTest < ActiveSupport::TestCase
     assert_equal(11, transaction.time.month)
   end
 
+  test "correct creation of withdrawal with trailing space" do
+    tb = TransactionBatch.new
+    tb.content = "05.12.2011  NETTGIRO M/MELD. FORFALL I DAG: Nettgiro til: LARSEN ANDERS H Betalt: 03.12.11  03.12.2011  -100,00       "
+    
+    transactions = tb.convert_to_transactions
+
+    transaction = transactions.first
+    assert_equal(-100, transaction.amount)
+  end
+
 end
