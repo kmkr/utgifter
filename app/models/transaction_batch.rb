@@ -27,7 +27,6 @@ class TransactionBatch < ActiveRecord::Base
 
   def find_timestamp(batch_line)
     # todo: kast exception dersom tidspunkt ikke finnes
-
     if parser == "dnb"
       dateTokens = batch_line.split(";").first.split(".")
       day = dateTokens.first
@@ -35,6 +34,8 @@ class TransactionBatch < ActiveRecord::Base
       p dateTokens.inspect
       year = "20" + dateTokens.third
       return "#{day}.#{month}.#{year}"
+    elsif parser == "sb1"
+      batch_line.split(";").first
     else
       batch_line.match(/\d{2}\.\d{2}\.\d{4}/).to_s.strip
     end
@@ -44,6 +45,8 @@ class TransactionBatch < ActiveRecord::Base
     # todo: regexp out beskrivelse
     if parser == "dnb"
       batch_line.split(";").second.gsub(/\"/, "")
+    elsif parser == "sb1"
+      batch_line.split(";").second
     else
       batch_line
     end
@@ -57,6 +60,8 @@ class TransactionBatch < ActiveRecord::Base
 
       return income unless income == 0
       return out
+    elsif parser == "sb1"
+      batch_line.split(";")[3].sub(/,/, ".").to_f
     else
       line = batch_line.gsub(/\t/, "    ").rstrip
       match = line.match(/-?\d(\s?\d)*,\d{1,2}$/).to_s
