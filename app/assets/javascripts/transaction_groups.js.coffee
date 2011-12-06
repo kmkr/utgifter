@@ -10,8 +10,7 @@ $(->
         transaction_group_id: form.find('.transaction_groups').find(':selected').val()
 
     $.post('/transactions', data, =>
-      form.fadeTo('slow', '0.5')
-      $(@).attr('disabled', 'disabled')
+      form.highlight('slow', '0.5', -> $(@).remove())
     )
     
     evt.preventDefault()

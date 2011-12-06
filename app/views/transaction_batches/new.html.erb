@@ -13,8 +13,14 @@
 
 <%= form_for @transaction_batch, :remote => true do |f| %>
   <%= f.text_area :content %>
+
+  <br />
+
   <%= f.label :parser %>
-  <%= f.text_field :parser %>
+  <%= select_tag(:parser, options_for_select([['DNB', 'dnb'], ['SB1', 'sb1']])) %>
+
+  <br />
+
   <%= f.submit %>
 <% end %>
 
