@@ -6,8 +6,22 @@ chart = null
   @module "charts", ->
     @module "bar", ->
       @update = (keyfunction) ->
+        resetTransactionGroups(transactions)
+        # y axis categories
         categories = getCategories(transactions, keyfunction)
-        series = getSeries(transactions, transactionGroups, keyfunction)
+
+        # series are objects with:
+        # 1) a name (transaction group name)
+        # 2) arrays with values linking to each of the categories
+        series = getSeries(transactions, transactionGroups, keyfunction, utgifter.charts.descriptionMatchFunction)
+
+        # The transactions that are not linked to a transaction group. The array returned has length the same as transactionGroups
+        otherIncomeSeries = getSeries(transactions, [{ title: "Andre inntekter" }], keyfunction, utgifter.charts.positiveAmountAndNoTransactionGroupsMatchFunction)
+        otherExpenseSeries = getSeries(transactions, [{ title: "Andre utgifter" }], keyfunction, utgifter.charts.negativeAmountAndNoTransactionGroupsMatchFunction)
+
+        series.push(otherIncomeSeries[0])
+        series.push(otherExpenseSeries[0])
+
         unless chart
           chart = new utgifter.charts.bar.BarChart(categories, series)
         else
@@ -20,6 +34,15 @@ chart = null
     @yearKeyfunction = (date) ->
       date.getFullYear()
 
+    @descriptionMatchFunction = (transaction, transactionGroup) ->
+      transaction.description.match(new RegExp(transactionGroup.regex, 'i'))
+
+    @positiveAmountAndNoTransactionGroupsMatchFunction = (transaction, transactionGroup) ->
+      transaction.transactionGroups.length is 0 and transaction.amount >= 0
+
+    @negativeAmountAndNoTransactionGroupsMatchFunction = (transaction, transactionGroup) ->
+      transaction.transactionGroups.length is 0 and transaction.amount < 0
+
 
 initializeChart = (keyfunction) ->
   $.get('/transactions', (transactions) =>
@@ -31,46 +54,52 @@ initializeChart = (keyfunction) ->
   )
 
 
-getCategories = (transactions, keyfunction) ->
-  categories = []
-
+resetTransactionGroups = (transactions) ->
   for transaction in transactions
+    transaction.transactionGroups = []
+
+
+getCategories = (transactions, keyfunction) ->
+  myCategories = []
+  for transaction in transactions
+    # calculate the key
     key = keyfunction(new Date(transaction.time))
-    categories.push key if key not in categories
+    myCategories.push key if key not in myCategories
 
-  categories
+  myCategories
 
 
-getTransactionSumForGroup = (transactionGroup, transactions, keyfunction) ->
+getTransactionSumForGroup = (transactionGroup, transactions, keyfunction, matchfunction) ->
   sums = { }
 
   $.each(transactions, ->
     key = keyfunction(new Date(@time))
     sums[key] = 0 unless sums[key]
 
-    if @description.match(new RegExp(transactionGroup.regex, 'i'))
-      sums[key] += Math.abs(parseInt(@amount, 10))
-      console.log("%s hører til %s", @description, transactionGroup.title)
+    if matchfunction(@, transactionGroup)
+      sums[key] += parseInt(@amount, 10)
+      @transactionGroups.push(transactionGroup)
   )
   sumArray = []
   sumArray.push(value) for own key, value of sums
   sumArray
 
-getSeries = (transactions, transactionGroups, keyfunction) ->
-  series = []
+
+getSeries = (transactions, transactionGroups, keyfunction, matchfunction) ->
+  mySeries = []
   $.each(transactionGroups, ->
-    sumArray = getTransactionSumForGroup(@, transactions, keyfunction)
-    series.push({
+    sumArray = getTransactionSumForGroup(@, transactions, keyfunction, matchfunction)
+    mySeries.push({
       name: @title
       data: sumArray
     })
   )
-  series
+  mySeries
+
 
 $(->
   initializeChart(utgifter.charts.monthKeyfunction) unless $('#chartContainer').length == 0
   $('#chart-by-month').click(-> utgifter.charts.bar.update(utgifter.charts.monthKeyfunction))
   $('#chart-by-year').click(-> utgifter.charts.bar.update(utgifter.charts.yearKeyfunction))
   $('.transaction-time').datepicker({ dateFormat: 'yy-mm-dd' })
-
 )
