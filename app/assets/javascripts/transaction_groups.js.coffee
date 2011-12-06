@@ -1,10 +1,6 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
-
 $(->
   $('#transactions input.submit-transaction').live('click', (evt) ->
-    form = $(this).closest('form')
+    form = $(@).closest('form')
 
     data =
       transaction:
@@ -15,7 +11,7 @@ $(->
 
     $.post('/transactions', data, =>
       form.fadeTo('slow', '0.5')
-      $(this).attr('disabled', 'disabled')
+      $(@).attr('disabled', 'disabled')
     )
     
     evt.preventDefault()

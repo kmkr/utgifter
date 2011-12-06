@@ -2,11 +2,14 @@
   @module "charts", ->
     @module "bar", ->
       class @BarChart
+        @chart = null
         constructor: (categories, series) ->
-          new Highcharts.Chart(
+          @chart = new Highcharts.Chart(
             chart:
               renderTo: 'chartContainer'
               defaultSeriesType: 'bar'
+            credits:
+              enabled: false
             title:
               text: 'Transaksjoner'
             xAxis:
@@ -20,7 +23,7 @@
                 align: 'high'
             tooltip:
               formatter: ->
-                this.series.name + ' (' + this.y + ' kr)'
+                @series.name + ' (' + @y + ' kr)'
             plotOptions:
               bar:
                 dataLabels:
@@ -37,3 +40,13 @@
               shadow: true
             series: series
           )
+
+        update: (categories, series) ->
+          @chart.xAxis[0].setCategories(categories, false)
+
+          $.each(series, (i) =>
+            @chart.series[i].setData(series[i].data, false)
+          )
+
+          @chart.redraw()
+
