@@ -27,6 +27,7 @@
         forms = $(@).find('form')
         forms.hide()
         forms[fromTransaction...toTransaction].show()
+        $('#transaction-list').effect('highlight')
 
         currentPage = newPage
     )
