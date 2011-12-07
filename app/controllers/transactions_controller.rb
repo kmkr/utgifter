@@ -12,7 +12,7 @@ class TransactionsController < ApplicationController
     transaction = Transaction.find(params[:id])
     transaction.update_attributes(params[:transaction])
 
-    redirect_to transactions_path
+    head: ok
   end
 
   def create
@@ -25,7 +25,7 @@ class TransactionsController < ApplicationController
     transaction = Transaction.find(params[:id])
     transaction.destroy
 
-    redirect_to transactions_path
+    head: ok
   end
 
 end

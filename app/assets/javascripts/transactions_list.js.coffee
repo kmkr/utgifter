@@ -34,4 +34,11 @@
 
 $(->
   $('#transaction-list').transactionList()
+
+  $('#transaction-list form').bind('ajax:success', ->
+    $(@).effect('highlight')
+  )
+  $('a.delete_transaction').bind('ajax:success', ->
+    $(@).closest('form').hide('slow', -> $(@).remove())
+  )
 )
