@@ -1,3 +1,19 @@
+<script type="text/x-jquery-tmpl" id="transaction_table">
+  <table>
+    <tr>
+      <th>Dato</th>
+      <th>Beskrivelse</th>
+      <th>Beløp</th>
+    </tr>
+    <! for (var i=0; i<transactions.length; i++) { !>
+      <tr>
+        <td><!= transactions[i].time !></td>
+        <td><!= transactions[i].description !></td>
+        <td><!= transactions[i].amount !></td>
+      </tr>
+    <! } !>
+  </table>
+</script>
 <h1>Transactions#index</h1>
 
 <div id="chartContainer"></div>

@@ -7,14 +7,21 @@
         updateTranses: ->
           transactions = @options.transactionsForGroup
 
-          desc = ''
-          for transaction in transactions
-            date = new Date(transaction.time)
-            desc += "<b>(#{date.getFullYear()}-#{date.getMonth()}-#{date.getDate()})</b>"
-            desc += transaction.description
-            desc += "<b>(#{transaction.amount})</b>"
-            desc += "<br />"
+          desc = "<table>" +
+            "<thead>" +
+            "<tr>" +
+            "<th>Dato</th>" +
+            "<th>Beskrivelse</th>" +
+            "<th>Beløp</th>" +
+            "</tr>" +
+            "</thead><tbody>"
 
+          for transaction in transactions
+            desc += "<tr><td>#{transaction.time}</td>"
+            desc += "<td>#{transaction.description}</td>"
+            desc += "<td>#{transaction.amount}</td></tr>"
+
+          desc += "</tbody></table>"
           $('#transaction-overview').html(desc)
 
         constructor: (categories, series) ->

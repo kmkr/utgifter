@@ -1,12 +1,4 @@
-// Place all the styles related to the page controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-$spoiledwater: #DDFFCC;
-$martinique: #C3F0F2;
-$twittermedium: #B3ECEF;
-$twitter: #9AE4E8;
-$outofsight: #30D8F0;
+@import "colors";
 
 body {
   width: 990px; 

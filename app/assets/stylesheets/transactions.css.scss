@@ -1,3 +1,5 @@
+@import "colors";
+
 form.edit_transaction {
   border: 1px solid #ccc;
   font-size: 10px;
@@ -6,8 +8,41 @@ form.edit_transaction {
     font-size: 11px;
   }
 
-
-
   margin-bottom: 5px;
   padding: 2px;
 }
+
+#transaction-overview {
+  position: relative;
+
+  table {
+    width: 95%;
+    margin: 5px auto;
+    border-collapse:separate;
+    
+    thead {
+      th {
+        padding:10px;
+        border: 1px solid darken($twitter, 20%);
+        border-bottom: 3px solid darken($twitter, 30%);
+        background-color: $twitter;
+
+        -webkit-border-top-left-radius:5px;
+        -webkit-border-top-right-radius:5px;
+        -moz-border-radius:5px 5px 0px 0px;
+      }
+    }
+
+    tbody {
+      td {
+        padding: 2px;
+        text-align:center;
+        background-color: $spoiledwater;
+        border: 1px solid darken($spoiledwater, 10%);
+        -moz-border-radius:2px;
+        -webkit-border-radius:2px;
+        border-radius:2px;
+      }
+    }
+  }
+} 
