@@ -2,11 +2,68 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$blue: #3bbfce;
+$spoiledwater: #DDFFCC;
+$martinique: #C3F0F2;
+$twittermedium: #B3ECEF;
+$twitter: #9AE4E8;
+$outofsight: #30D8F0;
 
 body {
   width: 990px; 
   padding: 5px;
   margin: 0 auto;
-  border: 1px solid darken($blue, 9%);
+  background-color: lighten($martinique, 20%);
+  color: lighten(#000, 20%);
+}
+
+div#main-content {
+  border: 1px solid darken($twitter, 9%);
+  border-radius: 8px;
+  clear: both;
+  background: lighten($martinique, 10%);
+  -moz-border-radius-topright: 12px;
+  -moz-border-radius-bottomright: 12px;
+  -moz-border-radius-bottomleft: 12px;
+  -webkit-border-top-right-radius:12px;
+  -webkit-border-bottom-right-radius:12px;
+  -webkit-border-bottom-left-radius:12px;
+  padding: 10px;
+}
+
+nav {
+  position: relative;
+  bottom: -2px;
+
+  ul { 
+    list-style:none;
+
+    li {
+      display: inline;
+      float: left;
+      margin-bottom: 20px;
+
+      a {
+        padding: 20px;
+        background: $martinique;
+        text-decoration: none; 
+        font: bold 14px Helvetica, Sans-Serif; letter-spacing: -1p;
+        color: #402e16;
+        text-shadow: #eee 0px 0px 2px;
+      }
+      a:hover {
+        background-color: $twitter;
+      }
+      a.active {
+        background: lighten($martinique, 10%);
+      }
+    }
+    li:first-child a {
+        -moz-border-radius-topleft: 12px;
+        -webkit-border-top-left-radius:12px;
+      }
+    li:last-child a {
+        -moz-border-radius-topright: 12px;
+        -webkit-border-top-right-radius:12px;
+      }
+  }
 }
