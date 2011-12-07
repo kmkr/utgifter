@@ -12,7 +12,7 @@ class TransactionsController < ApplicationController
     transaction = Transaction.find(params[:id])
     transaction.update_attributes(params[:transaction])
 
-    head: ok
+    head :ok
   end
 
   def create
@@ -25,7 +25,7 @@ class TransactionsController < ApplicationController
     transaction = Transaction.find(params[:id])
     transaction.destroy
 
-    head: ok
+    head :ok
   end
 
 end
