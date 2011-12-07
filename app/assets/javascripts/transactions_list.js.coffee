@@ -23,12 +23,11 @@
       paginate = (newPage) =>
         fromTransaction = newPage * transactionLimit
         toTransaction = fromTransaction + transactionLimit
-        currentTransactions = @transactions[fromTransaction...toTransaction]
 
-        html = ""
-        for transaction in currentTransactions
-          html += "<div>#{transaction.time} #{transaction.description} #{transaction.amount} Slett Oppdater</div>"
-        $(@).find('.transactions').html(html)
+        forms = $(@).find('form')
+        forms.hide()
+        forms[fromTransaction...toTransaction].show()
+
         currentPage = newPage
     )
 )(jQuery)

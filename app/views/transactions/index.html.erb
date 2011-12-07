@@ -8,9 +8,8 @@
 <div id="transaction-overview"></div>
 
 <div id="transaction-list">
-  <div class="transactions"></div>
+  <div class="transactions">
+    <%= render @transactions %>
+  </div>
   <div class="pagination"></div>
 </div>
-
-
-<%= render @transactions %>
