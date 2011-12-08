@@ -6,6 +6,10 @@ class Transaction < ActiveRecord::Base
 
   attr_accessor :errors
 
+  def errors
+    @errors || []
+  end
+
   def as_json(options)
     options[:methods] = :errors
     super(options)

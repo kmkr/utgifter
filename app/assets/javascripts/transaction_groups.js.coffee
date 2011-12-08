@@ -9,7 +9,7 @@ $(->
         description: form.find('input[name=description]').val()
 
     $.post('/transactions', data, =>
-      form.hide('slideUp', '0.5', -> $(@).remove())
+      form.hide("fade", -> $(@).remove())
     )
     
     evt.preventDefault()
