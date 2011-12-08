@@ -1,7 +1,10 @@
 $(->
   $('#new_transaction_batch').bind('ajax:success', (target, transactions) ->
     $.each(transactions, (index, transaction) ->
-      transaction_html = tmpl('transaction', transaction)
+      transaction_html = $(tmpl('transaction', transaction))
+      for error in transaction.errors
+        transaction_html.find('input[data-type=' + error + ']').addClass("has-errors")
+
       $('#transactions').append(transaction_html)
     )
 

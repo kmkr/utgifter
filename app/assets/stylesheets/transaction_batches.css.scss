@@ -9,3 +9,8 @@
 #transaction_batch_content {
   width: 99%;
 }
+
+.has-errors {
+  border: darken(red, 10%);
+  background-color: lighten(red, 40%);
+}
