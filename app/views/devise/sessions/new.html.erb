@@ -1,18 +1,26 @@
 <div id="login-fields">
-<h2>Sign in</h2>
+  <h2 id="login-fields-title">Logg inn</h2>
 
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
+  <div id="login-fields-content">
+    <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+    <div>
+      <%= f.label :email %><br />
+      <%= f.email_field :email %>
+    </div>
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
+    <div>
+      <%= f.label :password %><br />
+      <%= f.password_field :password %>
+    </div>
 
-  <% if devise_mapping.rememberable? -%>
-    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
-  <% end -%>
+    <% if devise_mapping.rememberable? -%>
+      <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+    <% end -%>
 
-  <div><%= f.submit "Logg inn" %></div>
-<% end %>
-<%= render :partial => "devise/shared/links" %>
+    <div><%= f.submit "Logg inn" %></div>
+    <% end %>
+    <div id="login-fields-shared-links">
+      <%= render :partial => "devise/shared/links" %>
+    </div>
+  </div>
 </div>
