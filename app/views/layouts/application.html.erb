@@ -4,6 +4,7 @@
   <title>Utgifter</title>
   <%= stylesheet_link_tag    "application" %>
   <%= stylesheet_link_tag    "http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/humanity/jquery-ui.css" %>
+  <%= stylesheet_link_tag    "http://fonts.googleapis.com/css?family=Fresca" %>
   <%= javascript_include_tag "application" %>
   <%= javascript_include_tag 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js' %>
   <%= csrf_meta_tags %>
@@ -17,10 +18,15 @@
     <li><%= link_to_active('Legg til transaksjoner', new_transaction_batch_path) %></li>
     <li><%= link_to_active('List transaction groups', transaction_groups_path) %></li>
     <li><%= link_to_active('Legg til transaction group', new_transaction_group_path) %></li>
+    <% if user_signed_in? %>
+      <li><%= link_to('Logg ut', destroy_user_session_path, :class => 'logout', :method => :delete) %></li>
+    <% end %>
   </ul>
 </nav>
 
 <div id="main-content">
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
   <%= yield %>
 </div>
 

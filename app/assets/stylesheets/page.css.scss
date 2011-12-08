@@ -6,6 +6,17 @@ body {
   margin: 0 auto;
   background-color: lighten($martinique, 20%);
   color: lighten(#000, 20%);
+  font-family: 'Fresca', 'Ubuntu', sans-serif;
+}
+
+h1 {
+  font-size: 35px;
+  padding: 10px;
+}
+
+h2 {
+  font-size: 30px;
+  padding: 10px;
 }
 
 div#main-content {
@@ -19,28 +30,29 @@ div#main-content {
   -webkit-border-top-right-radius:12px;
   -webkit-border-bottom-right-radius:12px;
   -webkit-border-bottom-left-radius:12px;
-  padding: 10px;
+  padding: 15px;
 }
 
 nav {
-  position: relative;
-  bottom: -2px;
 
   ul { 
+    margin: 40px 0 21px 0;
+    text-align: center;
     list-style:none;
 
     li {
       display: inline;
-      float: left;
-      margin-bottom: 20px;
 
       a {
-        padding: 20px;
+        padding: 20px 10px;
         background: $martinique;
         text-decoration: none; 
-        font: bold 14px Helvetica, Sans-Serif; letter-spacing: -1p;
+        font: bold 14px;
         color: #402e16;
         text-shadow: #eee 0px 0px 2px;
+      }
+      a.logout {
+        background-color: $outofsight;
       }
       a:hover {
         background-color: $twitter;
@@ -48,6 +60,7 @@ nav {
       a.active {
         background: lighten($martinique, 10%);
       }
+
     }
     li:first-child a {
         -moz-border-radius-topleft: 12px;

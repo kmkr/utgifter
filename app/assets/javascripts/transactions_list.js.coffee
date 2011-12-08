@@ -2,7 +2,7 @@
   $.fn.transactionList = ->
     return @each(->
       currentPage = 0
-      transactionLimit = 2
+      transactionLimit = 20
 
       $.get('/transactions', (transactions) =>
         # fetch transactions

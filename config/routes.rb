@@ -1,5 +1,7 @@
 Utgifter::Application.routes.draw do
 
+  devise_for :users
+
   get "page/index"
 
   resources :transaction_batches, :transactions, :transaction_groups

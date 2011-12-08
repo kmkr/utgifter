@@ -3,29 +3,45 @@ class TransactionsController < ApplicationController
   respond_to :html, :only => [ :index ]
 
   def index
-    @transactions = Transaction.all
+    @transactions = current_user.transactions
 
     respond_with @transactions
   end
 
   def update
-    transaction = Transaction.find(params[:id])
-    transaction.update_attributes(params[:transaction])
+    transaction = current_user.transactions.where(:id => params[:id])
 
-    head :ok
+    if transaction
+      transaction.update_attributes(params[:transaction])
+      head :ok
+    else
+      head :forbidden
+    end
+
   end
 
   def create
-    @transaction = Transaction.create(params[:transaction])
+    transaction = Transaction.new(params[:transaction])
+    transaction.user = current_user
 
-    respond_with @transaction
+    if transaction.save
+      respond_with transaction
+    else
+      flash[:error] = "Fikk ikke opprettet transaksjon"
+      redirect_to :create
+    end
   end
 
   def destroy
-    transaction = Transaction.find(params[:id])
-    transaction.destroy
+    transaction = current_user.transactions.where(:id => params[:id]).first
 
-    head :ok
+    if transaction
+      transaction.destroy
+      head :ok
+    else
+      head :forbidden
+    end
+
   end
 
 end

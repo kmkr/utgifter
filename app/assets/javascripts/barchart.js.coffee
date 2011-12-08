@@ -18,7 +18,7 @@
 
           for transaction in transactions
             desc += "<tr><td>#{transaction.time}</td>"
-            desc += "<td>#{transaction.description}</td>"
+            desc += "<td class='description'>#{transaction.description}</td>"
             desc += "<td>#{transaction.amount}</td></tr>"
 
           desc += "</tbody></table>"
