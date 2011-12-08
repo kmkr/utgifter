@@ -7,6 +7,7 @@ $(->
 
       $('#transactions').append(transaction_html)
     )
+    $('.transaction-time').datepicker({ dateFormat: 'yy-mm-dd' })
 
     $('#transactions input[type=submit]').show('slow')
   )
