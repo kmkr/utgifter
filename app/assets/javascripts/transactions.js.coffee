@@ -109,5 +109,4 @@ $(->
   initializeChart(utgifter.charts.yearKeyfunction) unless $('#chartContainer').length == 0
   $('#chart-by-month').click(-> utgifter.charts.bar.update(utgifter.charts.monthKeyfunction))
   $('#chart-by-year').click(-> utgifter.charts.bar.update(utgifter.charts.yearKeyfunction))
-  $('.transaction-time').datepicker({ dateFormat: 'yy-mm-dd' })
 )
