@@ -5,7 +5,7 @@
         @chart = null
 
         updateTranses: ->
-          transactions = @options.transactionsForGroup
+          transactions = @options.transactionsInSerie
 
           desc = "<table>" +
             "<thead>" +
