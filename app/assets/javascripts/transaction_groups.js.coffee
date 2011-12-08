@@ -4,13 +4,12 @@ $(->
 
     data =
       transaction:
-        time: form.find('.time').val()
-        amount: form.find('.amount').val()
-        description: form.find('.description').val()
-        transaction_group_id: form.find('.transaction_groups').find(':selected').val()
+        time: form.find('input[name=time]').val()
+        amount: form.find('input[name=amount]').val()
+        description: form.find('input[name=description]').val()
 
     $.post('/transactions', data, =>
-      form.effect('highlight', '0.5', -> $(@).remove())
+      form.hide('slideUp', '0.5', -> $(@).remove())
     )
     
     evt.preventDefault()
