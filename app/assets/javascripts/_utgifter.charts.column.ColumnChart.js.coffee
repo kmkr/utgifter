@@ -7,6 +7,8 @@
             chart:
               renderTo: renderTo
               defaultSeriesType: 'column'
+            credits:
+              enabled: false
             title:
               text: 'Inntekt vs utgift'
             xAxis:
@@ -16,12 +18,13 @@
                 text: 'Beløp'
             legend:
               layout: 'vertical'
-              backgroundColor: '#FFFFFF'
-              align: 'left'
+              align: 'right'
               verticalAlign: 'top'
-              x: 100
-              y: 70
+              x: 0
+              y: 0
               floating: true
+              borderWidth: 1
+              backgroundColor: '#FFFFFF'
               shadow: true
             tooltip:
               formatter: ->
