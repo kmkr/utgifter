@@ -10,7 +10,7 @@ class window.utgifter.routers.AppRouter extends Backbone.Router
   swap: (newView) ->
     @view.destroy() if @view
     @view = newView
-    $("#content").html(@view.render().el)
+    $("#main-content").html(@view.render().el)
 
   index: ->
     @swap(new window.utgifter.views.IndexView())
