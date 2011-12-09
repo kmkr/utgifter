@@ -1,6 +1,6 @@
 @module "utgifter", ->
   @module "charts", ->
-    # Supply the array of transactions
+    # Supply the array of transaction models
     # Supply the requested frequency for the result, one of:
     # yearly,
     # monthly, or
@@ -16,16 +16,16 @@
       categories = getCategories(transactions, keyFunction)
 
       # always use the same transactionGroups
-      transactionGroups = utgifter.data.transactionGroups
+      transactionGroups = utgifter.collections.transactionGroupCollection
 
       # finn dataseries basert på frequency
       # series are objects with:
       # 1) a name (transaction group name)
       # 2) arrays with values linking to each of the categories
-      series = getSeries(transactions, transactionGroups, keyFunction, utgifter.charts.helpers.descriptionMatchFunction)
+      series = getSeries(transactions, transactionGroups.models, keyFunction, utgifter.charts.helpers.descriptionMatchFunction)
       # The transactions that are not linked to a transaction group. The array returned has length the same as transactionGroups
-      otherIncomeSeries = getSeries(transactions, [{ title: "Andre inntekter" }], keyFunction, utgifter.charts.helpers.positiveAmountAndNoTransactionGroupsMatchFunction)
-      otherExpenseSeries = getSeries(transactions, [{ title: "Andre utgifter" }], keyFunction, utgifter.charts.helpers.negativeAmountAndNoTransactionGroupsMatchFunction)
+      otherIncomeSeries = getSeries(transactions, [ new utgifter.models.Transaction({ title: "Andre inntekter" })], keyFunction, utgifter.charts.helpers.positiveAmountAndNoTransactionGroupsMatchFunction)
+      otherExpenseSeries = getSeries(transactions, [ new utgifter.models.Transaction({ title: "Andre utgifter" })], keyFunction, utgifter.charts.helpers.negativeAmountAndNoTransactionGroupsMatchFunction)
 
       series.push(otherIncomeSeries[0])
       series.push(otherExpenseSeries[0])
@@ -46,7 +46,7 @@
         transactionsForGroup = getTransactionsForGroup(transactionGroup, transactions, matchfunction)
         sumArray = getTransactionSum(transactionsForGroup, keyFunction)
         mySeries.push({
-          name: transactionGroup.title
+          name: transactionGroup.attributes.title
           data: sumArray
           transactionsInSerie: transactionsForGroup
         })
@@ -55,16 +55,15 @@
 
     resetTransactionGroups = (transactions) ->
       for transaction in transactions
-        transaction.transactionGroups = []
-    
+        transaction.attributes.transactionGroups = []
     
     getCategories = (transactions, keyFunction) ->
       myCategories = []
       for transaction in transactions
         # calculate the key
-        key = keyFunction(new Date(transaction.time))
+        key = keyFunction(new Date(transaction.attributes.time))
         myCategories.push key if key not in myCategories
-    
+      
       myCategories
     
     
@@ -72,9 +71,9 @@
       sums = { }
     
       for transaction in transactions
-        key = keyFunction(new Date(transaction.time))
+        key = keyFunction(new Date(transaction.attributes.time))
         sums[key] = 0 unless sums[key]
-        sums[key] += parseInt(transaction.amount, 10)
+        sums[key] += parseInt(transaction.attributes.amount, 10)
     
       sumArray = []
       sumArray.push(value) for own key, value of sums
@@ -84,7 +83,7 @@
       transactionsForGroup = []
       for transaction in transactions
         if matchfunction(transaction, transactionGroup)
-          transaction.transactionGroups.push(transactionGroup)
+          transaction.attributes.transactionGroups.push(transactionGroup)
           transactionsForGroup.push(transaction)
     
       transactionsForGroup

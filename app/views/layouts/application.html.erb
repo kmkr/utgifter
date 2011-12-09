@@ -13,11 +13,11 @@
 
 <nav>
   <ul>
-    <li><%= link_to_active('Home', root_path) %></li>
-    <li><%= link_to_active('List transaksjoner', transactions_path) %></li>
-    <li><%= link_to_active('Legg til transaksjoner', new_transaction_batch_path) %></li>
-    <li><%= link_to_active('List transaksjonsgrupper', transaction_groups_path) %></li>
-    <li><%= link_to_active('Legg til transaksjonsgruppe', new_transaction_group_path) %></li>
+    <li><%= link_to('Home', '/#') %></li>
+    <li><%= link_to('Transaksjoner', '/#transactions') %></li>
+    <li><%= link_to('Årlig oversikt', '/#overview/year') %></li>
+    <li><%= link_to('Legg til transaksjoner', '/#transaction_batches/new') %></li>
+    <li><%= link_to('Transaksjonsgrupper', '/#transaction_groups') %></li>
     <% if user_signed_in? %>
       <li><%= link_to('Logg ut', destroy_user_session_path, :class => 'logout', :method => :delete) %></li>
     <% end %>
@@ -27,7 +27,9 @@
 <div id="main-content">
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
-  <%= yield %>
+  <div id="content">
+    <%= yield %>
+  </div>
 </div>
 
 </body>

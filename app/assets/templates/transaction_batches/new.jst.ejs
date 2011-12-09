@@ -1,0 +1,20 @@
+<h1>TransactionBatches#new</h1>
+
+<form accept-charset="UTF-8" action="/transaction_batches" class="new_transaction_batch" data-remote="true" id="new_transaction_batch" method="post">
+  <div style="margin:0;padding:0;display:inline">
+    <input name="utf8" type="hidden" value="✓">
+  </div>
+  <textarea cols="40" id="transaction_batch_content" name="transaction_batch[content]" rows="20"></textarea>
+  <br>
+  <label for="transaction_batch_parser">Banknavn</label>
+  <select id="transaction_batch_parser" name="transaction_batch[parser]">
+    <option value="dnb">DNB</option>
+    <option value="sb1">SB1</option>
+  </select>
+  <br>
+  <input name="commit" type="submit" value="Opprett Transaksjonsbatch">
+</form>
+
+<div class="transactions">
+  <input type="submit" value="Submit all" id="submit-all">
+</div>

@@ -1,6 +1,5 @@
 class TransactionsController < ApplicationController
   respond_to :json
-  respond_to :html, :only => [ :index ]
 
   def index
     @transactions = current_user.transactions
@@ -9,7 +8,7 @@ class TransactionsController < ApplicationController
   end
 
   def update
-    transaction = current_user.transactions.where(:id => params[:id])
+    transaction = current_user.transactions.where(:id => params[:id]).first
 
     if transaction
       transaction.update_attributes(params[:transaction])

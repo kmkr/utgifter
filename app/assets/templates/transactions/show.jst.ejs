@@ -1,0 +1,11 @@
+<form accept-charset="UTF-8" action="/transactions/<%= id %>" class="transaction" data-remote="true" method="post">
+  <div style="margin:0;padding:0;display:inline">
+    <input name="utf8" type="hidden" value="✓">
+    <input name="_method" type="hidden" value="put">
+  </div>
+  <input class="transaction-time" name="transaction[time]" size="12" type="text" value="<%= time %>" />
+  <input class="transaction-amount" name="transaction[amount]" size="12" type="text" value="<%= amount %>" />
+  <input class="transaction-amount" name="transaction[description]" size="75" type="text" value="<%= description %>" />
+  <a href="/transactions/<%= id %>" class="delete-transaction" data-remote="true" data-method="delete">Slett</a>
+  <input name="commit" type="submit" value="Oppdater transaksjon" data-remote="true" rel="nofollow" />
+</form>

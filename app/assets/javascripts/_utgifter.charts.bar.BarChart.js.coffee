@@ -2,8 +2,6 @@
   @module "charts", ->
     @module "bar", ->
       class @BarChart
-        @chart = null
-
         updateTranses: ->
           transactions = @options.transactionsInSerie
 
@@ -15,17 +13,16 @@
             "<th>Beløp</th>" +
             "</tr>" +
             "</thead><tbody>"
-
           for transaction in transactions
-            desc += "<tr><td>#{transaction.time}</td>"
-            desc += "<td class='description'>#{transaction.description}</td>"
-            desc += "<td>#{transaction.amount}</td></tr>"
+            desc += "<tr><td>#{transaction.attributes.time}</td>"
+            desc += "<td class='description'>#{transaction.attributes.description}</td>"
+            desc += "<td>#{transaction.attributes.amount}</td></tr>"
 
           desc += "</tbody></table>"
           $('#transaction-overview').html(desc)
 
-        constructor: (categories, series) ->
-          @chart = new Highcharts.Chart(
+        constructor: (categories, series, renderTo) ->
+          new Highcharts.Chart(
             chart:
               height: 800
               renderTo: 'chartContainer'

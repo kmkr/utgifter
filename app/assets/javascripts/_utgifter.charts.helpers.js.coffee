@@ -13,10 +13,10 @@
         "#{date.getFullYear()}/#{@months[date.getMonth()]}"
 
       @descriptionMatchFunction = (transaction, transactionGroup) ->
-        transaction.description.match(new RegExp(transactionGroup.regex, 'i'))
+        transaction.attributes.description.match(new RegExp(transactionGroup.attributes.regex, 'i'))
 
       @positiveAmountAndNoTransactionGroupsMatchFunction = (transaction, transactionGroup) ->
-        transaction.transactionGroups.length is 0 and transaction.amount >= 0
+        transaction.attributes.transactionGroups.length is 0 and transaction.attributes.amount >= 0
 
       @negativeAmountAndNoTransactionGroupsMatchFunction = (transaction, transactionGroup) ->
-        transaction.transactionGroups.length is 0 and transaction.amount < 0
+        transaction.attributes.transactionGroups.length is 0 and transaction.attributes.amount < 0

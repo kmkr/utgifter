@@ -43,6 +43,7 @@ GEM
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)
       warden (~> 1.1)
+    ejs (1.0.0)
     erubis (2.7.0)
     execjs (1.2.9)
       multi_json (~> 1.0)
@@ -116,6 +117,7 @@ PLATFORMS
 DEPENDENCIES
   coffee-rails (~> 3.1.1)
   devise (= 1.5.2)
+  ejs
   jquery-rails
   json
   rails (= 3.1.3)
