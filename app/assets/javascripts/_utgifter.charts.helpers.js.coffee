@@ -6,10 +6,10 @@
       @yearKeyFunction = (date) ->
         date.getFullYear()
 
-      @dayKeyFunction = (date) ->
+      @dayKeyFunction = (date) =>
         "#{date.getFullYear()}/#{@months[date.getMonth()]}/#{date.getDay()}"
 
-      @monthKeyFunction = (date) ->
+      @monthKeyFunction = (date) =>
         "#{date.getFullYear()}/#{@months[date.getMonth()]}"
 
       @descriptionMatchFunction = (transaction, transactionGroup) ->

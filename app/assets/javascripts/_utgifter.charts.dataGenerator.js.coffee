@@ -15,8 +15,7 @@
       # finn kategorier (y-akse) basert på frequency
       categories = getCategories(transactions, keyFunction)
 
-      # always use the same transactionGroups
-      transactionGroups = utgifter.collections.transactionGroupCollection
+      transactionGroups = getTransactionGroups(frequency)
 
       # finn dataseries basert på frequency
       # series are objects with:
@@ -32,6 +31,11 @@
 
       return { categories: categories, series: series }
 
+
+    getTransactionGroups = (frequency) ->
+      switch frequency
+        when "yearly" then utgifter.collections.transactionGroupCollection
+        when "monthly" then new utgifter.collections.TransactionGroupCollection()
 
     getKeyFunction = (frequency) ->
       switch frequency

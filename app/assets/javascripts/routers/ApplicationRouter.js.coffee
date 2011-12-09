@@ -3,6 +3,7 @@ class window.utgifter.routers.AppRouter extends Backbone.Router
     ""                            : "index",
     "transactions"                : "transactions",
     "overview/year"               : "yearlyOverview",
+    "overview/month"              : "monthlyOverview",
     "transaction_batches/new"     : "newTransactionBatch",
     "transaction_groups"          : "transactionGroups"
   }
@@ -20,6 +21,12 @@ class window.utgifter.routers.AppRouter extends Backbone.Router
 
   yearlyOverview: ->
     view = new window.utgifter.views.YearlyOverviewView({collection: utgifter.collections.transactionCollection})
+    @swap(view)
+    # the graph must be rendered after the DOM is in place
+    view.renderGraph()
+
+  monthlyOverview: ->
+    view = new window.utgifter.views.MonthlyOverviewView({collection: utgifter.collections.transactionCollection})
     @swap(view)
     # the graph must be rendered after the DOM is in place
     view.renderGraph()
