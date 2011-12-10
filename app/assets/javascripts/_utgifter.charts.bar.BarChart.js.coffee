@@ -4,21 +4,8 @@
       class @BarChart
         updateTranses: ->
           transactions = @options.transactionsInSerie
-
-          desc = "<table>" +
-            "<thead>" +
-            "<tr>" +
-            "<th>Dato</th>" +
-            "<th>Beskrivelse</th>" +
-            "<th>Beløp</th>" +
-            "</tr>" +
-            "</thead><tbody>"
-          for transaction in transactions
-            desc += "<tr><td>#{transaction.attributes.time}</td>"
-            desc += "<td class='description'>#{transaction.attributes.description}</td>"
-            desc += "<td>#{transaction.attributes.amount}</td></tr>"
-
-          desc += "</tbody></table>"
+          console.log(transactions)
+          desc = JST['charts/transactionsTable']({ transactions: transactions})
           $('#transaction-overview').html(desc)
 
         constructor: (categories, series, renderTo) ->

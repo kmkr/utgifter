@@ -50,7 +50,7 @@
         transactionsForGroup = getTransactionsForGroup(transactionGroup, transactions, matchfunction)
         sumArray = getTransactionSum(transactionsForGroup, keyFunction)
         mySeries.push({
-          name: transactionGroup.attributes.title
+          name: transactionGroup.get("title")
           data: sumArray
           transactionsInSerie: transactionsForGroup
         })
@@ -59,13 +59,13 @@
 
     resetTransactionGroups = (transactions) ->
       for transaction in transactions
-        transaction.attributes.transactionGroups = []
+        transaction.set({transactionGroups: []})
     
     getCategories = (transactions, keyFunction) ->
       myCategories = []
       for transaction in transactions
         # calculate the key
-        key = keyFunction(new Date(transaction.attributes.time))
+        key = keyFunction(new Date(transaction.get("time")))
         myCategories.push key if key not in myCategories
       
       myCategories
@@ -75,9 +75,9 @@
       sums = { }
     
       for transaction in transactions
-        key = keyFunction(new Date(transaction.attributes.time))
+        key = keyFunction(new Date(transaction.get("time")))
         sums[key] = 0 unless sums[key]
-        sums[key] += parseInt(transaction.attributes.amount, 10)
+        sums[key] += parseInt(transaction.get("amount"), 10)
     
       sumArray = []
       sumArray.push(value) for own key, value of sums
@@ -87,7 +87,7 @@
       transactionsForGroup = []
       for transaction in transactions
         if matchfunction(transaction, transactionGroup)
-          transaction.attributes.transactionGroups.push(transactionGroup)
+          transaction.get("transactionGroups").push(transactionGroup)
           transactionsForGroup.push(transaction)
     
       transactionsForGroup
