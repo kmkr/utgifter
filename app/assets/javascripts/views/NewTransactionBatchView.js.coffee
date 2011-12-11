@@ -8,7 +8,7 @@ class window.utgifter.views.NewTransactionBatchView extends Backbone.View
   writeTransactions: (evt, response) ->
     for item in response
       transaction = new utgifter.models.Transaction(item)
-      view = new utgifter.views.TransactionBatchEntryView({model: transaction})
+      view = new utgifter.views.TransactionBatchEntryView({collection: @collection, model: transaction})
       $(@el).find(".transactions").append(view.render().el)
 
   submitAll: (evt) ->

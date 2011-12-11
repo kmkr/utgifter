@@ -59,7 +59,7 @@
 
     resetTransactionGroups = (transactions) ->
       for transaction in transactions
-        transaction.set({transactionGroups: []})
+        transaction.set({transactionGroups: []}, {silent: true})
     
     getCategories = (transactions, keyFunction) ->
       myCategories = []

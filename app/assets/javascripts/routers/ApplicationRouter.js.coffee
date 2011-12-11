@@ -32,7 +32,7 @@ class window.utgifter.routers.AppRouter extends Backbone.Router
     view.renderGraph()
 
   newTransactionBatch: ->
-    @swap(new window.utgifter.views.NewTransactionBatchView())
+    @swap(new window.utgifter.views.NewTransactionBatchView({collection: utgifter.collections.transactionCollection}))
 
   transactionGroups: ->
     @swap(new window.utgifter.views.TransactionGroupsView({collection: utgifter.collections.transactionGroupCollection}))

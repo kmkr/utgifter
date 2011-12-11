@@ -12,7 +12,7 @@ class TransactionsController < ApplicationController
 
     if transaction
       transaction.update_attributes(params[:transaction])
-      head :ok
+      respond_with transaction
     else
       head :forbidden
     end
@@ -36,7 +36,7 @@ class TransactionsController < ApplicationController
 
     if transaction
       transaction.destroy
-      head :ok
+      respond_with transaction
     else
       head :forbidden
     end

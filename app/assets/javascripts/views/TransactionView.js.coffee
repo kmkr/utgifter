@@ -23,9 +23,9 @@ class window.utgifter.views.TransactionView extends Backbone.View
     evt.preventDefault()
 
   deleteTransaction: (evt) =>
-    form = $(@el).closest('form')
+    evt.preventDefault()
+    form = $(@el).find('form')
     @model.destroy({ success: ->
       form.hide('slow', -> $(@).remove())
     })
-    evt.preventDefault()
     
