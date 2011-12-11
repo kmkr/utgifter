@@ -5,7 +5,7 @@ class window.utgifter.views.TransactionsView extends Backbone.View
     $(@el).html(@template)
     transactionsContainer = $(@el).find(".transactions")
     @collection.each((transaction) ->
-      transactionView = new utgifter.views.TransactionView({model: transaction})
+      transactionView = new utgifter.views.TransactionView({model: transaction, collection: @collection})
       transactionsContainer.append(transactionView.render().el)
     )
     @

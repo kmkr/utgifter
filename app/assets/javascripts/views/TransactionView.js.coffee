@@ -1,22 +1,31 @@
 class window.utgifter.views.TransactionView extends Backbone.View
   template: JST['transactions/show']
 
+  initialize: ->
+    @model.bind("change", @highlightForm)
+
   events: ->
-    "ajax:success form":                            "highlightForm"
-    "ajax:success form a.delete-transaction":       "removeFromList"
+    "click input[type=submit]"                : "updateTransaction"
+    "click form a.delete-transaction"         : "deleteTransaction"
 
   render: ->
     $(@el).html(@template(@model.attributes))
     @
 
-  highlightForm: (evt) ->
-    console.log("TODO: oppdater collection!")
-    console.log("TODO: alle som bruker transactions må oppdateres!")
-    form = $(evt.target)
-    $(form).effect('highlight')
+  highlightForm: =>
+    $(@el).effect('highlight')
 
-  removeFromList: (evt) ->
-    console.log("TODO: oppdater collection!")
-    console.log("TODO: alle som bruker transactions må oppdateres!")
-    form = $(evt.target).closest('form')
-    form.hide('slow', -> $(@).remove())
+  updateTransaction: (evt) =>
+    time = $(@el).find("input[name=time]").val()
+    amount = $(@el).find("input[name=amount]").val()
+    description = $(@el).find("input[name=description]").val()
+    @model.save({time: time, amount: amount, description: description})
+    evt.preventDefault()
+
+  deleteTransaction: (evt) =>
+    form = $(@el).closest('form')
+    @model.destroy({ success: ->
+      form.hide('slow', -> $(@).remove())
+    })
+    evt.preventDefault()
+    
