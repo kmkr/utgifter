@@ -13,7 +13,7 @@ class window.utgifter.views.TransactionGroupView extends Backbone.View
     @
 
   updateEntry: (evt) =>
-    form = $(evt.target).closest("form")
+    form = $(@el).closest("form")
     title = form.find("input[name=title]").val()
     regex = form.find("input[name=regex]").val()
     @model.save({ title: title, regex: regex }, { success: ->
@@ -27,6 +27,5 @@ class window.utgifter.views.TransactionGroupView extends Backbone.View
     @model.destroy()
     evt.preventDefault()
 
-  removeFromList: (model) ->
-    form = $("#transaction_group_#{model.id}")
-    form.hide('slow', -> $(@).remove())
+  removeFromList: (model) =>
+    $(@el).hide('slow', -> $(@).remove())

@@ -3,7 +3,6 @@ class window.utgifter.views.TransactionGroupsView extends Backbone.View
 
   initialize: ->
     @collection.bind('add', @render)
-    @collection.bind('change', @render)
 
   renderNew: ->
     dom = $(@el).find(".add-transaction-group")

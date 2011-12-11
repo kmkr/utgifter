@@ -1,7 +1,8 @@
 class window.utgifter.views.YearlyOverviewView extends Backbone.View
   template: JST['overview/yearly']
+
   render: ->
-    $(@el).append(@template)
+    $(@el).html(@template)
     @
 
   renderGraph: ->
