@@ -4,7 +4,6 @@
       class @BarChart
         updateTranses: ->
           transactions = @options.transactionsInSerie
-          console.log(transactions)
           desc = JST['charts/transactionsTable']({ transactions: transactions})
           $('#transaction-overview').html(desc)
 
