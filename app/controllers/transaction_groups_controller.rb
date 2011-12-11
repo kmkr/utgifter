@@ -35,7 +35,7 @@ class TransactionGroupsController < ApplicationController
 
     if transaction_group
       transaction_group.destroy
-      head :ok
+      respond_with transaction_group
     else
       head :forbidden
     end

@@ -4,7 +4,6 @@ class window.utgifter.views.TransactionGroupsView extends Backbone.View
   initialize: ->
     @collection.bind('add', @render)
     @collection.bind('change', @render)
-    @collection.bind('remove', @render)
 
   renderNew: ->
     dom = $(@el).find(".add-transaction-group")
@@ -13,7 +12,7 @@ class window.utgifter.views.TransactionGroupsView extends Backbone.View
   renderExisting: ->
     dom = $(@el).find(".transaction-groups")
     @collection.each((transactionGroup) ->
-      transactionGroupView = new utgifter.views.TransactionGroupView({model: transactionGroup, collection: @collection})
+      transactionGroupView = new utgifter.views.TransactionGroupView({ model: transactionGroup, collection: @collection})
       dom.append(transactionGroupView.render().el)
     )
 

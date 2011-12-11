@@ -1,17 +1,13 @@
-<form accept-charset="UTF-8" action="/transaction_groups/<%= id %>" data-remote="true" method="post">
-  <div style="margin:0;padding:0;display:inline">
-    <input name="utf8" type="hidden" value="✓">
-    <input name="_method" type="hidden" value="put">
-  </div>
+<form id="transaction_group_<%= id %>">
 
   Tittel
-  <input required="required" name="transaction_group[title]" size="30" type="text" value="<%= title %>" />
+  <input required="required" name="title" size="30" type="text" value="<%= title %>" />
 
   <br />
 
   Søkeord (regex)
-  <input required="required" name="transaction_group[regex]" size="30" type="text" value="<%= regex %>" />
+  <input required="required" name="regex" size="30" type="text" value="<%= regex %>" />
 
-  <a href="/transaction_groups/<%= id %>" class="delete-transaction-group" data-method="delete" data-remote="true" rel="nofollow">Slett</a>
-  <input name="commit" type="submit" value="Oppdater">
+  <a href="#" class="delete-transaction-group" rel="nofollow">Slett</a>
+  <input type="submit" value="Oppdater">
 </form>

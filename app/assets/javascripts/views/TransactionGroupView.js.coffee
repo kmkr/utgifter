@@ -1,22 +1,32 @@
 class window.utgifter.views.TransactionGroupView extends Backbone.View
   template: JST['transaction_groups/show']
 
+  initialize: ->
+    @model.bind('destroy', @removeFromList)
+
   events: ->
-    "ajax:success form":                            "highlightForm"
-    "ajax:success form a.delete-transaction-group": "removeFromList"
+    "click input[type=submit]"          : "updateEntry"
+    "click a.delete-transaction-group"  : "deleteEntry"
 
   render: ->
     $(@el).html(@template(@model.attributes))
     @
 
-  highlightForm: (evt) ->
-    console.log("TODO: oppdater collection!")
-    console.log("TODO: alle som bruker transactionsgroup må oppdateres!")
-    form = $(evt.target)
-    $(form).effect('highlight')
+  updateEntry: (evt) =>
+    form = $(evt.target).closest("form")
+    title = form.find("input[name=title]").val()
+    regex = form.find("input[name=regex]").val()
+    @model.save({ title: title, regex: regex }, { success: ->
+      console.log("TODO: alle som bruker transactionsgroup må oppdateres!")
+      form = $(evt.target)
+      $(form).effect('highlight')
+    })
+    evt.preventDefault()
 
-  removeFromList: (evt) ->
-    console.log("TODO: oppdater collection!")
-    console.log("TODO: alle som bruker transactionsgroup må oppdateres!")
-    form = $(evt.target).closest('form')
+  deleteEntry: (evt) =>
+    @model.destroy()
+    evt.preventDefault()
+
+  removeFromList: (model) ->
+    form = $("#transaction_group_#{model.id}")
     form.hide('slow', -> $(@).remove())
