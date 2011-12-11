@@ -9,6 +9,7 @@
 //= require 'module_helper'
 //= require 'underscore'
 //= require 'backbone'
+//= require 'backbone-forms'
 //= require 'highcharts'
 //= require_tree '../templates'
 //= require_tree './models'

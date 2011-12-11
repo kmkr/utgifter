@@ -13,7 +13,7 @@ class TransactionGroupsController < ApplicationController
     transaction_group.user = current_user
 
     if transaction_group.save
-      head :ok
+      respond_with transaction_group
     else
       head :bad_request
     end
@@ -24,7 +24,7 @@ class TransactionGroupsController < ApplicationController
 
     if transaction_group
       transaction_group.update_attributes(params[:transaction_group])
-      head :ok
+      respond_with transaction_group
     else
       head :forbidden
     end

@@ -1,17 +1,21 @@
 class window.utgifter.views.NewTransactionGroupView extends Backbone.View
-  template: JST['transaction_groups/new']
+  collection: utgifter.collections.transactionGroupCollection
 
   events: ->
-    "ajax:success form"         : 'addModelToCollection'
+    "keypress input"              : 'saveOnEnter'
 
   render: ->
-    model = new utgifter.models.Transaction()
-    $(@el).html(@template)
+    model = new utgifter.models.TransactionGroup()
+    form = new Backbone.Form({ model: model }).render().el
+    $(@el).html(form)
     @
 
-  addModelToCollection: (evt) ->
-    console.log("TODO: oppdater collection!")
-    console.log("TODO: alle som bruker transactionsgroup må oppdateres!")
-    form = $(evt.target)
-    form.effect('highlight')
-    form[0].reset()
+  saveOnEnter: (evt) =>
+    if evt.keyCode == 13
+      fieldset = $(evt.target).closest("fieldset")
+      fieldset.effect('highlight')
+      @collection.create({
+        title: fieldset.find('#title').val()
+        regex: fieldset.find('#regex').val()
+      })
+      console.log("TODO: alle som bruker transactionsgroup må oppdateres!")

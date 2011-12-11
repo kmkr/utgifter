@@ -1,17 +1,24 @@
 class window.utgifter.views.TransactionGroupsView extends Backbone.View
   template: JST['transaction_groups/index']
 
-  renderNew: (dom) ->
-    dom.html(new utgifter.views.NewTransactionGroupView().render().el)
+  initialize: ->
+    @collection.bind('add', @render)
+    @collection.bind('change', @render)
+    @collection.bind('remove', @render)
 
-  renderExisting: (dom) ->
+  renderNew: ->
+    dom = $(@el).find(".add-transaction-group")
+    dom.html(new utgifter.views.NewTransactionGroupView({collection: @collection}).render().el)
+
+  renderExisting: ->
+    dom = $(@el).find(".transaction-groups")
     @collection.each((transactionGroup) ->
-      transactionGroupView = new utgifter.views.TransactionGroupView({model: transactionGroup})
+      transactionGroupView = new utgifter.views.TransactionGroupView({model: transactionGroup, collection: @collection})
       dom.append(transactionGroupView.render().el)
     )
 
-  render: ->
+  render: =>
     $(@el).html(@template)
-    @renderNew($(@el).find(".add-transaction-group"))
-    @renderExisting($(@el).find(".transaction-groups"))
+    @renderNew()
+    @renderExisting()
     @
