@@ -6,7 +6,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require 'module_helper'
+//= require 'bootstrap'
 //= require 'underscore'
 //= require 'backbone'
 //= require 'backbone-forms'
