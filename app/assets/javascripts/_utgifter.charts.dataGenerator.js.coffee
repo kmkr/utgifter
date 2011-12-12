@@ -1,13 +1,16 @@
 @module "utgifter", ->
   @module "charts", ->
     # Supply the array of transaction models
-    # Supply the requested frequency for the result, one of:
-    # yearly,
-    # monthly, or
-    # daily
-    @dataGenerator = (transactions, frequency) ->
+    # Override options (optional)
+    @dataGenerator = (transactions, options) ->
+
+      settings = $.extend( {
+        frequency: 'yearly'
+        noNegativeValues: false
+      }, options)
+
       # The keyFunction will be used for the y axis keys
-      keyFunction = getKeyFunction(frequency)
+      keyFunction = getKeyFunction(settings.frequency)
 
       # legg til/skriv over transactionGroups på hver transaksjon
       resetTransactionGroups(transactions)
@@ -15,7 +18,7 @@
       # finn kategorier (y-akse) basert på frequency
       categories = getCategories(transactions, keyFunction)
 
-      transactionGroups = getTransactionGroups(frequency)
+      transactionGroups = getTransactionGroups(settings.frequency)
 
       # finn dataseries basert på frequency
       # series are objects with:
@@ -30,7 +33,16 @@
       series.push(otherIncomeSeries[0])
       series.push(otherExpenseSeries[0])
 
+      if (settings.noNegativeValues)
+        positivify(series)
+
       return { categories: categories, series: series }
+
+    positivify = (series) ->
+      for serie in series
+        $.each(serie.data, (i, data) ->
+          serie.data[i] = data * -1 if data < 0
+        )
 
 
     getTransactionGroups = (frequency) ->
