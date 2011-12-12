@@ -30,6 +30,16 @@
   }
 }
 
+@mixin cell-background($padding) {
+  padding: $padding;
+  text-align:center;
+  background-color: $spoiledwater;
+  border: 1px solid darken($spoiledwater, 10%);
+  -moz-border-radius:2px;
+  -webkit-border-radius:2px;
+  border-radius:2px;
+}
+
 #transaction-overview {
   position: relative;
 
@@ -54,13 +64,7 @@
 
     tbody {
       td {
-        padding: 2px;
-        text-align:center;
-        background-color: $spoiledwater;
-        border: 1px solid darken($spoiledwater, 10%);
-        -moz-border-radius:2px;
-        -webkit-border-radius:2px;
-        border-radius:2px;
+        @include cell-background(2px);
       }
       td.description {
         text-align: left;
@@ -68,3 +72,12 @@
     }
   }
 } 
+
+.controls {
+  text-align: center;
+  margin: 15px 0;
+  a {
+    @include cell-background(10px);
+    font-size: 22px;
+    }
+}

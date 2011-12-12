@@ -9,6 +9,17 @@ body {
   font-family: 'Fresca', 'Ubuntu', sans-serif;
 }
 
+a {
+  color: lighten(#000, 20%);
+  text-decoration: none; 
+  font: bold 14px;
+  text-shadow: #eee 0px 0px 2px;
+}
+
+a:hover {
+  color: #000;
+}
+
 h1 {
   font-size: 35px;
   padding: 10px;
@@ -46,10 +57,6 @@ nav {
       a {
         padding: 20px 10px;
         background: $martinique;
-        text-decoration: none; 
-        font: bold 14px;
-        color: #402e16;
-        text-shadow: #eee 0px 0px 2px;
       }
       a.logout {
         background-color: $outofsight;
