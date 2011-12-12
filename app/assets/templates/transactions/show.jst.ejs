@@ -1,7 +1,4 @@
-<form class="transaction">
-  <input class="transaction-time" name="time" size="12" type="text" value="<%= time %>" />
-  <input class="transaction-amount" name="amount" size="12" type="text" value="<%= amount %>" />
-  <input class="transaction-amount" name="description" size="75" type="text" value="<%= description %>" />
-  <a href="#" class="delete-transaction">Slett</a>
-  <input type="submit" value="Oppdater transaksjon" rel="nofollow" />
-</form>
+<td data-name="time" class="center time"><%= obj.prettyTime() %></td>
+<td data-name="amount" class="center amount"><%= attributes.amount %></td>
+<td data-name="description"><%= attributes.description %></td>
+<td class="center delete"><a href="#" class="delete-transaction">Slett</a></td>

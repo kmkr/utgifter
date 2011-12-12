@@ -6,7 +6,7 @@ body {
   margin: 0 auto;
   background-color: lighten($martinique, 20%);
   color: lighten(#000, 20%);
-  font-family: 'Fresca', 'Ubuntu', sans-serif;
+  font-family: 'Fresca', sans-serif;
 }
 
 a {
@@ -33,6 +33,15 @@ h1 {
 h2 {
   font-size: 30px;
   padding: 10px;
+}
+
+table {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 14px;
+}
+
+table th {
+  font-weight: bold;
 }
 
 div#main-content {

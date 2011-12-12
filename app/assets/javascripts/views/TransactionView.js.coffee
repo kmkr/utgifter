@@ -1,31 +1,39 @@
 class window.utgifter.views.TransactionView extends Backbone.View
   template: JST['transactions/show']
+  tagName: 'tr'
 
   initialize: ->
     @model.bind("change", @highlightForm)
 
   events: ->
-    "click input[type=submit]"                : "updateTransaction"
     "click form a.delete-transaction"         : "deleteTransaction"
 
   render: ->
-    $(@el).html(@template(@model.attributes))
+    $(@el).html(@template(@model))
+    @makeEditable()
     @
 
   highlightForm: =>
     $(@el).effect('highlight')
 
-  updateTransaction: (evt) =>
-    time = $(@el).find("input[name=time]").val()
-    amount = $(@el).find("input[name=amount]").val()
-    description = $(@el).find("input[name=description]").val()
-    @model.save({time: time, amount: amount, description: description})
-    evt.preventDefault()
-
   deleteTransaction: (evt) =>
     evt.preventDefault()
-    form = $(@el).find('form')
+    row = $(@el)
     @model.destroy({ success: ->
-      form.hide('slow', -> $(@).remove())
+      row.hide('slow', -> $(@).remove())
     })
-    
+
+  makeEditable: ->
+    model = @model
+    $(@el).find('td').editable( (value, settings) ->
+      type = $(this).attr('data-name')
+      obj = {}
+      obj[type] = value
+      model.save(obj)
+      value
+
+    {
+      indicator: 'Lagrer...'
+      tooltip: 'Klikk for å editere'
+    }
+    )
