@@ -13,7 +13,9 @@ class utgifter.views.MonthlyOverviewView extends Backbone.View
   renderGraph: (transactions = @collection.byYear(@year)) ->
     renderChartTo = document.getElementById("chartContainer")
     result = utgifter.charts.dataGenerator(transactions, { frequency: "monthly", noNegativeValues: true })
-    new utgifter.charts.column.ColumnChart(result.categories, result.series, renderChartTo)
+    @chart = new utgifter.charts.column.ColumnChart(result.categories, result.series, renderChartTo)
 
   path: (year) ->
     "#overview/#{year}/monthly"
+  leave: ->
+    @chart.destroy()

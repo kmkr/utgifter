@@ -38,5 +38,15 @@ class window.utgifter.routers.AppRouter extends Backbone.Router
     @swap(new window.utgifter.views.TransactionGroupsView({collection: utgifter.collections.transactionGroupCollection}))
 
 Backbone.View::destroy = ->
-  @unbind()
+  # Perform internal view cleanup
+  @leave() if @leave
+
+  # Unbind all callbacks on @collection
+  @collection.unbind() if @collection
+  
+  # Unbind all callbacks on @model
+  @model.unbind() if @model
+
+  # Remove the view from the DOM.
+  # This will also remove events bound to the view's private DOM-element (@el)
   @remove()

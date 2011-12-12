@@ -13,7 +13,10 @@ class utgifter.views.YearlyOverviewView extends Backbone.View
   renderGraph: (transactions = @collection.byYear(@year)) ->
     renderChartTo = $(@el).find("#chartContainer")
     result = utgifter.charts.dataGenerator(transactions)
-    new utgifter.charts.bar.BarChart(result.categories, result.series, renderChartTo)
+    @chart = new utgifter.charts.bar.BarChart(result.categories, result.series, renderChartTo)
 
   path: (year) ->
     "#overview/#{year}/yearly"
+
+  leave: ->
+    @chart.destroy()

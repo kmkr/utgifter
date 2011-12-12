@@ -8,7 +8,7 @@
           $('#transaction-overview').html(desc)
 
         constructor: (categories, series, renderTo) ->
-          new Highcharts.Chart(
+          @chart = new Highcharts.Chart(
             chart:
               height: 800
               renderTo: 'chartContainer'
@@ -47,12 +47,5 @@
             series: series
           )
 
-        update: (categories, series) ->
-          @chart.xAxis[0].setCategories(categories, false)
-
-          $.each(series, (i) =>
-            @chart.series[i].setData(series[i].data, false)
-          )
-
-          @chart.redraw()
-
+        destroy: ->
+          @chart.destroy()

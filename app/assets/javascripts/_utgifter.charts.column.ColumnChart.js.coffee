@@ -3,7 +3,7 @@
     @module "column", ->
       class @ColumnChart
         constructor: (categories, series, renderTo) ->
-          chart = new Highcharts.Chart(
+          @chart = new Highcharts.Chart(
             chart:
               renderTo: renderTo
               defaultSeriesType: 'column'
@@ -35,3 +35,6 @@
                 borderWidth: 0
             series: series
           )
+
+        destroy: ->
+          @chart.destroy()
