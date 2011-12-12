@@ -10,9 +10,10 @@ body {
 }
 
 a {
-  color: lighten(#000, 20%);
+  color: darken($twitter, 50%);
   text-decoration: none; 
-  font: bold 14px;
+  font-weight: bold;
+  font: 14px;
   text-shadow: #eee 0px 0px 2px;
 }
 
