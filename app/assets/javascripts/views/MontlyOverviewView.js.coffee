@@ -1,11 +1,19 @@
-class window.utgifter.views.MonthlyOverviewView extends Backbone.View
+class utgifter.views.MonthlyOverviewView extends Backbone.View
+  
+  initialize: (options) ->
+    _.extend(@, new utgifter.mixins.YearFilterButtons())
+    @year = options.year
+
   template: JST['overview/monthly']
   render: ->
     $(@el).append(@template)
+    @renderYearFilterButtons(@collection)
     @
 
-  renderGraph: ->
+  renderGraph: (transactions = @collection.byYear(@year)) ->
     renderChartTo = document.getElementById("chartContainer")
-    result = utgifter.charts.dataGenerator(@collection.models, "monthly")
+    result = utgifter.charts.dataGenerator(transactions, "monthly")
     new utgifter.charts.column.ColumnChart(result.categories, result.series, renderChartTo)
 
+  path: (year) ->
+    "#overview/#{year}/monthly"

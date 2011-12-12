@@ -19,6 +19,7 @@ window.module = (name, fn)->
   @module "collections", ->
   @module "models", ->
   @module "routers", ->
+  @module "mixins", ->
 
 $(->
   utgifter.init()

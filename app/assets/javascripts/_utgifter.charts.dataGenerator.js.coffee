@@ -22,9 +22,10 @@
       # 1) a name (transaction group name)
       # 2) arrays with values linking to each of the categories
       series = getSeries(transactions, transactionGroups.models, keyFunction, utgifter.charts.helpers.descriptionMatchFunction)
+
       # The transactions that are not linked to a transaction group. The array returned has length the same as transactionGroups
-      otherIncomeSeries = getSeries(transactions, [ new utgifter.models.Transaction({ title: "Andre inntekter" })], keyFunction, utgifter.charts.helpers.positiveAmountAndNoTransactionGroupsMatchFunction)
-      otherExpenseSeries = getSeries(transactions, [ new utgifter.models.Transaction({ title: "Andre utgifter" })], keyFunction, utgifter.charts.helpers.negativeAmountAndNoTransactionGroupsMatchFunction)
+      otherIncomeSeries = getSeries(transactions, [ new utgifter.models.TransactionGroup({ title: "Andre inntekter" })], keyFunction, utgifter.charts.helpers.positiveAmountAndNoTransactionGroupsMatchFunction)
+      otherExpenseSeries = getSeries(transactions, [ new utgifter.models.TransactionGroup({ title: "Andre utgifter" })], keyFunction, utgifter.charts.helpers.negativeAmountAndNoTransactionGroupsMatchFunction)
 
       series.push(otherIncomeSeries[0])
       series.push(otherExpenseSeries[0])
