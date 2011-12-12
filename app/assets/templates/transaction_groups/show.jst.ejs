@@ -1,13 +1,9 @@
 <form>
+  <label for="title_<%= id %>">Tittel</label>
+  <input id="title_<%= id %>" required="required" name="title" size="30" type="text" value="<%= title %>" />
 
-  Tittel
-  <input required="required" name="title" size="30" type="text" value="<%= title %>" />
-
-  <br />
-
-  Søkeord (regex)
-  <input required="required" name="regex" size="30" type="text" value="<%= regex %>" />
+  <label for="regex_<%= id %>">Søkeord (regex)</label>
+  <input id="regex_<%= id %>" required="required" name="regex" size="30" type="text" value="<%= regex %>" />
 
   <a href="#" class="delete-transaction-group" rel="nofollow">Slett</a>
-  <input type="submit" value="Oppdater">
 </form>
