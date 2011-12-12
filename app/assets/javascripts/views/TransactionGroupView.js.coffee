@@ -1,4 +1,4 @@
-class window.utgifter.views.TransactionGroupView extends Backbone.View
+class utgifter.views.TransactionGroupView extends Backbone.View
   template: JST['transaction_groups/show']
 
   initialize: ->

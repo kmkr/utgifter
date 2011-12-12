@@ -4,8 +4,11 @@
       class @BarChart
         updateTranses: ->
           transactions = @options.transactionsInSerie
-          desc = JST['charts/transactionsTable']({ transactions: transactions})
-          $('#transaction-overview').html(desc)
+          $('#transaction-overview').html(JST['transactions/table']())
+          tbody = $('tbody', $('#transaction-overview'))
+          $.each(transactions, (i, transaction) =>
+            tbody.append(new utgifter.views.TransactionView({model: transaction}).render().el)
+          )
 
         constructor: (categories, series, renderTo) ->
           @chart = new Highcharts.Chart(

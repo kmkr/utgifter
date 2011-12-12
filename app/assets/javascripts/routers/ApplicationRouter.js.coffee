@@ -1,4 +1,4 @@
-class window.utgifter.routers.AppRouter extends Backbone.Router
+class utgifter.routers.AppRouter extends Backbone.Router
   routes: {
     ""                            : "index",
     "transactions"                : "transactions",

@@ -1,4 +1,4 @@
-class window.utgifter.views.TransactionView extends Backbone.View
+class utgifter.views.TransactionView extends Backbone.View
   template: JST['transactions/show']
   tagName: 'tr'
 
@@ -6,7 +6,7 @@ class window.utgifter.views.TransactionView extends Backbone.View
     @model.bind("change", @highlightForm)
 
   events: ->
-    "click form a.delete-transaction"         : "deleteTransaction"
+    "click a.delete-transaction"         : "deleteTransaction"
 
   render: ->
     $(@el).html(@template(@model))
@@ -17,6 +17,7 @@ class window.utgifter.views.TransactionView extends Backbone.View
     $(@el).effect('highlight')
 
   deleteTransaction: (evt) =>
+    console.log("TODO: graf må lytte på collection change og render graph på nytt!")
     evt.preventDefault()
     row = $(@el)
     @model.destroy({ success: ->
@@ -25,7 +26,7 @@ class window.utgifter.views.TransactionView extends Backbone.View
 
   makeEditable: ->
     model = @model
-    $(@el).find('td').editable( (value, settings) ->
+    $(@el).find('td[data-editable=true]').editable( (value, settings) ->
       type = $(this).attr('data-name')
       obj = {}
       obj[type] = value

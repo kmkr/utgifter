@@ -1,4 +1,4 @@
-class window.utgifter.views.NewTransactionGroupView extends Backbone.View
+class utgifter.views.NewTransactionGroupView extends Backbone.View
   collection: utgifter.collections.transactionGroupCollection
 
   events: ->

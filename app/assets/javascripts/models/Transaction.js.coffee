@@ -1,4 +1,4 @@
-class window.utgifter.models.Transaction extends Backbone.Model
+class utgifter.models.Transaction extends Backbone.Model
   prettyTime: ->
     time = new Date(@get('time'))
     year = time.getFullYear()
