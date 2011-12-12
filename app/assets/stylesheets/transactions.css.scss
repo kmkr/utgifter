@@ -80,4 +80,9 @@
     @include cell-background(10px);
     font-size: 22px;
     }
+
+  a:hover, a.active {
+    background-color: darken($spoiledwater, 10%)
+  }
+
 }

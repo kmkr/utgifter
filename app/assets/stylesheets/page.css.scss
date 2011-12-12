@@ -20,6 +20,10 @@ a:hover {
   color: #000;
 }
 
+a.active {
+  background-color: $outofsight;
+}
+
 h1 {
   font-size: 35px;
   padding: 10px;

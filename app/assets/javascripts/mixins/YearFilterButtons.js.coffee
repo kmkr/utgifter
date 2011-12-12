@@ -4,6 +4,7 @@ class utgifter.mixins.YearFilterButtons
     years = @collection.getYears()
     for year in years
       id = "overview_#{year}"
-      button = "<a href='#{@path(year)}' id='#{id}'>#{year}</a>"
       controls = $(@el).find(".controls")
+      button = $("<a href='#{@path(year)}' id='#{id}'>#{year}</a>")
+      button.addClass("active") if year == @year
       controls.append(button)
