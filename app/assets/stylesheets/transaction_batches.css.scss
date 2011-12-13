@@ -6,7 +6,16 @@
   width: 99%;
 }
 
+p.expand, .controls p {
+  text-decoration: underline;
+}
+
+p.expand:hover, .controls p:hover {
+  text-decoration: none;
+}
+
 div.last-transactions-wrapper {
+  margin-bottom: 8px;
   div.content {
     display: none;
   }
