@@ -5,5 +5,8 @@
   <label for="regex_<%= id %>">Søkeord (regex)</label>
   <input id="regex_<%= id %>" required="required" name="regex" size="30" type="text" value="<%= regex %>" />
 
+  <label for="use_as_skiplist_<%= id %>">Skal denne brukes som skiplist?</label>
+<input id="use_as_skiplist_<%= id %>" name="use_as_skiplist" type="checkbox" <% if (use_as_skiplist) { %><%= 'checked="true"' %><% } %> />
+
   <a href="#" class="delete-transaction-group" rel="nofollow">Slett</a>
 </form>

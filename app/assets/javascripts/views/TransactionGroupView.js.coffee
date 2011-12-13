@@ -17,9 +17,10 @@ class utgifter.views.TransactionGroupView extends Backbone.View
       form = $(@el).find("form")
       title = form.find("input[name=title]").val()
       regex = form.find("input[name=regex]").val()
-      @model.save({ title: title, regex: regex }, { success: ->
-        form.effect('highlight')
-      })
+      use_as_skiplist = form.find("input[name=use_as_skiplist]").is(':checked')
+      @model.save({ title: title, regex: regex, use_as_skiplist: use_as_skiplist },
+        { success: -> form.effect('highlight') }
+      )
 
   deleteEntry: (evt) =>
     @model.destroy()

@@ -17,5 +17,6 @@ class utgifter.views.NewTransactionGroupView extends Backbone.View
       @collection.create({
         title: fieldset.find('#title').val()
         regex: fieldset.find('#regex').val()
+        use_as_skiplist: fieldset.find("#use_as_skiplist").is(':checked')
       })
       console.log("TODO: alle som bruker transactionsgroup må oppdateres!")
