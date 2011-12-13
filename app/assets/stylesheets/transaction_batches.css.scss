@@ -2,15 +2,12 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#transactions input[type=submit] {
-  display: none;
-}
-
 #transaction_batch_content {
   width: 99%;
 }
 
-.has-errors {
-  border: darken(red, 10%);
-  background-color: lighten(red, 40%);
+div.last-transactions-wrapper {
+  div.content {
+    display: none;
+  }
 }
