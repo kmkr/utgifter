@@ -17,4 +17,4 @@ class utgifter.collections.TransactionCollection extends Backbone.Collection
     )
 
   byNewestTransaction: (from = 0, to = @collection.length) ->
-    @sortBy((transaction) -> -transaction.get('created_at')).slice(from, to)
+    @sortBy((transaction) -> -new Date(transaction.get('created_at')).getTime()).slice(from, to)
