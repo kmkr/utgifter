@@ -5,17 +5,28 @@ class utgifter.views.MonthlyOverviewView extends Backbone.View
     @year = options.year
 
   template: JST['overview/monthly']
+
   render: ->
     $(@el).append(@template)
     @renderYearFilterButtons(@collection)
     @
 
-  renderGraph: (transactions = @collection.byYear(@year)) ->
+  renderGraph: () ->
+    @chart.destroy() if @chart
     renderChartTo = document.getElementById("chartContainer")
-    result = utgifter.charts.dataGenerator(transactions, { frequency: "monthly", noNegativeValues: true })
+    result = utgifter.charts.dataGenerator({
+      transactionGroups: [],
+      transactions: @collection.byYear(@year),
+      frequency: "monthly",
+      useOnlyPositiveValues: true,
+      text:
+        nonGroupedExpensesText: 'Utgifter'
+        nonGroupedIncomesText: 'Inntekter'
+      })
     @chart = new utgifter.charts.column.ColumnChart(result.categories, result.series, renderChartTo)
 
   path: (year) ->
     "#overview/#{year}/monthly"
+
   leave: ->
     @chart.destroy()

@@ -10,10 +10,10 @@ class utgifter.views.YearlyOverviewView extends Backbone.View
     @renderYearFilterButtons(@collection)
     @
 
-  renderGraph: (transactions = @collection.byYear(@year)) ->
+  renderGraph: ->
     @chart.destroy() if @chart
     renderChartTo = $(@el).find("#chartContainer")
-    result = utgifter.charts.dataGenerator(transactions)
+    result = utgifter.charts.dataGenerator({transactions: @collection.byYear(@year)})
     @chart = new utgifter.charts.bar.BarChart(result.categories, result.series, renderChartTo)
 
   path: (year) ->

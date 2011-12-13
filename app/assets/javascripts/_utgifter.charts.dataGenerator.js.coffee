@@ -1,108 +1,127 @@
 @module "utgifter", ->
   @module "charts", ->
-    # Supply the array of transaction models
-    # Override options (optional)
-    @dataGenerator = (transactions, options) ->
-
+    @dataGenerator = (options) ->
       settings = $.extend( {
         frequency: 'yearly'
-        noNegativeValues: false
+        transactionGroups: utgifter.collections.transactionGroupCollection.models
+        transactions: utgifter.collections.transactionCollection.models
+        matchFunction: utgifter.charts.helpers.descriptionMatchFunction
+        skiplists: utgifter.collections.transactionGroupCollection.onlySkiplists()
+        useOnlyPositiveValues: false
+        text:
+          nonGroupedExpenses: 'Andre utgifter'
+          nonGroupedIncomes: 'Andre inntekter'
       }, options)
 
       # The keyFunction will be used for the y axis keys
       keyFunction = getKeyFunction(settings.frequency)
-
-      # legg til/skriv over transactionGroups på hver transaksjon
-      resetTransactionGroups(transactions)
-
+      
       # finn kategorier (y-akse) basert på frequency
-      categories = getCategories(transactions, keyFunction)
+      categories = getCategories(settings.transactions, keyFunction)
 
-      transactionGroups = getTransactionGroups(settings.frequency)
+      # Legger til transaksjoner i hver gruppe
+      setupRelations(settings.transactions, settings.transactionGroups, settings.matchFunction)
 
-      # finn dataseries basert på frequency
-      # series are objects with:
-      # 1) a name (transaction group name)
-      # 2) arrays with values linking to each of the categories
-      series = getSeries(transactions, transactionGroups.models, keyFunction, utgifter.charts.helpers.descriptionMatchFunction)
-
-      # The transactions that are not linked to a transaction group. The array returned has length the same as transactionGroups
-      otherIncomeSeries = getSeries(transactions, [ new utgifter.models.TransactionGroup({ title: "Andre inntekter" })], keyFunction, utgifter.charts.helpers.positiveAmountAndNoTransactionGroupsMatchFunction)
-      otherExpenseSeries = getSeries(transactions, [ new utgifter.models.TransactionGroup({ title: "Andre utgifter" })], keyFunction, utgifter.charts.helpers.negativeAmountAndNoTransactionGroupsMatchFunction)
-
-      series.push(otherIncomeSeries[0])
-      series.push(otherExpenseSeries[0])
-
-      if (settings.noNegativeValues)
-        positivify(series)
+      series = getSeries(
+        settings.transactionGroups,
+        keyFunction,
+        settings.skiplists,
+        settings.useOnlyPositiveValues
+      )
+      
+      addNonGroupedTransactionsToSeries(settings.transactions, keyFunction, settings.useOnlyPositiveValues, series, settings.skiplists, settings.text.nonGroupedIncomes, settings.text.nonGroupedExpenses)
 
       return { categories: categories, series: series }
 
-    positivify = (series) ->
-      for serie in series
-        $.each(serie.data, (i, data) ->
-          serie.data[i] = data * -1 if data < 0
-        )
 
 
-    getTransactionGroups = (frequency) ->
-      switch frequency
-        when "yearly" then utgifter.collections.transactionGroupCollection
-        when "monthly" then new utgifter.collections.TransactionGroupCollection()
+    setupRelations = (transactions, transactionGroups, matchFunction) ->
+      for transaction in transactions
+        transaction.set({'transactionGroups': []}, {silent: true})
+
+      for transactionGroup in transactionGroups
+        transactionGroup.set({'transactions': []}, {silent: true})
+        for transaction in transactions
+          if matchFunction(transaction, transactionGroup)
+            transactionGroup.get('transactions').push(transaction)
+            transaction.get('transactionGroups').push(transactionGroup)
+
+
+
+
+    addSerie = (title, sums, transactionsInSerie, series) ->
+      series.push({
+        name: title
+        data: sums
+        transactionsInSerie: transactionsInSerie
+      })
+
+
+
+    addNonGroupedTransactionsToSeries = (transactions, keyFunction, useOnlyPositiveValues, series, skiplists, nonGroupedIncomesText, nonGroupedExpensesText) ->
+      otherIncomeTransactions = []
+      otherExpenseTransactions = []
+      for transaction in transactions when transaction.get('transactionGroups').length is 0
+        skip = false
+        for skiplist in skiplists
+          skip = true if utgifter.charts.helpers.descriptionMatchFunction(transaction, skiplist)
+
+        unless skip
+          if transaction.get('amount') > 0
+            otherIncomeTransactions.push(transaction)
+          else
+            otherExpenseTransactions.push(transaction)
+
+      sumOtherIncomes = sumTransactions(otherIncomeTransactions, keyFunction, useOnlyPositiveValues)
+      sumOtherExpenses = sumTransactions(otherExpenseTransactions, keyFunction, useOnlyPositiveValues)
+
+      addSerie(nonGroupedIncomesText, sumOtherIncomes, otherIncomeTransactions, series)
+      addSerie(nonGroupedExpensesText, sumOtherExpenses, otherExpenseTransactions, series)
+
+
+
+    getSeries = (transactionGroups, keyFunction, skiplists, useOnlyPositiveValues) ->
+      series = []
+
+      for transactionGroup in transactionGroups
+        unless transactionGroup in skiplists
+          sums = sumTransactions(transactionGroup.get('transactions'), keyFunction, useOnlyPositiveValues)
+          addSerie(transactionGroup.get('title'), sums, transactionGroup.get('transactions'), series)
+
+      series
+
+
+
+    sumTransactions = (transactions, keyFunction, useOnlyPositiveValues) ->
+      sums = new Object()
+
+      for transaction in transactions
+        key = keyFunction(new Date(transaction.get("time")))
+        sums[key] = 0 unless sums[key]
+
+        val = parseInt(transaction.get("amount"), 10)
+        val = Math.abs(val) if useOnlyPositiveValues
+        sums[key] += val
+    
+      sumArray = []
+      sumArray.push(value) for own key, value of sums
+      sumArray
+    
+
+    
+    getCategories = (transactions, keyFunction) ->
+      categories = []
+      for transaction in transactions
+        # calculate the key
+        key = keyFunction(new Date(transaction.get("time")))
+        categories.push(key) if key not in categories
+      
+      categories
+    
+
 
     getKeyFunction = (frequency) ->
       switch frequency
         when "yearly" then utgifter.charts.helpers.yearKeyFunction
         when "monthly" then utgifter.charts.helpers.monthKeyFunction
         when "daily" then utgifter.charts.helpers.dayKeyFunction
-
-
-    getSeries = (transactions, transactionGroups, keyFunction, matchfunction) ->
-      mySeries = []
-      for transactionGroup in transactionGroups
-        transactionsForGroup = getTransactionsForGroup(transactionGroup, transactions, matchfunction)
-        sumArray = getTransactionSum(transactionsForGroup, keyFunction)
-        mySeries.push({
-          name: transactionGroup.get("title")
-          data: sumArray
-          transactionsInSerie: transactionsForGroup
-        })
-
-      mySeries
-
-    resetTransactionGroups = (transactions) ->
-      for transaction in transactions
-        transaction.set({transactionGroups: []}, {silent: true})
-    
-    getCategories = (transactions, keyFunction) ->
-      myCategories = []
-      for transaction in transactions
-        # calculate the key
-        key = keyFunction(new Date(transaction.get("time")))
-        myCategories.push key if key not in myCategories
-      
-      myCategories
-    
-    
-    getTransactionSum = (transactions, keyFunction) ->
-      sums = { }
-    
-      for transaction in transactions
-        key = keyFunction(new Date(transaction.get("time")))
-        sums[key] = 0 unless sums[key]
-        sums[key] += parseInt(transaction.get("amount"), 10)
-    
-      sumArray = []
-      sumArray.push(value) for own key, value of sums
-      sumArray
-    
-    getTransactionsForGroup = (transactionGroup, transactions, matchfunction) ->
-      transactionsForGroup = []
-      for transaction in transactions
-        if matchfunction(transaction, transactionGroup)
-          transaction.get("transactionGroups").push(transactionGroup)
-          transactionsForGroup.push(transaction)
-    
-      transactionsForGroup
- 
- 

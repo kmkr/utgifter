@@ -2,6 +2,13 @@
   @module "charts", ->
     @module "column", ->
       class @ColumnChart
+        updateTranses: ->
+          transactions = @options.transactionsInSerie
+          $('#transaction-overview').html(JST['transactions/table']())
+          tbody = $('tbody', $('#transaction-overview'))
+          $.each(transactions, (i, transaction) =>
+            tbody.append(new utgifter.views.TransactionView({model: transaction}).render().el)
+          )
         constructor: (categories, series, renderTo) ->
           @chart = new Highcharts.Chart(
             chart:
@@ -31,6 +38,8 @@
                 "#{@x}: #{@y} kr"
             plotOptions:
               column:
+                events:
+                  mouseOver: @updateTranses
                 pointPadding: 0.2
                 borderWidth: 0
             series: series
