@@ -13,6 +13,7 @@ class utgifter.views.TransactionsView extends Backbone.View
     @table = $(@el).find('table').dataTable({
       sPaginationType: 'full_numbers',
       iDisplayLength: 25,
+      aaSorting: [],
       oLanguage:
         oPaginate:
           sFirst: '&laquo;'
