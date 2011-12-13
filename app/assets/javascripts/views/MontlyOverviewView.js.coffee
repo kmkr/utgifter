@@ -1,5 +1,7 @@
 class utgifter.views.MonthlyOverviewView extends Backbone.View
   
+  views: []
+
   initialize: (options) ->
     _.extend(@, new utgifter.mixins.YearFilterButtons())
     @year = options.year
@@ -12,7 +14,6 @@ class utgifter.views.MonthlyOverviewView extends Backbone.View
     @
 
   renderGraph: () ->
-    @chart.destroy() if @chart
     renderChartTo = document.getElementById("chartContainer")
     result = utgifter.charts.dataGenerator({
       transactionGroups: [],
@@ -23,10 +24,8 @@ class utgifter.views.MonthlyOverviewView extends Backbone.View
         nonGroupedExpensesText: 'Utgifter'
         nonGroupedIncomesText: 'Inntekter'
       })
-    @chart = new utgifter.charts.column.ColumnChart(result.categories, result.series, renderChartTo)
+    chart = new utgifter.views.ColumnChart(result.categories, result.series, renderChartTo)
+    @views.push(chart)
 
   path: (year) ->
     "#overview/#{year}/monthly"
-
-  leave: ->
-    @chart.destroy()

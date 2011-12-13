@@ -1,12 +1,15 @@
 class utgifter.views.TransactionsView extends Backbone.View
   template: JST['transactions/index']
 
+  views: []
+
   render: ->
     $(@el).html(@template)
     $(@el).append(JST['transactions/table'])
     transactionsContainer = $(@el).find(".transactions")
-    @collection.each((transaction) ->
+    @collection.each((transaction) =>
       transactionView = new utgifter.views.TransactionView({model: transaction, collection: @collection})
+      @views.push(transactionView)
       transactionsContainer.append(transactionView.render().el)
     )
 

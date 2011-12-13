@@ -14,6 +14,7 @@ class utgifter.views.TransactionView extends Backbone.View
     @
 
   highlightForm: =>
+    console.log("this: %o. el: %o", @, @el)
     $(@el).effect('highlight')
 
   deleteTransaction: (evt) =>
@@ -32,9 +33,12 @@ class utgifter.views.TransactionView extends Backbone.View
       obj[type] = value
       model.save(obj)
       value
-
     {
       indicator: 'Lagrer...'
       tooltip: 'Klikk for å editere'
     }
     )
+
+  leave: ->
+    $(@el).find('td[data-editable=true]').editable('destroy')
+
