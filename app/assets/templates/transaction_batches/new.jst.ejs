@@ -1,12 +1,6 @@
 <h1>TransactionBatches#new</h1>
 
-<div class="last-transactions-wrapper">
-  <p class="expand">Klikk for å se/skjule de nyeste transaksjonene</p>
-  <div class="content">
-    <div class="last-transactions"></div>
-    <div class="controls"><p>Vis et par til</p></div>
-  </div>
-</div>
+<div class="last-transactions-wrapper"></div>
 
 <form accept-charset="UTF-8" action="/transaction_batches" class="new_transaction_batch" data-remote="true" id="new_transaction_batch" method="post">
   <div style="margin:0;padding:0;display:inline">
@@ -23,6 +17,6 @@
   <input name="commit" type="submit" value="Opprett Transaksjonsbatch">
 </form>
 
-<div class="transactions">
+<div class="transactions-to-add">
   <input type="submit" value="Submit all" id="submit-all">
 </div>
