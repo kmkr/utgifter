@@ -1,14 +1,13 @@
 class utgifter.views.BarChart extends Backbone.View
   views: []
 
-  updateTranses: ->
-    transactions = @options.transactionsInSerie
+  updateTranses: (evt) =>
+    transactions = evt.target.options.transactionsInSerie
     $('#transaction-overview').html(JST['transactions/table']())
     tbody = $('tbody', $('#transaction-overview'))
-    console.log("TODO: added %s views that are not cleaned up!", transactions?.length)
     $.each(transactions, (i, transaction) =>
       view = new utgifter.views.TransactionView({model: transaction})
-      #@views.push(view)
+      @views.push(view)
       tbody.append(view.render().el)
     )
 
@@ -55,5 +54,4 @@ class utgifter.views.BarChart extends Backbone.View
   render: ->
 
   leave: ->
-    console.log("This is %o", @chart)
     @chart.destroy()
