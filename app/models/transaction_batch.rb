@@ -8,10 +8,28 @@ class TransactionBatch < ActiveRecord::Base
       transactions << create_transaction(line)
     end
 
+
     transactions
   end
 
   private
+
+  def scan_for_duplicates(time, description, amount)
+    last_transactions = Transaction.first(50)
+    errors = []
+
+    for transaction in last_transactions
+      if transaction.amount == amount
+        if transaction.description == description
+          errors.push("duplicate_transaction_#{transaction.id}")
+        elsif transaction.time == time
+          errors.push("duplicate_transaction_#{transaction.id}")
+        end
+      end
+    end
+
+    errors
+  end
 
   def create_transaction(batch_line)
     time = nil
@@ -38,6 +56,8 @@ class TransactionBatch < ActiveRecord::Base
       logger.error "Unable to parse amount from #{batch_line} using parser #{parser}"
       errors.push("amount")
     end
+
+    errors = errors + scan_for_duplicates(time, description, amount)
 
     Transaction.new({
       :time => time,
