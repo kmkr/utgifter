@@ -5,13 +5,12 @@ class utgifter.views.BarChart extends Backbone.View
     transactions = @options.transactionsInSerie
     $('#transaction-overview').html(JST['transactions/table']())
     tbody = $('tbody', $('#transaction-overview'))
-    ###
+    console.log("TODO: added %s views that are not cleaned up!", transactions?.length)
     $.each(transactions, (i, transaction) =>
       view = new utgifter.views.TransactionView({model: transaction})
-      @views.push(view)
+      #@views.push(view)
       tbody.append(view.render().el)
     )
-    ###
 
   initialize: (categories, series, renderTo) ->
     @chart = new Highcharts.Chart(

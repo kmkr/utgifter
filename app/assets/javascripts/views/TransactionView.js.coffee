@@ -14,7 +14,6 @@ class utgifter.views.TransactionView extends Backbone.View
     @
 
   highlightForm: =>
-    console.log("this: %o. el: %o", @, @el)
     $(@el).effect('highlight')
 
   deleteTransaction: (evt) =>

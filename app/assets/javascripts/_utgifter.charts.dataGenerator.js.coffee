@@ -37,14 +37,14 @@
 
     setupRelations = (transactions, transactionGroups, matchFunction) ->
       for transaction in transactions
-        transaction.set({'transactionGroups': []}, {silent: true})
+        transaction.transactionGroups = []
 
       for transactionGroup in transactionGroups
-        transactionGroup.set({'transactions': []}, {silent: true})
+        transactionGroup.transactions = []
         for transaction in transactions
           if matchFunction(transaction, transactionGroup)
-            transactionGroup.get('transactions').push(transaction)
-            transaction.get('transactionGroups').push(transactionGroup)
+            transactionGroup.transactions.push(transaction)
+            transaction.transactionGroups.push(transactionGroup)
 
 
 
@@ -61,7 +61,7 @@
     addNonGroupedTransactionsToSeries = (transactions, keyFunction, useOnlyPositiveValues, series, skiplists, nonGroupedIncomesText, nonGroupedExpensesText) ->
       otherIncomeTransactions = []
       otherExpenseTransactions = []
-      for transaction in transactions when transaction.get('transactionGroups').length is 0
+      for transaction in transactions when transaction.transactionGroups.length is 0
         skip = false
         for skiplist in skiplists
           skip = true if utgifter.charts.helpers.descriptionMatchFunction(transaction, skiplist)
@@ -85,8 +85,8 @@
 
       for transactionGroup in transactionGroups
         unless transactionGroup in skiplists
-          sums = sumTransactions(transactionGroup.get('transactions'), keyFunction, useOnlyPositiveValues)
-          addSerie(transactionGroup.get('title'), sums, transactionGroup.get('transactions'), series)
+          sums = sumTransactions(transactionGroup.transactions, keyFunction, useOnlyPositiveValues)
+          addSerie(transactionGroup.get('title'), sums, transactionGroup.transactions, series)
 
       series
 
