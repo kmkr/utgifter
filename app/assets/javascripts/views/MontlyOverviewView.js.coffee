@@ -21,8 +21,8 @@ class utgifter.views.MonthlyOverviewView extends Backbone.View
       frequency: "monthly",
       useOnlyPositiveValues: true,
       text:
-        nonGroupedExpensesText: 'Utgifter'
-        nonGroupedIncomesText: 'Inntekter'
+        nonGroupedExpenses: 'Utgifter'
+        nonGroupedIncomes: 'Inntekter'
       })
     chart = new utgifter.views.ColumnChart(result.categories, result.series, renderChartTo)
     @views.push(chart)
