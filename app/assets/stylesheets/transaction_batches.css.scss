@@ -24,3 +24,12 @@ div.last-transactions-wrapper {
 p.errors {
   display: inline-block;
 }
+
+div.transactions-to-add {
+  margin-top: 25px;
+
+  input#submit-all {
+    display: none;
+  }
+
+}

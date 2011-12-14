@@ -36,6 +36,13 @@ h2 {
   padding: 10px;
 }
 
+input {
+   border:1px solid #ccc;
+  -moz-box-shadow:0 0 10px #eee inset;
+  -webkit-box-shadow:0 0 10px #eee inset;
+  padding: 3px;
+}
+
 table {
   font-size: 12px;
   width: 95%;
@@ -114,4 +121,13 @@ nav {
         -webkit-border-top-right-radius:12px;
       }
   }
+}
+.tooltip {
+  @include tooltip-background;
+  display:none;
+}
+
+.error {
+  @include tooltip-background;
+  height:15px;
 }
