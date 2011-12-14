@@ -10,7 +10,8 @@ class utgifter.views.TransactionBatchEntryView extends Backbone.View
   events:
     "click input[type=submit]"            : 'validateAndCreate'
     "keypress input"                      : 'validateForm'
-    "change input"                        : 'validateForm'
+    # todo: change må lyttes på, men den klikker ved add så må gjøre noe lurt
+    #"change input"                        : 'validateForm'
     "click a.delete-transaction-batch"    : 'delete'
 
   delete: (evt) =>

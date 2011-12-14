@@ -24,6 +24,7 @@ class utgifter.helpers.TransactionBatchErrorHighlightHelper
             <li>Opprettet '#{transaction.get('created_at')}'</li>
           </ul>
         """)
+        form.find('p.errors').html("Duplikat, gi mulighet til å oppdatere description")
       else
         element = form.find("input[name='#{error}']")
         element.attr('title', @getTextFromError(error))

@@ -18,8 +18,8 @@ class utgifter.views.NewTransactionBatchView extends Backbone.View
       view = new utgifter.views.TransactionBatchEntryView({collection: @collection, model: transaction, errors: item.errors})
       @views.push(view)
       $(@el).find(".transactions-to-add").append(view.render().el)
-      $(@el).find("#submit-all").show()
       $(@el).find(".transactions-to-add form").last().show('blind')
+    $(@el).find("#submit-all").show()
 
   submitAll: (evt) ->
     $('form.transaction input.submit-transaction').click()
