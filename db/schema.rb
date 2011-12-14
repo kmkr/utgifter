@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111213094004) do
+ActiveRecord::Schema.define(:version => 20111214214906) do
 
   create_table "categories", :force => true do |t|
     t.string   "title"
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(:version => 20111213094004) do
   end
 
   create_table "transaction_batches", :force => true do |t|
-    t.string   "content"
+    t.text     "content",    :limit => 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "parser"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(:version => 20111213094004) do
     t.string   "title"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "regex"
+    t.string   "regex"
     t.integer  "user_id"
     t.boolean  "use_as_skiplist", :default => false
   end

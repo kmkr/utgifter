@@ -11,6 +11,7 @@ class utgifter.views.NewTransactionBatchView extends Backbone.View
   openBatchContentArea: ->
     $(@el).find("#transaction_batch_content").show('blind')
 
+
   writeTransactions: (evt, response) =>
     for item in response
       transaction = new utgifter.models.Transaction(item)
