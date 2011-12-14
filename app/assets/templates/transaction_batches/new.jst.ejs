@@ -1,6 +1,6 @@
 <h1>TransactionBatches#new</h1>
 
-Eksporter fra nettbanken din i CSV-format og lim inn under.
+Eksporter fra nettbanken din i CSV-format, velg hvilken bank dataen kommer fra og lim så inn i feltet som dukker opp.
 
 <div class="last-transactions-wrapper"></div>
 
@@ -8,14 +8,20 @@ Eksporter fra nettbanken din i CSV-format og lim inn under.
   <div style="margin:0;padding:0;display:inline">
     <input name="utf8" type="hidden" value="✓">
   </div>
-  <textarea cols="40" id="transaction_batch_content" name="transaction_batch[content]" rows="20"></textarea>
-  <br>
+
   <label for="transaction_batch_parser">Banknavn</label>
   <select id="transaction_batch_parser" name="transaction_batch[parser]">
+    <option value="dnb">Velg bank</option>
     <option value="dnb">DNB</option>
     <option value="sb1">SB1</option>
   </select>
-  <br>
+
+  <br />
+
+  <textarea cols="40" id="transaction_batch_content" name="transaction_batch[content]" rows="20"></textarea>
+
+  <br />
+
   <input name="commit" type="submit" value="Opprett Transaksjonsbatch">
 </form>
 

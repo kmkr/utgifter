@@ -6,6 +6,10 @@ class utgifter.views.NewTransactionBatchView extends Backbone.View
   events:
     "ajax:success #new_transaction_batch"     : "writeTransactions"
     "click #submit-all"                       : "submitAll"
+    "change #transaction_batch_parser"        : "openBatchContentArea"
+
+  openBatchContentArea: ->
+    $(@el).find("#transaction_batch_content").show('blind')
 
   writeTransactions: (evt, response) =>
     for item in response
