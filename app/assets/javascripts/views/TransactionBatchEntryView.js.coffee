@@ -48,3 +48,4 @@ class utgifter.views.TransactionBatchEntryView extends Backbone.View
 
   leave: ->
     @model.unbind('add', @removeSelf)
+    @errorHighlightHelper.removeTooltips($(@el).find("form"))
