@@ -4,7 +4,7 @@ class utgifter.views.LastAddedTransactionsView extends Backbone.View
   transactionsShown: 8 # initial amount of transactions to show
 
   initialize: ->
-    @collection.bind('change', @renderAndShow)
+    @collection.bind('change', @renderAndHighlight)
 
   events:
     "click p.expand"            : "toggleContent"
@@ -26,14 +26,17 @@ class utgifter.views.LastAddedTransactionsView extends Backbone.View
   toggleContent: ->
     $(@el).find(".content").toggle('blind')
 
-  renderAndShow: =>
-    @render()
-    $(@el).find(".content").show()
-    $(@el).find(".content .last-transactions table td").effect('highlight', { color: '#30D8F0' })
+  renderAndHighlight: =>
+    @renderRows()
+    $(@el).find("tbody tr:nth-child(1) td").effect('highlight', { color: '#30D8F0' })
+
+  renderRows: ->
+    $(@el).find("tbody").html(@getLastTransactionsAsHtml(0, @transactionsShown))
+    $(@el).find("tbody td a.delete-transaction").remove() # no support for deletion in this view yet
 
   render: ->
     $(@el).html(@template)
     $(@el).find(".last-transactions").html(JST["transactions/table"]())
-    $(@el).find("tbody").append(html = @getLastTransactionsAsHtml(0, @transactionsShown))
+    @renderRows()
     @
 
