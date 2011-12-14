@@ -44,18 +44,10 @@ Backbone.View::destroy = ->
     for view in @views
       view.destroy()
     @views.length = 0
-
-  # Unbind all callbacks on @collection
-  @collection.unbind() if @collection
-  
-  # Unbind all callbacks on @model
-  @model.unbind() if @model
-
-  @unbind()
   
   # Perform internal view cleanup
   @leave() if @leave
-  
+
   # Remove the view from the DOM.
   # This will also remove events bound to the view's private DOM-element (@el)
   @remove()

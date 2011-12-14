@@ -1,6 +1,10 @@
 class utgifter.views.BarChart extends Backbone.View
   views: []
 
+  initialize: (categories, series) ->
+    @categories = categories
+    @series = series
+
   updateTranses: (evt) =>
     transactions = evt.target.options.transactionsInSerie
     doWork = =>
@@ -14,7 +18,7 @@ class utgifter.views.BarChart extends Backbone.View
     # async
     setTimeout(doWork, 1)
 
-  initialize: (categories, series, renderTo) ->
+  render: =>
     @chart = new Highcharts.Chart(
       chart:
         height: 800
@@ -25,7 +29,7 @@ class utgifter.views.BarChart extends Backbone.View
       title:
         text: 'Transaksjoner'
       xAxis:
-        categories: categories
+        categories: @categories
         title:
           text: null
       yAxis:
@@ -51,10 +55,8 @@ class utgifter.views.BarChart extends Backbone.View
         borderWidth: 1
         backgroundColor: '#FFFFFF'
         shadow: true
-      series: series
+      series: @series
     )
 
-  render: ->
-
   leave: ->
-    @chart.destroy()
+    @chart?.destroy?()

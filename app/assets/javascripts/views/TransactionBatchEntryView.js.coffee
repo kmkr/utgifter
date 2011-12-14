@@ -89,3 +89,6 @@ class utgifter.views.TransactionBatchEntryView extends Backbone.View
     fields = $(@el).find('form').validator({ opacity: 0.8, lang: 'no', position: 'bottom center' })
     @highlightErrors()
     @
+
+  leave: ->
+    @model.unbind('add', @removeSelf)

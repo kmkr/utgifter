@@ -25,3 +25,6 @@ class utgifter.views.TransactionGroupsView extends Backbone.View
     @renderNew()
     @renderExisting()
     @
+
+  leave: ->
+    @collection.unbind('add', @render)

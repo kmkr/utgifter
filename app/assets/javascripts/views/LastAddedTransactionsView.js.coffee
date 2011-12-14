@@ -40,3 +40,6 @@ class utgifter.views.LastAddedTransactionsView extends Backbone.View
     @renderRows()
     @
 
+
+  leave: ->
+    @collection.unbind('change', @renderAndHighlight)

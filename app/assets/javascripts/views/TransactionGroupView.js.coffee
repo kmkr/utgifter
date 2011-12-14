@@ -28,3 +28,6 @@ class utgifter.views.TransactionGroupView extends Backbone.View
 
   removeFromList: (model) =>
     $(@el).hide('slow', -> $(@).remove())
+
+  leave: ->
+    @model.unbind('destroy', @removeFromList)

@@ -4,6 +4,7 @@ class utgifter.views.YearlyOverviewView extends Backbone.View
   views: []
 
   initialize: (options) ->
+    utgifter.collections.transactionCollection.bind('all', @reRenderGraph)
     _.extend(@, new utgifter.mixins.YearFilterButtons())
     @year = options.year
 
@@ -12,11 +13,22 @@ class utgifter.views.YearlyOverviewView extends Backbone.View
     @renderYearFilterButtons(@collection)
     @
 
+  reRenderGraph: =>
+    for view in @views
+      view.destroy()
+    @views = []
+    @views.length = 0
+
+    @renderGraph()
+
   renderGraph: ->
-    renderChartTo = $(@el).find("#chartContainer")
     result = utgifter.charts.dataGenerator({transactions: @collection.byYear(@year)})
-    chart = new utgifter.views.BarChart(result.categories, result.series, renderChartTo)
+    chart = new utgifter.views.BarChart(result.categories, result.series)
+    chart.render()
     @views.push(chart)
 
   path: (year) ->
     "#overview/#{year}/yearly"
+
+  leave: ->
+    utgifter.collections.transactionCollection.unbind('all', @reRenderGraph)

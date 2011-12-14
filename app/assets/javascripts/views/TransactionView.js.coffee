@@ -17,11 +17,14 @@ class utgifter.views.TransactionView extends Backbone.View
     $(@el).effect('highlight')
 
   deleteTransaction: (evt) =>
-    console.log("TODO: graf må lytte på collection change og render graph på nytt!")
     evt.preventDefault()
     row = $(@el)
-    @model.destroy({ success: ->
-      row.hide('slow', -> $(@).remove())
+    collection = @model.collection
+    cid = @model.cid
+    @model.destroy({
+      success: =>
+        row.hide('slow', -> $(@).remove())
+        collection.remove(cid)
     })
 
   makeEditable: ->
@@ -40,4 +43,4 @@ class utgifter.views.TransactionView extends Backbone.View
 
   leave: ->
     $(@el).find('td[data-editable=true]').editable('destroy')
-
+    @model.unbind("change", @highlightForm)
