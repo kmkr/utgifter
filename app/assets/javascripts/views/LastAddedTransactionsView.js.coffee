@@ -22,6 +22,7 @@ class utgifter.views.LastAddedTransactionsView extends Backbone.View
     html = @getLastTransactionsAsHtml(@transactionsShown, amountOfTransactionsToShow)
     @transactionsShown = amountOfTransactionsToShow
     $(@el).find("tbody").append(html)
+    $(@el).find("tbody td a.delete-transaction").remove() # no support for deletion in this view yet
 
   toggleContent: ->
     $(@el).find(".content").toggle('blind')
