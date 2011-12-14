@@ -20,7 +20,7 @@ class utgifter.views.TransactionBatchEntryView extends Backbone.View
 
   validateForm: ->
     form = $(@el).find('form')
-    @errorHighlightHelper.validateForm(form)
+    @errorHighlightHelper.validateForm()
 
   validateAndCreate: (evt) =>
     evt.preventDefault()
@@ -48,4 +48,4 @@ class utgifter.views.TransactionBatchEntryView extends Backbone.View
 
   leave: ->
     @model.unbind('add', @removeSelf)
-    @errorHighlightHelper.removeTooltips($(@el).find("form"))
+    @errorHighlightHelper.leave()

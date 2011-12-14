@@ -3,19 +3,20 @@ class utgifter.helpers.TransactionBatchErrorHighlightHelper
   constructor: (options) ->
     @collection = options.collection
 
-  validateForm: (form) ->
-    isValid = form.data('validator').checkValidity()
+  validateForm: ->
+    isValid = @form.data('validator').checkValidity()
     if isValid
-      @removeTooltips(form)
+      @removeTooltips()
 
   setupForm: (form, errors) ->
-    form.validator({ opacity: 0.8, lang: 'no', position: 'bottom center' })
+    @form = form
+    @form.validator({ opacity: 0.8, lang: 'no', position: 'bottom center' })
 
     for error in errors
       match = error.match(/duplicate_transaction_(\d+)/)
       if match
         transaction = @collection.find((transaction) -> transaction.get('id') == parseInt(match[1], 10))
-        form.attr('title', """
+        @form.attr('title', """
         Mulig duplikat av transaksjonen med:
           <ul>
             <li>Beløp '#{transaction.get('amount')}'</li>
@@ -24,10 +25,10 @@ class utgifter.helpers.TransactionBatchErrorHighlightHelper
             <li>Opprettet '#{transaction.get('created_at')}'</li>
           </ul>
         """)
-        form.find('p.errors').html("Duplikat, gi mulighet til å oppdatere description")
-        element = form
+        @form.find('p.errors').html("Duplikat, gi mulighet til å oppdatere description")
+        element = @form
       else
-        element = form.find("input[name='#{error}']")
+        element = @form.find("input[name='#{error}']")
         element.attr('title', @getTextFromError(error))
 
       element.tooltip(
@@ -43,8 +44,12 @@ class utgifter.helpers.TransactionBatchErrorHighlightHelper
       when "time" then "Greide ikke tolke det opprinnelige tidspunktet. Fyll tidspunkt ut, eller slett raden."
 
 
-  removeTooltips: (form) ->
-    for field in form.find('input')
+  leave: ->
+    @removeTooltips()
+    @form.data('validator').destroy()
+
+  removeTooltips: ->
+    for field in @form.find('input')
       field = $(field)
       tooltip = field.data('tooltip')
       if tooltip
