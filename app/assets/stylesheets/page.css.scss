@@ -130,13 +130,13 @@ nav {
         background: lighten($martinique, 10%);
       }
       a.logout {
-        background-color: $outofsight;
+        background: $outofsight;
       }
       a:hover {
-        background-color: $twitter;
+        background: $twitter;
       }
       a.active {
-        background: lighten($martinique, 10%);
+        background: $twitter;
       }
 
     }
