@@ -36,10 +36,28 @@ p.errors {
 }
 
 div.transactions-to-add {
+
+  div {
+    margin: 20px 0;
+  }
+
   margin-top: 25px;
 
   input#submit-all {
     display: none;
   }
+
+  div.possible-duplicated-transactions {
+    border: 1px solid red;
+  }
+
+  div.parse-error-transactions {
+    border: 1px solid red;
+  }
+
+  div.successfully-parsed-transactions {
+    border: 1px solid green;
+  }
+
 
 }

@@ -1,29 +1,29 @@
 class utgifter.views.TransactionCandidateView extends Backbone.View
   template: JST['transaction_batches/show']
 
-
   initialize: (args) ->
+    _.extend(@, new utgifter.mixins.FormErrorHandling())
+
     @model.bind('add', @removeSelf)
-    @errors = args.errors || []
-    @errorHighlightHelper = new utgifter.helpers.TransactionBatchErrorHighlightHelper({collection: @collection})
 
   events:
     "click input[type=submit]"            : 'validateAndCreate'
-    "keypress input"                      : 'validateForm'
+    "keypress input"                      : 'v'
     # todo: change må lyttes på, men den klikker ved add så må gjøre noe lurt
     #"change input"                        : 'validateForm'
     "click a.delete-transaction-batch"    : 'delete'
+
+  v: (evt) =>
+    evt.preventDefault()
+    @validateForm
 
   delete: (evt) =>
     evt.preventDefault()
     $(@el).hide('blind', =>$(@el).remove())
 
-  validateForm: ->
-    form = $(@el).find('form')
-    @errorHighlightHelper.validateForm()
-
   validateAndCreate: (evt) =>
     evt.preventDefault()
+    console.log(@)
 
     if @validateForm()
       @createTransaction()
@@ -43,9 +43,9 @@ class utgifter.views.TransactionCandidateView extends Backbone.View
   render: ->
     $(@el).html(@template(@model.attributes))
     $(@el).find('input[type=date]').dateinput({lang: 'no', format: 'yyyy-mm-dd', firstDay: 1})
-    @errorHighlightHelper.setupForm($(@el).find("form"), @errors)
+    @setupForm($(@el).find("form"))
     @
 
   leave: ->
+    @leaveForm()
     @model.unbind('add', @removeSelf)
-    @errorHighlightHelper.leave()

@@ -16,11 +16,24 @@ class utgifter.views.NewTransactionBatchView extends Backbone.View
   writeTransactions: (evt, response) =>
     for item in response
       transaction = new utgifter.models.Transaction(item)
-      view = new utgifter.views.TransactionCandidateView({collection: @collection, model: transaction, errors: item.errors})
+      view = new utgifter.views.TransactionCandidateView({collection: @collection, model: transaction})
       @views.push(view)
-      $(@el).find(".transactions-to-add").append(view.render().el)
-      $(@el).find(".transactions-to-add form").last().show('blind')
+
+      addTo = @getDomLocationToAdd(transaction)
+      $(@el).find(addTo).append(view.render().el)
+      $(@el).find("#{addTo} form").last().show('blind')
+
     $(@el).find("#submit-all").show()
+
+  getDomLocationToAdd: (transaction) ->
+    if transaction.isPossibleDuplicate()
+      console.log("duplicate transaction #{transaction.get('errors')}")
+      ".possible-duplicated-transactions"
+    else if transaction.get('errors')?.length > 0
+      console.log("error in transaction #{transaction.get('errors')}")
+      ".parse-error-transactions"
+    else
+      ".successfully-parsed-transactions"
 
   submitAll: (evt) ->
     $('form.transaction input.submit-transaction').click()
