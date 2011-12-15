@@ -75,9 +75,13 @@ class TransactionBatch < ActiveRecord::Base
         month = dateTokens.second
         p dateTokens.inspect
         year = "20" + dateTokens.third
-        return "#{day}.#{month}.#{year}"
+        return Time.new(year, month, day)
       elsif parser == "sb1"
-        batch_line.split(";").first
+        dateTokens = batch_line.split(";").first.split(".")
+        day = dateTokens.first
+        month = dateTokens.second
+        year = dateTokens.third
+        return Time.new(year, month, day)
       else
         batch_line.match(/\d{2}\.\d{2}\.\d{4}/).to_s.strip
       end
@@ -87,18 +91,23 @@ class TransactionBatch < ActiveRecord::Base
   end
 
   def find_description(batch_line)
+    desc = ""
     begin
       if parser == "dnb"
-        batch_line.split(";").second.gsub(/\"/, "")
+        desc = batch_line.split(";").second.gsub(/\"/, "")
       elsif parser == "sb1"
-        batch_line.split(";").second
+        desc = batch_line.split(";").second
       else
-        batch_line
+        desc = batch_line
       end
     rescue
-      logger.warn "Unable to parse description from '#{batch_line}' using parser #{parser}. Fallback to the entire line as description."
-      batch_line
+      logger.warn "Unable to parse description from '#{batch_line}' using parser #{parser}."
+      raise "parse error #{$!}"
     end
+
+    return desc if desc.length > 5
+
+    raise "parse error #{$!}"
   end
 
   def find_amount(batch_line)
