@@ -1,4 +1,4 @@
-class utgifter.views.TransactionBatchEntryView extends Backbone.View
+class utgifter.views.TransactionCandidateView extends Backbone.View
   template: JST['transaction_batches/show']
 
 

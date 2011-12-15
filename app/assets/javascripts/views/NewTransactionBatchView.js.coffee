@@ -16,7 +16,7 @@ class utgifter.views.NewTransactionBatchView extends Backbone.View
   writeTransactions: (evt, response) =>
     for item in response
       transaction = new utgifter.models.Transaction(item)
-      view = new utgifter.views.TransactionBatchEntryView({collection: @collection, model: transaction, errors: item.errors})
+      view = new utgifter.views.TransactionCandidateView({collection: @collection, model: transaction, errors: item.errors})
       @views.push(view)
       $(@el).find(".transactions-to-add").append(view.render().el)
       $(@el).find(".transactions-to-add form").last().show('blind')
