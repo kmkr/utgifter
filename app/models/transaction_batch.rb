@@ -54,7 +54,7 @@ class TransactionBatch < ActiveRecord::Base
         day = dateTokens.first
         month = dateTokens.second
         year = "20" + dateTokens.third
-        p "TIME ER #{year},#{month},#{day}"
+        raise "parse error" unless year.size == 4
         return Time.mktime(year.to_i, month.to_i, day.to_i)
       elsif parser == "sb1"
         dateTokens = batch_line.split(";").first.split(".")
@@ -85,7 +85,7 @@ class TransactionBatch < ActiveRecord::Base
       raise "parse error #{$!}"
     end
 
-    return desc if desc.length > 5
+    return desc if desc.length > 3 # min 3, can be like "visa"
 
     raise "parse error #{$!}"
   end

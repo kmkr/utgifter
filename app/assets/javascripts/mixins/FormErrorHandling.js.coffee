@@ -3,22 +3,23 @@ class utgifter.mixins.FormErrorHandling
   transactionsBound: []
 
   validateForm: ->
-    isValid = @form.data('validator').checkValidity()
+    form = $(@el).find('form')
+    isValid = form.data('validator').checkValidity()
     if isValid
       @removeTooltips()
 
     isValid
 
 
-  setupForm: (form) ->
-    @form = form
-    @form.validator({ opacity: 0.8, lang: 'no', position: 'bottom center' })
+  setupForm: () ->
+    form = $(@el).find('form')
+    form.validator({ opacity: 0.8, lang: 'no', position: 'bottom center' })
 
     if @model.duplicates
       @appendDuplicates()
 
     for error in @model.get('errors')
-      element = @form.find("input[name='#{error}']")
+      element = form.find("input[name='#{error}']")
       if (element)
         element.attr('title', @getTextFromError(error))
         element.tooltip(
@@ -52,15 +53,17 @@ class utgifter.mixins.FormErrorHandling
   leaveForm: ->
     @removeTooltips()
     for transaction in @transactionsBound
-      console.log("unbinding #{transaction}...")
       transaction.unbind("change:description", @hideSelf)
     @transactionsBound.length = 0
-    console.log("Form er %o, data er %o", @form, @form.data())
-    @form.data('validator').destroy()
+    form = $(@el).find('form')
+
+    # The form may already be destroyed, therefore do not assume form to have data
+    form.data?('validator')?.destroy()
 
 
   removeTooltips: ->
-    for field in @form.find('input')
+    form = $(@el).find('form')
+    for field in form.find('input')
       field = $(field)
       tooltip = field.data('tooltip')
       if tooltip

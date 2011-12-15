@@ -5,7 +5,6 @@ class utgifter.views.TransactionCandidateView extends Backbone.View
 
   initialize: (args) ->
     _.extend(@, new utgifter.mixins.FormErrorHandling())
-    @model.bind('add', @hideSelf)
 
   events:
     "click input[type=submit]"            : 'validateAndCreate'
@@ -29,23 +28,30 @@ class utgifter.views.TransactionCandidateView extends Backbone.View
       @createTransaction()
 
   createTransaction: ->
+    $(@el).find('.spinner').show()
     time = $(@el).find("input[name=time]").val()
     amount = $(@el).find("input[name=amount]").val()
     description = $(@el).find("input[name=description]").val()
 
     @model.set({time: time, amount: amount, description: description})
     @collection.add(@model)
-    @model.save()
+    console.log("saving...")
+    @model.save({}, {
+      success: =>
+        console.log("saved! %o", @)
+        @removeSelf()
+      error: ->
+        console.log("error ... %o", arguments)
+    })
 
-  hideSelf: =>
-    $(@el).effect('highlight', -> $(@).hide('fade'))
+  removeSelf: =>
+    $(@el).hide('fade', => $(@el).remove())
 
   render: ->
     $(@el).html(@template(@model.attributes))
     $(@el).find('input[type=date]').dateinput({lang: 'no', format: 'yyyy-mm-dd', firstDay: 1})
-    @setupForm($(@el).find("form"))
+    @setupForm()
     @
 
   leave: ->
     @leaveForm()
-    @model.unbind('add', @hideSelf)
