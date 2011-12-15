@@ -1,29 +1,29 @@
 class utgifter.views.TransactionCandidateView extends Backbone.View
   template: JST['transaction_batches/show']
 
+  views: []
+
   initialize: (args) ->
     _.extend(@, new utgifter.mixins.FormErrorHandling())
-
-    @model.bind('add', @removeSelf)
+    @model.bind('add', @hideSelf)
 
   events:
     "click input[type=submit]"            : 'validateAndCreate'
-    "keypress input"                      : 'v'
+    "keypress input"                      : 'validate'
     # todo: change må lyttes på, men den klikker ved add så må gjøre noe lurt
     #"change input"                        : 'validateForm'
     "click a.delete-transaction-batch"    : 'delete'
 
-  v: (evt) =>
+  validate: (evt) =>
     evt.preventDefault()
     @validateForm
 
   delete: (evt) =>
     evt.preventDefault()
-    $(@el).hide('blind', =>$(@el).remove())
+    $(@el).hide('blind')
 
   validateAndCreate: (evt) =>
     evt.preventDefault()
-    console.log(@)
 
     if @validateForm()
       @createTransaction()
@@ -37,8 +37,8 @@ class utgifter.views.TransactionCandidateView extends Backbone.View
     @collection.add(@model)
     @model.save()
 
-  removeSelf: =>
-    $(@el).hide('fade', -> $(@).remove())
+  hideSelf: =>
+    $(@el).effect('highlight', -> $(@).hide('fade'))
 
   render: ->
     $(@el).html(@template(@model.attributes))
@@ -48,4 +48,4 @@ class utgifter.views.TransactionCandidateView extends Backbone.View
 
   leave: ->
     @leaveForm()
-    @model.unbind('add', @removeSelf)
+    @model.unbind('add', @hideSelf)

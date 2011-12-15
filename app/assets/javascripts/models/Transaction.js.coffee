@@ -8,14 +8,11 @@ class utgifter.models.Transaction extends Backbone.Model
     date = "0" + date if date < 10
     "#{year}-#{month}-#{date}"
 
-  isPossibleDuplicate: ->
-    _.any(@get('errors'), (error) -> error.match(/duplicate_transaction_(\d+)/))
+  # når tid kommer fra server:
+  # attributes.time kommer som UTZ. konverter til GMT
+  # problemet er at man ikke bruker "fetch" på collection til å hente initielt
+  parse: (attributes) ->
+    attributes
 
-  possibleDuplicates: ->
-    duplicates = []
-    for error in @get('errors')
-      if match = error.match(/duplicate_transaction_(\d+)/)
-        duplicates.push(parseInt(match[1], 10))
-
-    duplicates
-
+  # før tid sendes til server:
+  #new Date(Date.parse(time) + (new Date().getTimezoneOffset() * 60 * 1000))

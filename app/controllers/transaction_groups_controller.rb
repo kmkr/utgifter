@@ -24,7 +24,10 @@ class TransactionGroupsController < ApplicationController
 
     if transaction_group
       transaction_group.update_attributes(params[:transaction_group])
-      respond_with transaction_group
+      # the respond_with returns empty json. therefore using respond_to
+      respond_to do |format|
+        format.json { render :json => transaction_group }
+      end
     else
       head :forbidden
     end

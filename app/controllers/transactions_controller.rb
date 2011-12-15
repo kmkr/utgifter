@@ -12,7 +12,11 @@ class TransactionsController < ApplicationController
 
     if transaction
       transaction.update_attributes(params[:transaction])
-      respond_with transaction
+
+      # the respond_with returns empty json. therefore using respond_to
+      respond_to do |format|
+        format.json { render :json => transaction }
+      end
     else
       head :forbidden
     end

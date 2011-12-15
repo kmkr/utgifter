@@ -1,8 +1,6 @@
-# assumes:
-# @form
-# @collection
-# @model
 class utgifter.mixins.FormErrorHandling
+
+  transactionsBound: []
 
   validateForm: ->
     isValid = @form.data('validator').checkValidity()
@@ -11,12 +9,13 @@ class utgifter.mixins.FormErrorHandling
 
     isValid
 
+
   setupForm: (form) ->
     @form = form
     @form.validator({ opacity: 0.8, lang: 'no', position: 'bottom center' })
 
-    if @model.isPossibleDuplicate()
-      @doSomethingWithDuplicate()
+    if @model.duplicates
+      @appendDuplicates()
 
     for error in @model.get('errors')
       element = @form.find("input[name='#{error}']")
@@ -28,21 +27,20 @@ class utgifter.mixins.FormErrorHandling
           opacity: 0.8
         )
 
-  doSomethingWithDuplicate: ->
-    # legg til duplikater i @el
-    console.log(@model.possibleDuplicates())
-    possibleDuplicateTransactions = @collection.filter((transaction) => _.include(@model.possibleDuplicates(), transaction.get('id')))
-    console.log("fant %o duplikater", possibleDuplicateTransactions)
-    for possibleDuplicate in possibleDuplicateTransactions
-      $(@el).append("""
-        Mulig duplikat av transaksjonen med:
-          <ul>
-            <li>Beløp '#{possibleDuplicate.get('amount')}'</li>
-            <li>Beskrivelse '#{possibleDuplicate.get('description')}'</li>
-            <li>Tidspunkt '#{possibleDuplicate.prettyTime()}' </li>
-            <li>Opprettet '#{possibleDuplicate.get('created_at')}'</li>
-          </ul>
-        """)
+
+  appendDuplicates: ->
+    for duplicate in @model.duplicates
+      view = new utgifter.views.DuplicateTransactionView({model: @model, duplicate: duplicate})
+      @views.push(view)
+
+      # assuming that when the duplicate (the existing transaction) changes
+      # description, its description is overwritten with the new transaction
+      # candidate
+      duplicate.bind("change:description", @hideSelf)
+      @transactionsBound.push(duplicate)
+
+      $(@el).find('.duplicates').append(view.render().el)
+
 
   getTextFromError: (error) ->
     switch error
@@ -51,10 +49,15 @@ class utgifter.mixins.FormErrorHandling
       when "time" then "Greide ikke tolke det opprinnelige tidspunktet. Fyll tidspunkt ut, eller slett raden."
 
 
-  # Destroys the error handling (not the DOM itself)
   leaveForm: ->
     @removeTooltips()
+    for transaction in @transactionsBound
+      console.log("unbinding #{transaction}...")
+      transaction.unbind("change:description", @hideSelf)
+    @transactionsBound.length = 0
+    console.log("Form er %o, data er %o", @form, @form.data())
     @form.data('validator').destroy()
+
 
   removeTooltips: ->
     for field in @form.find('input')

@@ -11,6 +11,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def as_json(options)
+    options = {} unless options
     options[:methods] = :errors
     super(options)
   end

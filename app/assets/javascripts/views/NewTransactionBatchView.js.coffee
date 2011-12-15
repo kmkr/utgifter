@@ -8,6 +8,7 @@ class utgifter.views.NewTransactionBatchView extends Backbone.View
     "click #submit-all"                       : "submitAll"
     "change #transaction_batch_parser"        : "openBatchContentArea"
 
+
   openBatchContentArea: ->
     $(@el).find("#transaction_batch_content").show('blind')
     $(@el).find(".new_transaction_batch input[type=submit]").show('fade')
@@ -21,23 +22,25 @@ class utgifter.views.NewTransactionBatchView extends Backbone.View
 
       addTo = @getDomLocationToAdd(transaction)
       $(@el).find(addTo).append(view.render().el)
+      $(@el).find(addTo).show()
       $(@el).find("#{addTo} form").last().show('blind')
 
-    $(@el).find("#submit-all").show()
 
   getDomLocationToAdd: (transaction) ->
-    if transaction.isPossibleDuplicate()
-      console.log("duplicate transaction #{transaction.get('errors')}")
-      ".possible-duplicated-transactions"
+    duplicates = @getDuplicates(transaction)
+    if duplicates?.length > 0
+      transaction.duplicates = duplicates
+      ".duplicated-transactions"
     else if transaction.get('errors')?.length > 0
-      console.log("error in transaction #{transaction.get('errors')}")
       ".parse-error-transactions"
     else
       ".successfully-parsed-transactions"
 
+
   submitAll: (evt) ->
-    $('form.transaction input.submit-transaction').click()
     evt.preventDefault()
+    $('div.successfully-parsed-transactions input.submit-transaction').click()
+
 
   render: ->
     $(@el).html(@template)
@@ -45,3 +48,13 @@ class utgifter.views.NewTransactionBatchView extends Backbone.View
     @views.push(view)
     $(@el).find(".last-transactions-wrapper").html(view.render().el)
     @
+
+
+  getDuplicates: (newTransaction) ->
+    @collection.filter( (transaction) ->
+      if newTransaction.get('amount') == transaction.get('amount')
+        if newTransaction.get('description') == transaction.get('description')
+          return true
+        else if newTransaction.prettyTime() == transaction.prettyTime()
+          return true
+    )

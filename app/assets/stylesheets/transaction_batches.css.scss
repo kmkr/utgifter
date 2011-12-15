@@ -43,19 +43,18 @@ div.transactions-to-add {
 
   margin-top: 25px;
 
-  input#submit-all {
+  div.duplicated-transactions {
     display: none;
-  }
-
-  div.possible-duplicated-transactions {
     border: 1px solid red;
   }
 
   div.parse-error-transactions {
+    display: none;
     border: 1px solid red;
   }
 
   div.successfully-parsed-transactions {
+    display: none;
     border: 1px solid green;
   }
 

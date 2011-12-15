@@ -1,0 +1,16 @@
+<p>Transaksjonen du har lagt til er en mulig duplikat av:</p>
+<ul>
+  <li>Beløp '<%= duplicate.get('amount') %>'</li>
+  <li>Beskrivelse '<%= duplicate.get('description') %>'</li>
+  <li>Tidspunkt '<%= duplicate.prettyTime() %>' </li>
+  <li>Opprettet '<%= duplicate.get('created_at') %>'</li>
+</ul>
+
+<% if (model.get('description') !== duplicate.get('description')) { %>
+<p>
+  Beskrivelsene er ulike, så hvis du vil oppdatere den eksisterende transaksjon med den nye beskrivelsen '<%= model.get('description') %>', trykk
+  <a href="#" class="update-description">her</a>
+</p>
+<% } else { %>
+  <p>Transaksjonene ser veldig like ut, så du må selv avgjøre om du skal slette eller lagre den nye transaksjonen.</p>
+<% } %>

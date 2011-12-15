@@ -8,28 +8,10 @@ class TransactionBatch < ActiveRecord::Base
       transactions << create_transaction(line)
     end
 
-
     transactions
   end
 
   private
-
-  def scan_for_duplicates(time, description, amount)
-    last_transactions = Transaction.first(50)
-    errors = []
-
-    for transaction in last_transactions
-      if transaction.amount == amount
-        if transaction.description == description
-          errors.push("duplicate_transaction_#{transaction.id}")
-        elsif transaction.time == time
-          errors.push("duplicate_transaction_#{transaction.id}")
-        end
-      end
-    end
-
-    errors
-  end
 
   def create_transaction(batch_line)
     time = nil
@@ -57,8 +39,6 @@ class TransactionBatch < ActiveRecord::Base
       errors.push("amount")
     end
 
-    errors = errors + scan_for_duplicates(time, description, amount)
-
     Transaction.new({
       :time => time,
       :description => description,
@@ -73,15 +53,15 @@ class TransactionBatch < ActiveRecord::Base
         dateTokens = batch_line.split(";").first.split(".")
         day = dateTokens.first
         month = dateTokens.second
-        p dateTokens.inspect
         year = "20" + dateTokens.third
-        return Time.new(year, month, day)
+        p "TIME ER #{year},#{month},#{day}"
+        return Time.mktime(year.to_i, month.to_i, day.to_i)
       elsif parser == "sb1"
         dateTokens = batch_line.split(";").first.split(".")
         day = dateTokens.first
         month = dateTokens.second
         year = dateTokens.third
-        return Time.new(year, month, day)
+        return Time.mktime(year.to_i, month.to_i, day.to_i)
       else
         batch_line.match(/\d{2}\.\d{2}\.\d{4}/).to_s.strip
       end
