@@ -2,23 +2,32 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#transaction_batch_content {
-  width: 99%;
-  display: none;
+form.new_transaction_batch {
+
+  textarea#transaction_batch_content {
+    width: 99%;
+    display: none;
+  }
+
+  input[type=submit] {
+    display: none;
+  }
+
 }
 
-p.expand, .controls p {
-  text-decoration: underline;
-}
-
-p.expand:hover, .controls p:hover {
-  text-decoration: none;
-}
 
 div.last-transactions-wrapper {
   margin-bottom: 8px;
   div.content {
     display: none;
+  }
+
+  p.expand, .controls p {
+    text-decoration: underline;
+  }
+
+  p.expand:hover, .controls p:hover {
+    text-decoration: none;
   }
 }
 

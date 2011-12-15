@@ -10,6 +10,7 @@ class utgifter.views.NewTransactionBatchView extends Backbone.View
 
   openBatchContentArea: ->
     $(@el).find("#transaction_batch_content").show('blind')
+    $(@el).find(".new_transaction_batch input[type=submit]").show('fade')
 
 
   writeTransactions: (evt, response) =>

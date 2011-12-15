@@ -95,6 +95,18 @@ table {
   }
 }
 
+ul {
+
+  list-style-type: decimal; 
+
+  li {
+    margin: 2px 0 2px 15px;
+    font-size: 15px;
+  }
+
+  margin: 10px 0;
+}
+
 div#main-content {
   -moz-box-shadow: 0 6px 15px #000;
   -webkit-box-shadow: 0 6px 15px #000;
