@@ -1,5 +1,6 @@
 <form class="transaction">
-  Tid <input type="date" name="time" required="required" value="<%= time %>" class="transaction-time" />
+  Tid <input type="date" required="required" value="<%= time %>" class="transaction-time" />
+  <input type="hidden" value="<%= time %>" name="time" />
   Beløp <input type="text" pattern="\-?\d+\.?\d*" name="amount" required="required" data-type="amount" value="<%= amount %>" size="7" />
   Beskrivelse <input type="text" pattern="\d{4}-\d{2}-\d{2}" name="description" required="required" data-type="description" value="<%= description %>" size="45" />
   <a href="#" class="delete-transaction-batch">Slett</a>
@@ -8,3 +9,4 @@
 
   <div class="duplicates"></div>
 </form>
+

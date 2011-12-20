@@ -32,8 +32,15 @@ class utgifter.views.TransactionView extends Backbone.View
     $(@el).find('td[data-editable=true]').editable( (value, settings) ->
       type = $(this).attr('data-name')
       obj = {}
-      obj[type] = value
+
+      # convert to UTC before sending to server
+      if type == 'time'
+        obj[type] = new Date(value + " 00:00").toUTCString()
+      else
+        obj[type] = value
+
       model.save(obj)
+
       value
     {
       indicator: 'Lagrer...'
