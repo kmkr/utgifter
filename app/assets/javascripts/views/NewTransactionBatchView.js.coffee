@@ -49,12 +49,16 @@ class utgifter.views.NewTransactionBatchView extends Backbone.View
     $(@el).find(".last-transactions-wrapper").html(view.render().el)
     @
 
+  isCloseTo: (o1, o2) ->
+    diff = Math.abs(o1.getTime() - o2.getTime())
+    return diff < 432000000 # 5 days
+
 
   getDuplicates: (newTransaction) ->
     @collection.filter( (transaction) ->
       if newTransaction.get('amount') == transaction.get('amount')
         if newTransaction.get('description') == transaction.get('description')
           return true
-        else if newTransaction.prettyTime() == transaction.prettyTime()
+        else if isCloseTo(new Date(newTransaction.get('time')), new Date(transaction.get('time')))
           return true
     )
