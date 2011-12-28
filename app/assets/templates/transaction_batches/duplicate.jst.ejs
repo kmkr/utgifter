@@ -1,8 +1,8 @@
 <div class="duplicated-transaction">
   <p>Transaksjonen du har lagt til er en mulig duplikat av: 
-  <span class="duplicated-transaction-data"><%= duplicate.get('description') %></span> /
-  <span class="duplicated-transaction-data"><%= duplicate.get('amount') %></span> / 
-  <span class="duplicated-transaction-data"><%= duplicate.prettyTime() %></span>.
+  <span class="duplicated-transaction-data"><%= duplicate.prettyTime() %></span> /
+  <span class="duplicated-transaction-data"><%= duplicate.get('amount') %></span> /
+  <span class="duplicated-transaction-data"><%= duplicate.get('description') %></span>.
   </p>
   
   <% if (model.get('description') !== duplicate.get('description')) { %>
