@@ -46,6 +46,19 @@ div.transactions-to-add {
   div.duplicated-transactions {
     display: none;
     border: 1px solid red;
+
+    div.duplicated-transaction {
+      p {
+        margin: 4px;
+      }
+      padding: 8px;
+
+      span.duplicated-transaction-data {
+        font-weight: bold;
+      }
+
+      border-bottom: 1px solid #ccc;
+    }
   }
 
   div.parse-error-transactions {

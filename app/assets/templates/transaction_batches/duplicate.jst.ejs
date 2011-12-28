@@ -1,16 +1,16 @@
-<p>Transaksjonen du har lagt til er en mulig duplikat av:</p>
-<ul>
-  <li>Beløp '<%= duplicate.get('amount') %>'</li>
-  <li>Beskrivelse '<%= duplicate.get('description') %>'</li>
-  <li>Tidspunkt '<%= duplicate.prettyTime() %>' </li>
-  <li>Opprettet '<%= duplicate.get('created_at') %>'</li>
-</ul>
-
-<% if (model.get('description') !== duplicate.get('description')) { %>
-<p>
-  Beskrivelsene er ulike, så hvis du vil oppdatere den eksisterende transaksjon med den nye beskrivelsen '<%= model.get('description') %>', trykk
-  <a href="#" class="update-description">her</a>
-</p>
-<% } else { %>
-  <p>Transaksjonene ser veldig like ut, så du må selv avgjøre om du skal slette eller lagre den nye transaksjonen.</p>
-<% } %>
+<div class="duplicated-transaction">
+  <p>Transaksjonen du har lagt til er en mulig duplikat av: 
+  <span class="duplicated-transaction-data"><%= duplicate.get('description') %></span> /
+  <span class="duplicated-transaction-data"><%= duplicate.get('amount') %></span> / 
+  <span class="duplicated-transaction-data"><%= duplicate.prettyTime() %></span>.
+  </p>
+  
+  <% if (model.get('description') !== duplicate.get('description')) { %>
+  <p>
+  Beskrivelsene er ulike, så hvis du vil oppdatere den eksisterende transaksjon med den nye beskrivelsen <span class="duplicated-transaction-data"><%= model.get('description') %></span>, trykk
+    <a href="#" class="update-description">her</a>
+  </p>
+  <% } else { %>
+    <p>Transaksjonene har likt beløp og beskrivelse, så du må selv avgjøre om du skal slette eller lagre den nye transaksjonen.</p>
+  <% } %>
+</div>

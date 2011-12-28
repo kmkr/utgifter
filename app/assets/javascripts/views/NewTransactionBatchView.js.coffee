@@ -23,7 +23,7 @@ class utgifter.views.NewTransactionBatchView extends Backbone.View
       addTo = @getDomLocationToAdd(transaction)
       $(@el).find(addTo).append(view.render().el)
       $(@el).find(addTo).show()
-      $(@el).find("#{addTo} form").last().show('blind')
+      $(@el).find("#{addTo} form").last().show()
 
 
   getDomLocationToAdd: (transaction) ->
@@ -55,10 +55,8 @@ class utgifter.views.NewTransactionBatchView extends Backbone.View
 
 
   getDuplicates: (newTransaction) ->
-    @collection.filter( (transaction) ->
+    @collection.filter( (transaction) =>
       if newTransaction.get('amount') == transaction.get('amount')
-        if newTransaction.get('description') == transaction.get('description')
-          return true
-        else if isCloseTo(new Date(newTransaction.get('time')), new Date(transaction.get('time')))
+        if @isCloseTo(new Date(newTransaction.get('time')), new Date(transaction.get('time')))
           return true
     )

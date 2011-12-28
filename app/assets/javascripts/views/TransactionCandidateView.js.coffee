@@ -35,7 +35,6 @@ class utgifter.views.TransactionCandidateView extends Backbone.View
 
     @model.set({time: time, amount: amount, description: description})
     @collection.add(@model)
-    console.log("saving...")
     @model.save({}, {
       success: =>
         console.log("saved! %o", @)

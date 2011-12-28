@@ -1,5 +1,7 @@
 class TransactionBatch < ActiveRecord::Base
   has_many :transactions
+  belongs_to :user
+  attr_protected :user_id
 
   def convert_to_transactions
     transactions = []
