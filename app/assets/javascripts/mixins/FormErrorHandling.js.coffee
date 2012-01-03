@@ -41,7 +41,7 @@ class utgifter.mixins.FormErrorHandling
       # assuming that when the duplicate (the existing transaction) changes
       # description, its description is overwritten with the new transaction
       # candidate
-      duplicate.bind("change:description", @hideSelf)
+      duplicate.bind("change:description", @removeSelf)
       @transactionsBound.push(duplicate)
 
       $(@el).find('.duplicates').append(view.render().el)
@@ -57,7 +57,7 @@ class utgifter.mixins.FormErrorHandling
   leaveForm: ->
     @removeTooltips()
     for transaction in @transactionsBound
-      transaction.unbind("change:description", @hideSelf)
+      transaction.unbind("change:description", @removeSelf)
     @transactionsBound.length = 0
     form = $(@el).find('form')
 
