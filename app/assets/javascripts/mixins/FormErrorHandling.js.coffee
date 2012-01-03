@@ -16,7 +16,11 @@ class utgifter.mixins.FormErrorHandling
     form.validator({ opacity: 0.8, lang: 'no', position: 'bottom center' })
 
     if @model.duplicates
+      $(@el).find('form').addClass('duplicated-transaction')
       @appendDuplicates()
+
+    if @model.get('errors').length > 0
+      $(@el).find('form').addClass('parse-error-transaction')
 
     for error in @model.get('errors')
       element = form.find("input[name='#{error}']")

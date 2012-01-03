@@ -37,38 +37,41 @@ p.errors {
 
 div.transactions-to-add {
 
+  .transaction {
+    border-radius: 5px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-color: #70b569;
+    background-color: #b8e1b4;
+
+    p {
+      margin: 4px;
+    }
+  }
+
   div {
     margin: 20px 0;
   }
 
   margin-top: 25px;
 
-  div.duplicated-transactions {
-    display: none;
-    border: 1px solid red;
+  .duplicated-transaction, .parse-error-transaction {
+    border-color: #ff6e6e;
+    background-color: #ffd0d0;
 
-    div.duplicated-transaction {
-      p {
-        margin: 4px;
-      }
-      padding: 8px;
-
-      span.duplicated-transaction-data {
-        font-weight: bold;
-      }
-
-      border-bottom: 1px solid #ccc;
+    span.duplicated-transaction-data {
+      font-weight: bold;
     }
+
   }
 
-  div.parse-error-transactions {
-    display: none;
-    border: 1px solid red;
+  p.head {
+    text-align: center;
+    font-size: 18px;
   }
 
-  div.successfully-parsed-transactions {
+  div.successfully-parsed-transactions, div.duplicated-transactions, div.parse-error-transactions {
     display: none;
-    border: 1px solid green;
   }
 
 

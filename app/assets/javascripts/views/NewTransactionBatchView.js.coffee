@@ -15,6 +15,7 @@ class utgifter.views.NewTransactionBatchView extends Backbone.View
 
 
   writeTransactions: (evt, response) =>
+    $(@el).find('textarea').val('')
     for item in response
       transaction = new utgifter.models.Transaction(item)
       view = new utgifter.views.TransactionCandidateView({collection: @collection, model: transaction})
