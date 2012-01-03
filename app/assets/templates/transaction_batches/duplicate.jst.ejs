@@ -1,4 +1,8 @@
-<p>Transaksjonen du har lagt til er en mulig duplikat av: 
+<p>
+<span class="duplicated-transaction-data"><%= model.prettyTime() %></span> /
+<span class="duplicated-transaction-data"><%= model.get('amount') %></span> /
+<span class="duplicated-transaction-data"><%= model.get('description') %></span><br />
+er en mulig duplikat av: <br />
 <span class="duplicated-transaction-data"><%= duplicate.prettyTime() %></span> /
 <span class="duplicated-transaction-data"><%= duplicate.get('amount') %></span> /
 <span class="duplicated-transaction-data"><%= duplicate.get('description') %></span>.
@@ -6,8 +10,7 @@
 
 <% if (model.get('description') !== duplicate.get('description')) { %>
 <p>
-Beskrivelsene er ulike, så hvis du vil oppdatere den eksisterende transaksjon med den nye beskrivelsen <span class="duplicated-transaction-data"><%= model.get('description') %></span>, trykk
-  <a href="#" class="update-description">her</a>
+Beskrivelsene er ulike, så hvis du vil oppdatere den eksisterende transaksjon med den nye beskrivelsen, trykk <a href="#" class="update-description">her</a>.
 </p>
 <% } else { %>
   <p>Transaksjonene har likt beløp og beskrivelse, så du må selv avgjøre om du skal slette eller lagre den nye transaksjonen.</p>
