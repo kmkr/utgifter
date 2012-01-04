@@ -28,6 +28,7 @@
         settings.skiplists,
         settings.useOnlyPositiveValues
       )
+
       
       addNonGroupedTransactionsToSeries(settings.transactions, keyFunction, settings.useOnlyPositiveValues, series, settings.skiplists, settings.text.nonGroupedIncomes, settings.text.nonGroupedExpenses)
 
@@ -92,6 +93,15 @@
 
 
 
+    # Denne har en vesentlig begrensning nå:
+    # Dersom en keyfunction returnerer flere sett per transaksjonsgruppe, og to
+    # eller flere transaksjonsgrupper ikke er i sync
+    # (at f.eks gruppe1: [ 2001: 50, 2002: 100 ] mens gruppe2: [ 2001: 60, 2003: 200 ])
+    # så vil ting skli helt feil ut. Dette er foreløpig ikke noe problem
+    # ettersom arrayet alltid inneholder én verdi, men vil kjapt bli et problem
+    # og er en flaw som da må fikses.
+    # Det kan løses ved å gå over transaksjonsgruppene og lage objektene, og så
+    # avgjøre hvor man skal "fylle" opp de manglende verdiene med verdien 0
     sumTransactions = (transactions, keyFunction, useOnlyPositiveValues) ->
       sums = new Object()
 
@@ -105,6 +115,12 @@
     
       sumArray = []
       sumArray.push(value) for own key, value of sums
+
+      # Denne gjør at arrays aldri blir tomme, men 0 dersom det ikke er noen
+      # transaksjoner som passer
+      if sumArray.length == 0
+        sumArray.push(0)
+
       sumArray
     
 
