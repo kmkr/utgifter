@@ -64,6 +64,12 @@ class TransactionBatch < ActiveRecord::Base
         month = dateTokens.second
         year = dateTokens.third
         return Time.mktime(year.to_i, month.to_i, day.to_i)
+      elsif parser == "gjensidige"
+        dateTokens = batch_line.split(/\t/).first.split(".")
+        day = dateTokens.first
+        month = dateTokens.second
+        year = dateTokens.third
+        return Time.mktime(year.to_i, month.to_i, day.to_i)
       else
         batch_line.match(/\d{2}\.\d{2}\.\d{4}/).to_s.strip
       end
@@ -79,6 +85,8 @@ class TransactionBatch < ActiveRecord::Base
         desc = batch_line.split(";").second.gsub(/\"/, "")
       elsif parser == "sb1"
         desc = batch_line.split(";").second
+      elsif parser == "gjensidige"
+        desc = batch_line.split(/\t/).second
       else
         desc = batch_line
       end
@@ -103,6 +111,13 @@ class TransactionBatch < ActiveRecord::Base
         return out
       elsif parser == "sb1"
         batch_line.split(";")[3].sub(/,/, ".").to_f
+      elsif parser == "gjensidige"
+        amountOut = batch_line.split(/\t/)[2]
+        if amountOut.empty?
+          batch_line.split(/\t/)[3].sub(/,/, ".").to_f
+        else
+          amountOut.sub(/,/, ".").to_f * -1
+        end
       else
         line = batch_line.gsub(/\t/, "    ").rstrip
         match = line.match(/-?\d(\s?\d)*,\d{1,2}$/).to_s
