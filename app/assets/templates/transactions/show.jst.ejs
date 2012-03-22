@@ -1,5 +1,5 @@
-<td data-name="time" class="center time" data-editable="true"><%= obj.prettyTime() %></td>
-<td data-name="amount" class="center amount" data-editable="true"><%= attributes.amount %></td>
-<td data-name="description" data-editable="true"><%= attributes.description %></td>
-<td class="center time"><%= attributes.created_at %></td>
-<td class="center delete"><a href="#" class="delete-transaction">Slett</a></td>
+<td data-name="time" class="center time" data-editable="true"><%= model.prettyTime() %></td>
+<td data-name="amount" class="center amount" data-editable="true"><%= model.get('amount') %></td>
+<td data-name="description" data-editable="true"><%= model.get('description') %></td>
+<td class="center time"><%= model.createdAt() %></td>
+<td class="center delete"><a href="#" class="btn btn-danger delete-transaction"><i class='icon-trash icon-white'/> Slett</a></td>

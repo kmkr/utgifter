@@ -36,14 +36,4 @@ table {
 
 .controls {
   text-align: center;
-  margin: 15px 0;
-  a {
-    @include cell-background(10px);
-    font-size: 22px;
-    }
-
-  a:hover, a.active {
-    background-color: darken($spoiledwater, 10%)
-  }
-
 }

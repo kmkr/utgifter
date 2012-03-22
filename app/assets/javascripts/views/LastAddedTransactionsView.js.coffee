@@ -13,7 +13,7 @@ class utgifter.views.LastAddedTransactionsView extends Backbone.View
   getLastTransactionsAsHtml: (from, to) ->
     lastTransactions = ""
     for transaction in @collection.byNewestTransaction(from, to)
-      lastTransactions += "<tr>#{JST["transactions/show"](transaction)}</tr>"
+      lastTransactions += "<tr>#{JST["transactions/show"]({model : transaction})}</tr>"
 
     lastTransactions
 

@@ -12,24 +12,32 @@
 </head>
 <body>
 
-<nav>
-  <ul>
-    <li><%= link_to('Home', '/#') %></li>
-    <li><%= link_to('Transaksjoner', '/#transactions') %></li>
-    <li><%= link_to('Gruppert oversikt', "/#overview/#{Time.now.year}/yearly") %></li>
-    <li><%= link_to('Sparing', "/#overview/#{Time.now.year}/monthly") %></li>
-    <li><%= link_to('Legg til transaksjoner', '/#transaction_batches/new') %></li>
-    <li><%= link_to('Transaksjonsgrupper', '/#transaction_groups') %></li>
-    <% if user_signed_in? %>
-      <li><%= link_to('Logg ut', destroy_user_session_path, :class => 'logout', :method => :delete) %></li>
-    <% end %>
-  </ul>
-</nav>
+<div class='container'>
+	<nav class="navbar">
+	  <div class="navbar-inner">
+	    <div class="container">
+		  <ul class='nav'>
+		    <li><%= link_to('Home', '/#') %></li>
+		    <li><%= link_to('Transaksjoner', '/#transactions') %></li>
+		    <li><%= link_to('Gruppert oversikt', "/#overview/#{Time.now.year}/yearly") %></li>
+		    <li><%= link_to('Sparing', "/#overview/#{Time.now.year}/monthly") %></li>
+		    <li><%= link_to('Legg til transaksjoner', '/#transaction_batches/new') %></li>
+		    <li><%= link_to('Transaksjonsgrupper', '/#transaction_groups') %></li>
+		  </ul>
+		  <ul class='nav pull-right secondary-nav'>
+		    <% if user_signed_in? %>
+		      <li><%= link_to('Logg ut', destroy_user_session_path, :class => 'logout', :method => :delete) %></li>
+		    <% end %>
+		  </ul>
+	    </div>
+	  </div>
+	</nav>
 
-<div id="main-content">
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-  <%= yield %>
+	<div id="main-content">
+	  <p class="notice"><%= notice %></p>
+	  <p class="alert"><%= alert %></p>
+	  <%= yield %>
+	</div>
 </div>
 
 </body>

@@ -1,12 +1,19 @@
 class utgifter.models.Transaction extends Backbone.Model
   prettyTime: ->
-    time = new Date(@get('time'))
+    @formatTime(@get('time'))
+    
+  createdAt: ->
+    @prettyTime(@get('created_at'))
+
+  formatTime: (timeString) ->
+    time = new Date(timeString)
     year = time.getFullYear()
     month = time.getMonth() + 1
     month = "0" + month if month < 10
     date = time.getDate()
     date = "0" + date if date < 10
     "#{year}-#{month}-#{date}"
+    
 
   # når tid kommer fra server:
   # attributes.time kommer som UTZ. konverter til GMT

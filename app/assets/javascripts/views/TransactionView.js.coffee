@@ -9,7 +9,7 @@ class utgifter.views.TransactionView extends Backbone.View
     "click a.delete-transaction"         : "deleteTransaction"
 
   render: ->
-    $(@el).html(@template(@model))
+    $(@el).html(@template({ model : @model }))
     @makeEditable()
     @
 
