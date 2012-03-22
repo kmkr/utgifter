@@ -116,7 +116,7 @@ class TransactionBatch < ActiveRecord::Base
         if amountOut.empty?
           batch_line.split(/\t/)[3].sub(/,/, ".").to_f
         else
-          amountOut.sub(/,/, ".").to_f
+          amountOut.sub(/,/, ".").to_f * -1
         end
       else
         line = batch_line.gsub(/\t/, "    ").rstrip
