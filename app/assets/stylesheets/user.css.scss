@@ -14,7 +14,6 @@
 
 /* Container */
 #login-fields-container {
-  background-color: lighten($martinique, 10%);
   padding-bottom: 4px;
   width: 600px;
   -moz-border-radius-bottomleft: 6px;
@@ -28,7 +27,8 @@
 
   #login-fields-title {
     text-align: center;
-    background-color: lighten($twittermedium, 10%);
+    background-color: #ccc;
+    color: #fff;
     border-bottom: 1px solid $twittermedium;
     font-weight:bold;
     padding: 6px 8px;
