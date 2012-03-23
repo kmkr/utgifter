@@ -1,28 +1,21 @@
-<div class="span6">
-  <form class="form-horizontal">
-    <div class="control-group">
-      <label class="control-label" for="title_<%= id %>">Tittel</label>
-      <div class="controls">
-        <input id="title_<%= id %>" required="required" name="title" size="30" type="text" value="<%= title %>" />
-      </div>
+<form class="well form-inline">
+  <label>
+    Tittel
+    <input id="title_<%= id %>" required="required" name="title" size="30" type="text" value="<%= title %>" />
+  </label>
 
-      <label class="control-label" for="regex_<%= id %>">Søkeord (regex)</label>
-      <div class="controls">
-        <input id="regex_<%= id %>" required="required" name="regex" size="30" type="text" value="<%= regex %>" />
-      </div>
+  <label>Søkeord (regex)
+    <input id="regex_<%= id %>" required="required" name="regex" size="30" type="text" value="<%= regex %>" />
+  </label>
 
-      <label class="control-label" for="use_as_skiplist_<%= id %>">Skal denne brukes som skiplist?</label>
-      <div class="controls">
-        <input id="use_as_skiplist_<%= id %>" name="use_as_skiplist" type="checkbox" <% if (use_as_skiplist) { %><%= 'checked="true"' %><% } %> />
-      </div>
+  <label class="checkbox">
+    <input id="use_as_skiplist_<%= id %>" name="use_as_skiplist" type="checkbox" <% if (use_as_skiplist) { %><%= 'checked="true"' %><% } %> />
+    Skal denne brukes som skiplist?
+  </label>
 
-      <div class="form-actions">
-        <a href="#" class="btn btn-danger delete-transaction-group" rel="nofollow">
-          <i class="icon icon-trash">
-            Slett
-          </i>
-        </a>
-      </div>
-    </div>
-  </form>
-</div>
+  <a href="#" class="btn btn-danger delete-transaction-group" rel="nofollow">
+    <i class="icon icon-trash">
+      Slett
+    </i>
+  </a>
+</form>
