@@ -1,12 +1,28 @@
-<form>
-  <label for="title_<%= id %>">Tittel</label>
-  <input id="title_<%= id %>" required="required" name="title" size="30" type="text" value="<%= title %>" />
+<div class="span6">
+  <form class="form-horizontal">
+    <div class="control-group">
+      <label class="control-label" for="title_<%= id %>">Tittel</label>
+      <div class="controls">
+        <input id="title_<%= id %>" required="required" name="title" size="30" type="text" value="<%= title %>" />
+      </div>
 
-  <label for="regex_<%= id %>">Søkeord (regex)</label>
-  <input id="regex_<%= id %>" required="required" name="regex" size="30" type="text" value="<%= regex %>" />
+      <label class="control-label" for="regex_<%= id %>">Søkeord (regex)</label>
+      <div class="controls">
+        <input id="regex_<%= id %>" required="required" name="regex" size="30" type="text" value="<%= regex %>" />
+      </div>
 
-  <label for="use_as_skiplist_<%= id %>">Skal denne brukes som skiplist?</label>
-<input id="use_as_skiplist_<%= id %>" name="use_as_skiplist" type="checkbox" <% if (use_as_skiplist) { %><%= 'checked="true"' %><% } %> />
+      <label class="control-label" for="use_as_skiplist_<%= id %>">Skal denne brukes som skiplist?</label>
+      <div class="controls">
+        <input id="use_as_skiplist_<%= id %>" name="use_as_skiplist" type="checkbox" <% if (use_as_skiplist) { %><%= 'checked="true"' %><% } %> />
+      </div>
 
-  <a href="#" class="delete-transaction-group" rel="nofollow">Slett</a>
-</form>
+      <div class="form-actions">
+        <a href="#" class="btn btn-danger delete-transaction-group" rel="nofollow">
+          <i class="icon icon-trash">
+            Slett
+          </i>
+        </a>
+      </div>
+    </div>
+  </form>
+</div>
