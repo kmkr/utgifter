@@ -6,11 +6,11 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require 'bootstrap'
-//= require 'underscore'
-//= require 'backbone'
-//= require 'backbone-forms'
-//= require 'highcharts'
+//= require bootstrap
+//= require libs/underscore
+//= require libs/backbone
+//= require libs/backbone-forms
+//= require libs/highcharts
 //= require_tree '../templates'
 //= require_tree './models'
 //= require_tree './collections'
