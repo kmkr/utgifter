@@ -4,14 +4,14 @@
   <div id="login-fields-content">
     <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "form-horizontal" }) do |f| %>
       <div class="control-group">
-        <%= f.label :email, :html => { :class => 'control-label' } %>
+        <%= f.label :email, :class => 'control-label' %>
         <div class="controls">
           <%= f.email_field :email %>
         </div>
       </div>
 
       <div class="control-group">
-        <%= f.label :password, :html => { :class => 'control-label' } %>
+        <%= f.label :password, :class => 'control-label' %>
         <div class="controls">
           <%= f.password_field :password %>
         </div>
@@ -19,7 +19,10 @@
 
       <% if devise_mapping.rememberable? -%> 
         <div class="control-group">
-          <%= f.check_box :remember_me %> <%= f.label :remember_me, :html => { :class => 'checkbox' } %>
+          <%= f.label :remember_me, :class => 'control-label' %>
+          <div class="controls">
+            <%= f.check_box :remember_me %>
+          </div>
         </div>
       <% end -%> 
 
