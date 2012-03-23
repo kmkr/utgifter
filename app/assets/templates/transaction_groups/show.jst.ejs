@@ -1,21 +1,20 @@
 <form class="well form-inline">
   <label>
     Tittel
-    <input id="title_<%= id %>" required="required" name="title" size="30" type="text" value="<%= title %>" />
+    <input class="input-medium" id="title_<%= id %>" required="required" name="title" size="30" type="text" value="<%= title %>" />
   </label>
 
   <label>Søkeord (regex)
-    <input id="regex_<%= id %>" required="required" name="regex" size="30" type="text" value="<%= regex %>" />
+    <input class="input-large" id="regex_<%= id %>" required="required" name="regex" size="30" type="text" value="<%= regex %>" />
   </label>
 
   <label class="checkbox">
     <input id="use_as_skiplist_<%= id %>" name="use_as_skiplist" type="checkbox" <% if (use_as_skiplist) { %><%= 'checked="true"' %><% } %> />
-    Skal denne brukes som skiplist?
+    Bruk som skiplist?
   </label>
 
-  <a href="#" class="btn btn-danger delete-transaction-group" rel="nofollow">
-    <i class="icon icon-trash">
+  <a href="#" class="btn pull-right btn-danger delete-transaction-group" rel="nofollow">
+    <i class="icon icon-trash icon-white"></i>
       Slett
-    </i>
   </a>
 </form>
