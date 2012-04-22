@@ -108,8 +108,8 @@ class TransactionBatch < ActiveRecord::Base
     begin
       if parser == "dnb"
         fields = batch_line.split(";")
-        out = fields[3].sub(/,/, ".").to_f * -1
-        income = fields[4].sub(/,/, ".").to_f
+        out = fields[3].gsub(/\./, "").sub(/,/, ".").to_f * -1
+        income = fields[4].gsub(/\./, "").sub(/,/, ".").to_f
 
         return income unless income == 0
         return out
