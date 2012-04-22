@@ -5,6 +5,7 @@ class TransactionBatchTest < ActiveSupport::TestCase
   test "correct creation of withdrawal" do
     tb = TransactionBatch.new
     tb.content = "28.11.2011  VARER: 27.11 RESTAURANT DAHL MARIDALSVN 4 OSLO  28.11.2011  -600,00"
+    tb.parser = "sb1"
     
     transactions = tb.convert_to_transactions
 
@@ -21,6 +22,7 @@ class TransactionBatchTest < ActiveSupport::TestCase
   test "correct creation of withdrawal above one thousand kroner" do
     tb = TransactionBatch.new
     tb.content = "29.11.2011  MINIBANK-UTTAK I FREMMED BANK: 28.11 BNP Alexander Kiellands 0171 Oslo  28.11.2011  -1 400,00"
+    tb.parser = "sb1"
     
     transactions = tb.convert_to_transactions
 
@@ -37,6 +39,7 @@ class TransactionBatchTest < ActiveSupport::TestCase
   test "correct creation of withdrawal above one million kroner" do
     tb = TransactionBatch.new
     tb.content = "29.11.2011  MINIBANK-UTTAK I FREMMED BANK: 28.11 BNP Alexander Kiellands 0171 Oslo  28.11.2011  -1 230 400,00"
+    tb.parser = "sb1"
     
     transactions = tb.convert_to_transactions
     transaction = transactions.first
@@ -46,6 +49,7 @@ class TransactionBatchTest < ActiveSupport::TestCase
   test "correct creation of wage with tab" do
     tb = TransactionBatch.new
     tb.content = "22.11.2011  OVERFORSEL: Fra: ITERA CONSULTING AS Betalt: 21.11.11 22.11.2011	1 281,55"
+    tb.parser = "sb1"
     
     transactions = tb.convert_to_transactions
 
@@ -61,6 +65,7 @@ class TransactionBatchTest < ActiveSupport::TestCase
   test "correct creation of withdrawal with trailing space" do
     tb = TransactionBatch.new
     tb.content = "05.12.2011  NETTGIRO M/MELD. FORFALL I DAG: Nettgiro til: LARSEN ANDERS H Betalt: 03.12.11  03.12.2011  -100,00       "
+    tb.parser = "sb1"
     
     transactions = tb.convert_to_transactions
 
@@ -71,6 +76,7 @@ class TransactionBatchTest < ActiveSupport::TestCase
   test "dnb parser" do
     tb = TransactionBatch.new(:parser => 'dnb')
     tb.content = '27.09.11;"Giro Hafslund";27.09.11;281,18;0,00'
+    tb.parser = "sb1"
 
     transactions = tb.convert_to_transactions
 

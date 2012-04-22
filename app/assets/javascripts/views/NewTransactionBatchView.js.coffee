@@ -8,23 +8,38 @@ class utgifter.views.NewTransactionBatchView extends Backbone.View
     "click #submit-all"                       : "submitAll"
     "change #transaction_batch_parser"        : "openBatchContentArea"
 
-
   openBatchContentArea: ->
-    $(@el).find("#transaction_batch_content").show('blind')
-    $(@el).find(".new_transaction_batch input[type=submit]").show('fade')
+    @openRelevantInfoBoxes()
+    @$("#transaction_batch_content").show('blind')
+    @$(".new_transaction_batch input[type=submit]").show()
+
+  hideAdditionalInfoBoxes: ->
+    @$('.additional-info-group').hide()
+
+  openRelevantInfoBoxes: ->
+    # hide all first
+    @hideAdditionalInfoBoxes()
+
+    idsToBeOpened = @$('#transaction_batch_parser option:selected').attr('data-view-type')
+      
+    unless idsToBeOpened
+      return
+
+    for idToBeOpened in idsToBeOpened.split(" ")
+      @$("##{idToBeOpened}").closest('div').show()
 
 
   writeTransactions: (evt, response) =>
-    $(@el).find('textarea').val('')
+    @$('textarea').val('')
     for item in response
       transaction = new utgifter.models.Transaction(item)
       view = new utgifter.views.TransactionCandidateView({collection: @collection, model: transaction})
       @views.push(view)
 
       addTo = @getDomLocationToAdd(transaction)
-      $(@el).find(addTo).append(view.render().el)
-      $(@el).find(addTo).show()
-      $(@el).find("#{addTo} form").last().show()
+      @$(addTo).append(view.render().el)
+      @$(addTo).show()
+      @$("#{addTo} form").last().show()
 
 
   getDomLocationToAdd: (transaction) ->
@@ -42,12 +57,19 @@ class utgifter.views.NewTransactionBatchView extends Backbone.View
     evt.preventDefault()
     $('div.successfully-parsed-transactions input.submit-transaction').click()
 
+  populateSelectYear: ->
+    now = new Date().getFullYear()
+    opt = $('<option>')
+    @$('#select-year').append(opt.text(now))
+    @$('#select-year').append(opt.clone().text(now - 1))
 
   render: ->
     $(@el).html(@template)
     view = new utgifter.views.LastAddedTransactionsView({collection: @collection})
     @views.push(view)
-    $(@el).find(".last-transactions-wrapper").html(view.render().el)
+    @$(".last-transactions-wrapper").html(view.render().el)
+    @populateSelectYear()
+    @hideAdditionalInfoBoxes()
     @
 
   isCloseTo: (o1, o2) ->

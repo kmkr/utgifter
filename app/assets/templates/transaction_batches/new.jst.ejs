@@ -14,25 +14,25 @@
 <div class="last-transactions-wrapper"></div>
 
 <form accept-charset="UTF-8" action="/transaction_batches" class="new_transaction_batch" data-remote="true" id="new_transaction_batch" method="post">
-  <div style="margin:0;padding:0;display:inline">
-    <input name="utf8" type="hidden" value="✓">
-  </div>
 
   <label for="transaction_batch_parser">Banknavn</label>
   <select id="transaction_batch_parser" name="transaction_batch[parser]">
-    <option value="dnb">Velg bank</option>
-    <option value="dnb">DNB</option>
+    <option>Velg bank</option>
+    <option value="dnb" data-view-type="select-year">DNB</option>
     <option value="sb1">SB1</option>
     <option value="gjensidige">Gjensidige</option>
   </select>
 
-  <br />
+  <div class="additional-info-group">
+    <label for="select-year">Hvilket årstall tilhører transaksjonene?</label>
+    <select name="transaction_batch[year]" id="select-year">
+      <option>Velg år</option>
+  </select>
+  </div>
 
   <textarea cols="40" id="transaction_batch_content" name="transaction_batch[content]" rows="20"></textarea>
 
-  <br />
-
-  <input name="commit" type="submit" value="Opprett">
+  <input name="commit" type="submit" class="btn btn-primary" value="Send">
 </form>
 
 <div class="transactions-to-add">
@@ -46,6 +46,6 @@
 
   <div class="successfully-parsed-transactions">
     <p class="head">Tolket OK (men gjerne se over)</p>
-    <input type="submit" value="Lagre alle som er OK" id="submit-all">
+    <input type="submit" class="btn" value="Lagre alle som er OK" id="submit-all">
   </div>
 </div>

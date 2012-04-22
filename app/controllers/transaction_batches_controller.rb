@@ -3,6 +3,7 @@ class TransactionBatchesController < ApplicationController
 
   def create
     transaction_batch = TransactionBatch.new(params[:transaction_batch])
+    puts params[:transaction_batch]
     transaction_batch.user = current_user
     if transaction_batch.save
       transactions = transaction_batch.convert_to_transactions

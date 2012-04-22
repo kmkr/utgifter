@@ -52,12 +52,16 @@ class TransactionBatch < ActiveRecord::Base
   def find_time(batch_line)
     begin
       if parser == "dnb"
-        dateTokens = batch_line.split(";").first.split(".")
-        day = dateTokens.first
-        month = dateTokens.second
-        year = "20" + dateTokens.third
-        raise "parse error" unless year.size == 4
-        return Time.mktime(year.to_i, month.to_i, day.to_i)
+        tokens = batch_line.split(";")
+        dateTokens = tokens.first
+        day = dateTokens.match(/\d{2}/).to_a.first
+        dnbMonths = [ "jan", "feb", "mar", "apr", "mai", "jun", "jul", "aug", "sep", "okt", "nov", "des" ]
+        monthStr = dateTokens.match(/[a-z]+/).to_a.first
+        month = dnbMonths.index(monthStr) + 1
+        puts "MOnth: #{month.to_i} Day: #{day.to_i}"
+        year = self.year
+        raise "parse error" unless year > 1900 and year <= Time.now.year + 1
+        return Time.mktime(year, month.to_i, day.to_i)
       elsif parser == "sb1"
         dateTokens = batch_line.split(";").first.split(".")
         day = dateTokens.first
