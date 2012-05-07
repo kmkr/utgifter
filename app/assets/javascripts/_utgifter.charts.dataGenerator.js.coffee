@@ -22,6 +22,10 @@
       # Legger til transaksjoner i hver gruppe
       setupRelations(settings.transactions, settings.transactionGroups, settings.matchFunction)
 
+      # Denne (eller funksjonen over) har en bug som fører til at for måneder
+      # som ikke har inntekt eller utgift vil series-arrayet mangle data for
+      # den måneden, og arrayet 'forskyves'. Eks: hvis man har utgifter i "mai"
+      # men ikke inntekter vil april-inntektene listes som mai-inntekt.
       series = getSeries(
         settings.transactionGroups,
         keyFunction,
