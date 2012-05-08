@@ -22,19 +22,19 @@
       # Legger til transaksjoner i hver gruppe
       setupRelations(settings.transactions, settings.transactionGroups, settings.matchFunction)
 
-      # Denne (eller funksjonen over) har en bug som fører til at for måneder
-      # som ikke har inntekt eller utgift vil series-arrayet mangle data for
-      # den måneden, og arrayet 'forskyves'. Eks: hvis man har utgifter i "mai"
-      # men ikke inntekter vil april-inntektene listes som mai-inntekt.
       series = getSeries(
         settings.transactionGroups,
         keyFunction,
+        categories,
         settings.skiplists,
         settings.useOnlyPositiveValues
       )
 
-      
-      addNonGroupedTransactionsToSeries(settings.transactions, keyFunction, settings.useOnlyPositiveValues, series, settings.skiplists, settings.text.nonGroupedIncomes, settings.text.nonGroupedExpenses)
+
+
+      addNonGroupedTransactionsToSeries(settings.transactions, keyFunction, categories, settings.useOnlyPositiveValues, series, settings.skiplists, settings.text.nonGroupedIncomes, settings.text.nonGroupedExpenses)
+
+      console.log("categories: %o, series: %o", categories, series)
 
       return { categories: categories, series: series }
 
@@ -63,7 +63,7 @@
 
 
 
-    addNonGroupedTransactionsToSeries = (transactions, keyFunction, useOnlyPositiveValues, series, skiplists, nonGroupedIncomesText, nonGroupedExpensesText) ->
+    addNonGroupedTransactionsToSeries = (transactions, keyFunction, categories, useOnlyPositiveValues, series, skiplists, nonGroupedIncomesText, nonGroupedExpensesText) ->
       otherIncomeTransactions = []
       otherExpenseTransactions = []
       for transaction in transactions when transaction.transactionGroups.length is 0
@@ -77,36 +77,27 @@
           else
             otherExpenseTransactions.push(transaction)
 
-      sumOtherIncomes = sumTransactions(otherIncomeTransactions, keyFunction, useOnlyPositiveValues)
-      sumOtherExpenses = sumTransactions(otherExpenseTransactions, keyFunction, useOnlyPositiveValues)
+      sumOtherIncomes = sumTransactions(otherIncomeTransactions, keyFunction, categories, useOnlyPositiveValues)
+      sumOtherExpenses = sumTransactions(otherExpenseTransactions, keyFunction, categories, useOnlyPositiveValues)
 
       addSerie(nonGroupedIncomesText, sumOtherIncomes, otherIncomeTransactions, series)
       addSerie(nonGroupedExpensesText, sumOtherExpenses, otherExpenseTransactions, series)
 
 
 
-    getSeries = (transactionGroups, keyFunction, skiplists, useOnlyPositiveValues) ->
+    getSeries = (transactionGroups, keyFunction, categories, skiplists, useOnlyPositiveValues) ->
       series = []
 
       for transactionGroup in transactionGroups
         unless transactionGroup in skiplists
-          sums = sumTransactions(transactionGroup.transactions, keyFunction, useOnlyPositiveValues)
+          sums = sumTransactions(transactionGroup.transactions, keyFunction, categories, useOnlyPositiveValues)
           addSerie(transactionGroup.get('title'), sums, transactionGroup.transactions, series)
 
       series
 
 
 
-    # Denne har en vesentlig begrensning nå:
-    # Dersom en keyfunction returnerer flere sett per transaksjonsgruppe, og to
-    # eller flere transaksjonsgrupper ikke er i sync
-    # (at f.eks gruppe1: [ 2001: 50, 2002: 100 ] mens gruppe2: [ 2001: 60, 2003: 200 ])
-    # så vil ting skli helt feil ut. Dette er foreløpig ikke noe problem
-    # ettersom arrayet alltid inneholder én verdi, men vil kjapt bli et problem
-    # og er en flaw som da må fikses.
-    # Det kan løses ved å gå over transaksjonsgruppene og lage objektene, og så
-    # avgjøre hvor man skal "fylle" opp de manglende verdiene med verdien 0
-    sumTransactions = (transactions, keyFunction, useOnlyPositiveValues) ->
+    sumTransactions = (transactions, keyFunction, categories, useOnlyPositiveValues) ->
       sums = new Object()
 
       for transaction in transactions
@@ -117,18 +108,21 @@
         val = Math.abs(val) if useOnlyPositiveValues
         sums[key] += val
     
-      sumArray = []
-      sumArray.push(value) for own key, value of sums
+      if categories.length != Object.keys(sums).length
+        for category in categories
+          unless sums[category]
+            console.log("Mangler data på nødvendig kategori %s - setter '0'", category)
+            sums[category] = 0
 
-      # Denne gjør at arrays aldri blir tomme, men 0 dersom det ikke er noen
-      # transaksjoner som passer
-      if sumArray.length == 0
-        sumArray.push(0)
+      sumArray = []
+      for category in categories
+        sumArray.push(sums[category])
 
       sumArray
     
 
-    
+
+    # Returnerer et aggregert sett med Y-akse-navn for transaksjonene
     getCategories = (transactions, keyFunction) ->
       categories = []
       for transaction in transactions
@@ -137,7 +131,7 @@
         categories.push(key) if key not in categories
       
       categories
-    
+
 
 
     getKeyFunction = (frequency) ->
