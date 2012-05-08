@@ -1,15 +1,4 @@
-@import "mixins";
-
 body {
   font-family: 'Fresca', sans-serif;
 }
 
-.tooltip {
-  @include tooltip-background;
-  display:none;
-}
-
-.error {
-  @include tooltip-background;
-  height:15px;
-}
