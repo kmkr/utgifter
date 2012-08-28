@@ -16,4 +16,12 @@ class TransactionBatchesController < ApplicationController
     end
   end
 
+  def index
+    tbs = TransactionBatch.all
+
+    respond_to do |format|
+      format.json { render :json => tbs }
+    end
+  end
+
 end
