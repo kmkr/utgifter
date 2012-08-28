@@ -49,7 +49,7 @@ class utgifter.views.TransactionCandidateView extends Backbone.View
   render: ->
     $(@el).html(@template(@model.attributes))
     el = @el
-    $(@el).find('input[type=date]').dateinput({lang: 'no', format: 'yyyy-mm-dd', firstDay: 1, change: ->
+    $(@el).find('input.transaction-time').dateinput({lang: 'no', format: 'yyyy-mm-dd', firstDay: 1, change: ->
       $(el).find('input[name=time]').val(@getValue().toUTCString())
     })
     @setupForm()

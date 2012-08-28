@@ -1,5 +1,5 @@
 <form class="transaction">
-  Tid <input type="date" required="required" pattern="\d{4}-\d{2}-\d{2}" value="<%= time %>" class="transaction-time" />
+  Tid <input required="required" pattern="\d{4}-\d{2}-\d{2}" value="<%= time %>" class="transaction-time" />
   <input type="hidden" value="<%= time %>" name="time" />
   Beløp <input type="text" pattern="\-?\d+\.?\d*" name="amount" required="required" data-type="amount" value="<%= amount %>" size="7" />
   Beskrivelse <input type="text" name="description" required="required" data-type="description" value="<%= description %>" size="40" />
