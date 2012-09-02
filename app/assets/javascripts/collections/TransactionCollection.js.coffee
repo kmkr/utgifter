@@ -16,5 +16,10 @@ class utgifter.collections.TransactionCollection extends Backbone.Collection
       return new Date(transaction.get("time")).getFullYear() == year
     )
 
+  byMonth: (month) ->
+    @filter((transaction) ->
+      return new Date(transaction.get("time")).getMonth() + 1 == month
+    )
+
   byNewestTransaction: (from = 0, to = @collection.length) ->
     @sortBy((transaction) -> -new Date(transaction.get('created_at')).getTime()).slice(from, to)
